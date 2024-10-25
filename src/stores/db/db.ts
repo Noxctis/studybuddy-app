@@ -26,9 +26,7 @@ function getThemes() {
     { title: 'Dune',        category: '🍿 Movies', palette: 'desert',   },
     { title: 'Gandalf',     category: '🍿 Movies', palette: 'blallo',   }
   ]
-  const xx = themes.map((t) => ({ ...t, previewImg: `/images/themes/${t.title}.webp`, backgroundImg: `https://api.studybuddy.it/images/${t.title}`, og: true }));
-  console.log(xx.map(t => t.backgroundImg));
-  return xx
+  return themes.map((t) => ({ ...t, previewImg: `/images/themes/${t.title}.webp`, backgroundImg: `https://api.studybuddy.it/images/${t.title}`, og: true }));
 }
 
 function getTimers() {

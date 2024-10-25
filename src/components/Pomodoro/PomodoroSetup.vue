@@ -6,7 +6,7 @@
     <!-- <v-icon class="top-icon info" icon="mdi-arrow-left" @click="emits('exit-setup')" /> -->
     <h3 class="title text-primary">{{ $t('setup.title') }}</h3>
     <PomodoroPresets :top3="true" class="presets" @open-settings-tab="emits('open-settings-tab', $event)" />
-    <PomodoroDetails class="details hidden-small" v-if="timerStatus.pomodoroStatus" :pomo="timerStatus.pomodoroStatus" />
+    <PomodoroDetails class="details hidden-small" v-if="pomo.pomodoroStatus" :pomo="pomo.pomodoroStatus" />
     <div class="dont-show-again hidden-small">
       <v-checkbox class="shrink dont-show-check" :label="$t('setup.dontShow')" hide-details
         v-model="settingsStore.settings!.general!.hideSetup" />
@@ -16,13 +16,13 @@
 
 <script setup lang="ts">
 import PomodoroDetails from '../Pomodoro/PomodoroDone/PomodoroDetails.vue';
-import { useTimerStatusStore } from "@/stores/api/timerStatus";
 import Info from '@/components/common/Info.vue';
 import PomodoroPresets from '@/components/Pomodoro/PomodoroPresets.vue';
-import { useSettingsStore } from "@/stores/settings";
+import { useSettingsStore } from '@/stores/settings';
+import { usePomodoroStore } from '@/stores/pomodoro';
 
 const settingsStore = useSettingsStore();
-const timerStatus = useTimerStatusStore();
+const pomo = usePomodoroStore();
 const emits = defineEmits<{
   (e: 'exit-setup'): void,
   (e: 'open-settings-tab', value: string): void
