@@ -48,7 +48,7 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
   // ---------- WebSocket ----------
   let socket: Socket | null = null;
   (async () => {
-    socket = io('ws://192.168.153.56:3000/status', { auth: { token: await api.getToken() } });
+    socket = io(`${config.api.wsEndpoint}/status`, { auth: { token: await api.getToken() } });
     socket.on('connect', () => {
       socket?.emit('register');
     });
