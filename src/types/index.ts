@@ -1,9 +1,6 @@
-import type { index } from 'realm';
-
 export enum EStudyView {
   Dashboard, Exam, Chapter
 }
-
 
 // ---------- EXAM ----------
 export type Link = {

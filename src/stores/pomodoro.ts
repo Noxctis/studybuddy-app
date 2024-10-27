@@ -56,9 +56,21 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
   })();
   function loadStatus(status: PomodotoStatus | null) {
     if (!status) return;
+    if (status.state === PomodoroState.TERMINATED) {
+      finishedPomoRecord.value = {
+        shortPomo: ((status.endedAt ?? getNow(status.startedAt)) <= SHORT_POMO_THRESHOLD),
+        pomo: pomoDB.parsePomodoroStatusToRecord(status)
+      }
+    } else {
+      finishedPomoRecord.value = null;
+    }
+    
     pomodoroStatus.value = status;
-    clearStuff();
-    resumePomodoro();
+    if (interval) clearInterval(interval);
+    if (status.state !== PomodoroState.CREATED && status.state !== PomodoroState.TERMINATED) {
+      console.log('Resuming');
+      resumePomodoro();
+    }
   }
   function saveStatus() {
     socket?.emit('broadcast', pomodoroStatus.value);
