@@ -83,7 +83,6 @@ import { usePomodoroStore } from "@/stores/pomodoro";
 import PomodoroFlex from '@/components/Pomodoro/PomodoroFlex.vue';
 import PomodoroHistory from '@/components/Pomodoro/PomodoroHistory.vue';
 import { useSettingsStore } from "@/stores/settings";
-import { watch } from 'vue';
 
 const pomodoro = usePomodoroStore();
 const settings = useSettingsStore();

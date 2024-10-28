@@ -1,6 +1,7 @@
 export default {
   api: {
-    endpoint:  import.meta.env.VITE_API_ENDPOINT
+    apiEendpoint:  import.meta.env.VITE_API_ENDPOINT,
+    wsEndpoint: import.meta.env.VITE_WS_ENDPOINT
   },
   timer: {
     speedMultiplier: +(import.meta.env.VITE_TIMER_SPEED_MULTIPLIER ?? 1),

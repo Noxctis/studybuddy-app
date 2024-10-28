@@ -138,7 +138,7 @@ async function updateTime() {
     p.end = props.pomo.end;
     p.datetime = props.pomo.datetime;
     p.breaksDone = [ ...props.pomo.breaksDone.map(b => ({ ...b })) ];
-    const newPomo = pomoDB.parsePomodorDbo(p);
+    const newPomo = pomoDB.parsePomodorDboToRecord(p);
     Object.assign(props.pomo, newPomo);
     return p;
   });

@@ -9,7 +9,7 @@ import { getPomodoriAPI } from './pomodori';
 
 export const useAPIStore = defineStore('api', () => {
 
-  const endpoint = config.api.endpoint;
+  const endpoint = config.api.apiEendpoint;
   
   const { getAccessTokenSilently } = useAuth0();
   async function getOptions() {
