@@ -1,4 +1,4 @@
-import type { PomodoroBase, DisplaySession, PomodoroRecord } from '@/types';
+import type { StudySession, DisplaySession } from '@/types';
 
 const SECONDS_MULTIPLIER = 1000;
 
@@ -65,11 +65,11 @@ export function parseDisplaySession(
   })
 }
 
-export function getDisplayBreaksRecord(pomo: PomodoroRecord, end: number, showSeconds: boolean): DisplaySession[] {
+export function getDisplayBreaksRecord(pomo: StudySession, end: number, showSeconds: boolean): DisplaySession[] {
   const breaks = pomo.breaksDone.map(x => ({ ...x, done: true })) ?? [];
   return parseDisplaySession(breaks, 0, end, showSeconds);
 }
-export function getDisplayStudyRecord(pomo: PomodoroBase, end: number, showSeconds: boolean, now: number = -1): DisplaySession[] {
+export function getDisplayStudyRecord(pomo: StudySession, end: number, showSeconds: boolean, now: number = -1): DisplaySession[] {
   const res: { start: number, end?: number }[] = [{ start: 0 }];
   for (const b of pomo.breaksDone) {
     res.at(-1)!.end = b.start;

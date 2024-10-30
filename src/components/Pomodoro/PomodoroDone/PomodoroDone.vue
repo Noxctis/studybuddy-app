@@ -26,12 +26,12 @@ import { computed, ref } from 'vue';
 import PomodoroReport from '@/components/Pomodoro/PomodoroDone/PomodoroReport.vue';
 import PomodoroDetails from '@/components/Pomodoro/PomodoroDone/PomodoroDetails.vue';
 import SinkList from '@/components/Sink/SinkList.vue';
-import type { PomodoroBase } from '@/types';
+import type { StudySession } from '@/types';
 import { useSinkStore } from "@/stores/sink";
 const sink = useSinkStore();
 const tab = ref(1);
 const props = defineProps<{
-  pomo: PomodoroBase,
+  pomo: StudySession,
   hideSink?: boolean
  }>();
 

@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue';
 import { usePomodoroStore } from "@/stores/pomodoro";
 import { useSettingsStore } from "@/stores/settings";
-import type { DisplaySession, PomodoroRecord } from '@/types';
+import type { DisplaySession, StudySession } from '@/types';
 import { usePomodoroDBStore } from "@/stores/db/pomodoro";
 import PomodoroFlex from '@/components/Pomodoro/PomodoroFlex.vue';
 import PomodoroHistoryLine from '@/components/Pomodoro/PomodoroHistoryLine.vue';
@@ -30,7 +30,7 @@ const props = defineProps<{
 type DayGroup = {
   date: string,
   dailySummary: DisplaySession[],
-  pomos: PomodoroRecord[],
+  pomos: StudySession[],
   points: number | null,
   totalTime: number,
   maxLength: number
@@ -41,10 +41,10 @@ const dailyPomodoriGroups = computed(() => {
   const monthGroup: Record<string, Record<string, DayGroup>> = {};
 
   pomoDB.pomodoroRecords.forEach((pomodoroRecord) => {
-    const dateKey = new Date(pomodoroRecord.datetime).toLocaleDateString();
+    const dateKey = new Date(pomodoroRecord.start!).toLocaleDateString();
     if (!groups[dateKey]) {
       groups[dateKey] = {
-        date: pomodoroRecord.datetime.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric' }),
+        date: pomodoroRecord.start!.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric' }),
         dailySummary: [],
         pomos: [],
         points: 0,
@@ -56,7 +56,7 @@ const dailyPomodoriGroups = computed(() => {
   });
   for (const gKey in groups) {
     const g = groups[gKey];
-    const month = new Date(g.pomos[0].datetime).toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+    const month = new Date(g.pomos[0].start!).toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
     if (!monthGroup[month]) monthGroup[month] = {};
     monthGroup[month][gKey] = g;
   }
@@ -71,15 +71,15 @@ const dailyPomodoriGroups = computed(() => {
     const group = groups[key];
     const deepPomos = group.pomos.filter(p => p.deepWork)
     group.points = deepPomos.length ? (deepPomos.reduce((m, p) => m + (p.report?.points ?? 0), 0) / deepPomos.length) : null;
-    group.totalTime = group.pomos.reduce((m, p) => m + (p.endedAt ?? 0), 0);
-    group.maxLength = group.pomos.reduce((m, p) => Math.max(p.endedAt ?? 0, m), 0);
+    group.totalTime = group.pomos.reduce((m, p) => m + (p.endActual ?? 0), 0);
+    group.maxLength = group.pomos.reduce((m, p) => Math.max(p.endActual ?? 0, m), 0);
     group.dailySummary = group.pomos.map((p, i) => {
-      const startMs = ((p.datetime.getTime() % DAY_IN_MS) - DAY_START) / DAY_LENGTH;
-      const endMs = ((p.endedAt ?? 0) % DAY_IN_MS) / DAY_LENGTH;
+      const startMs = ((p.start!.getTime() % DAY_IN_MS) - DAY_START) / DAY_LENGTH;
+      const endMs = ((p.endActual ?? 0) % DAY_IN_MS) / DAY_LENGTH;
       return {
         startPerc: startMs * 100,
         lengthPerc: endMs * 100,
-        lengthTime: pomodoro.timeFormatted(p.endedAt ?? 0, { html: false }),
+        lengthTime: pomodoro.timeFormatted(p.endActual ?? 0, { html: false }),
         index: i,
         color: p.tag ? pomoDB.tagColors[p.tag] : undefined,
         deepWork: p.deepWork

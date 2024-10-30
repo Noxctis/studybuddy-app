@@ -1,54 +1,51 @@
 import { defineStore } from 'pinia'
 import { useDBStore } from "./db";
 import { useAPIStore } from "../api";
-import type { PomodoroDBO, PomodoroRecord, PomodoroTask, PomodotoStatus } from '@/types';
-import * as timeUtils from '@/utils/time';
-import * as reportUtils from '@/utils/report';
-import { useSettingsStore } from "@/stores/settings";
+import { PomodoroState, type PomodoroTask, type StudySession } from '@/types';
 import { ref } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
 
 export const usePomodoroDBStore = defineStore('pomoDBStore', () => {
   const db = useDBStore();
-  const settings = useSettingsStore();
   const api = useAPIStore().api;
 
 
   const streak = ref(0);
-  const pomodoroRecords = ref<PomodoroRecord[]>([]);
+  const pomodoroRecords = ref<StudySession[]>([]);
 
-  function parsePomodoroStatusToDbo(pomo: PomodotoStatus): PomodoroDBO {
-    const dt = new Date(pomo.startedAt ?? Date.now());
+  function parsePomodoroForStorage(pomo: StudySession): StudySession {
     return {
-      end: pomo.end,
-      endedAt: pomo.endedAt,
+      id: pomo.id ?? uuidv4(),
+      userId: pomo.userId,
+      lastUpdate: new Date(),
+      version: pomo.version,
+
+      state: PomodoroState.TERMINATED,
+      start: pomo.start,
+      endScheduled: pomo.endScheduled,
+      endActual: pomo.endActual,
+
       breaksDone: pomo.breaksDone.map(b => ({ start: b.start, end: b.end ?? b.start })),
+      title: pomo.title,
       freeMode: pomo.freeMode,
-      datetime: dt,
       deepWork: pomo.deepWork,
-      name: pomo.name,
-      tasks: pomo.tasks?.map(t => ({ task: t.task, done: t.done })),
-      rating: pomo.rating,
       tag: pomo.tag,
+      rating: pomo.rating,
+      tasks: pomo.tasks,
+
       remoteUpdated: 0,
-      id: uuidv4(),
     }
   }
 
-  function parsePomodorDboToRecord(p: PomodoroDBO): PomodoroRecord {
-    if (p.deepWork === undefined) p.deepWork = true;
-    return {
-      ...p,
-      displayBreaks: timeUtils.getDisplayBreaksRecord(p, p.endedAt ?? 0, settings.generalSettings.showSeconds),
-      displayStudy: timeUtils.getDisplayStudyRecord(p, p.endedAt ?? 0, settings.generalSettings.showSeconds),
-      report: reportUtils.getPomoReport(p),
-    }
-  }
-
-  function parsePomodoroStatusToRecord(pomo: PomodotoStatus): PomodoroRecord {
-    const p = parsePomodoroStatusToDbo(pomo);
-    return parsePomodorDboToRecord(p);
-  }
+  // function parsePomodorDboToRecord(p: StudySession): StudySession {
+  //   if (p.deepWork === undefined) p.deepWork = true;
+  //   return {
+  //     ...p,
+  //     displayBreaks: timeUtils.getDisplayBreaksRecord(p, p.endedAt ?? 0, settings.generalSettings.showSeconds),
+  //     displayStudy: timeUtils.getDisplayStudyRecord(p, p.endedAt ?? 0, settings.generalSettings.showSeconds),
+  //     report: reportUtils.getStudySession(p),
+  //   }
+  // }
 
   async function updatePomodoroRecords() {
     pomodoroRecords.value = (
@@ -56,22 +53,22 @@ export const usePomodoroDBStore = defineStore('pomoDBStore', () => {
         .reverse()
         .limit(500)
         .toArray()
-    ).map(p => parsePomodorDboToRecord(p));
+    ).map(p => parsePomodoroForStorage(p));
     updateStreak();
   }
 
-  async function addPomodoroToRecords(pomo: PomodotoStatus): Promise<PomodoroRecord> {
-    const dt = new Date(pomo.startedAt ?? Date.now());
-    const p = parsePomodoroStatusToDbo(pomo);
-    const parsed = parsePomodorDboToRecord(p);
-    const first = await db.pomodori.where('datetime').equals(dt).first();
+  async function addPomodoroToRecords(pomo: StudySession): Promise<StudySession> {
+    const dt = new Date(pomo.start ?? Date.now());
+    const pomoStorage = parsePomodoroForStorage(pomo);
+    // const parsed = parsePomodorDboToRecord(p);
+    const first = await db.pomodori.where('id').equals(pomoStorage.id!).first();
     if (!first) {
-      await db.pomodori.add(p);
-      pomodoroRecords.value.unshift(parsed);
+      await db.pomodori.add(pomoStorage);
+      pomodoroRecords.value.unshift(pomoStorage);
       updateStreak();
-      postRemotePomodoro(p);
+      postRemotePomodoro(pomoStorage);
     }
-    return parsed;
+    return pomoStorage;
   }
   async function deletePomodoroRecord(id: string) {
     pomodoroRecords.value = pomodoroRecords.value.filter(p => p.id !== id);
@@ -80,7 +77,7 @@ export const usePomodoroDBStore = defineStore('pomoDBStore', () => {
     await deleteRemotePomodoro(id)
   }
 
-  async function updatePomodoro(id: string, updatePomo: (p: PomodoroDBO) => PomodoroDBO) {
+  async function updatePomodoro(id: string, updatePomo: (p: StudySession) => StudySession) {
     const pomo = await db.pomodori.get(id);
     if (pomo) {
       pomo.remoteUpdated = 0;
@@ -92,12 +89,12 @@ export const usePomodoroDBStore = defineStore('pomoDBStore', () => {
   }
 
   // -- REMOTE --
-  async function postRemotePomodoro(pomodoro: PomodoroDBO) {
+  async function postRemotePomodoro(pomodoro: StudySession) {
     if (!pomodoro.id) return;
     await api.pomodori.postPomodoro(pomodoro);
     await updatePomodoro(pomodoro.id, p => { p.remoteUpdated = 1; return p; });
   }
-  async function updateRemotePomodoro(pomodoro: PomodoroDBO) {
+  async function updateRemotePomodoro(pomodoro: StudySession) {
     if (!pomodoro.id) return;
     await api.pomodori.updatePomodoro(pomodoro);
     await updatePomodoro(pomodoro.id, p => { p.remoteUpdated = 1; return p; });
@@ -137,8 +134,8 @@ export const usePomodoroDBStore = defineStore('pomoDBStore', () => {
   async function updateDeepWork(id: string, deepWork: boolean) {
     await updatePomodoro(id, p => { p.deepWork = deepWork; return p; });
   }
-  async function updateName(id: string, name: string) {
-    await updatePomodoro(id, p => { p.name = name; return p; });
+  async function updateName(id: string, title: string) {
+    await updatePomodoro(id, p => { p.title = title; return p; });
   }
 
   // --- TASKS ---
@@ -155,7 +152,7 @@ export const usePomodoroDBStore = defineStore('pomoDBStore', () => {
   }
 
   function updateStreak() {
-    const days = pomodoroRecords.value.map(p => getDay(p.datetime));
+    const days = pomodoroRecords.value.map(p => getDay(p.start!));
     const today = getDay(new Date());
 
     if (days.length === 0 || (today !== days[0] && today - 1 !== days[0])) {
@@ -184,9 +181,8 @@ export const usePomodoroDBStore = defineStore('pomoDBStore', () => {
 
   return {
     pomodoroRecords, tags, tagColors, streak, updatePomodoro,
-    parsePomodoroStatusToDbo, parsePomodorDboToRecord, parsePomodoroStatusToRecord,
-    addPomodoroToRecords,
-    deletePomodoroRecord,
+    addPomodoroToRecords, deletePomodoroRecord,
+    parsePomodoroForStorage,
     updateTag, updateRating, updateTasks, updateDeepWork, updateName
   };
 });

@@ -71,13 +71,54 @@ export enum DeadlineType { Exam, Task }
 export enum PomodoroState {
   CREATED = 0, STUDY = 1, BREAK = 2, TERMINATED = 3
 }
-export enum BreakState { NOTDONE = 0, DOING = 1, DONE = 2 };
 export type Break = {
   start: number;
   end?: number;
   soundStart?: boolean;
   soundEnd?: boolean;
 }
+export interface PomodoroTask {
+  task: string;
+  done?: boolean;
+}
+export type StudySessionReport = {
+  timeTotal: number;
+  timeStudy: number;
+  timeBreak: number;
+  nrBreaks: number;
+  points: number;
+  shortPomo?: boolean;
+}
+export type StudySession = {
+  id?: string;
+  userId?: string;
+  lastUpdate?: Date;
+  version: number;
+  
+  state: PomodoroState;
+  start?: Date;
+  endScheduled: number;
+  endActual?: number;
+  breaksDone: Break[];
+
+
+  title?: string;
+  freeMode?: boolean;
+  deepWork?: boolean;
+  tag?: string;
+  rating?: number;
+  tasks?: PomodoroTask[];
+  report?: StudySessionReport;
+
+  remoteUpdated?: number;
+
+  // For current
+  soundEnd?: boolean;
+  onLongBreak?: boolean;
+  endOriginal?: number;
+  breaksTodo?: Break[];
+}
+
 export type DisplaySession = {
   startPerc: number;
   lengthPerc: number;
@@ -90,53 +131,38 @@ export type DisplaySession = {
   deepWork?: boolean;
 }
 
-export type PomoReport = {
-  timeTotal: number;
-  timeStudy: number;
-  timeBreak: number;
-  nrBreaks: number;
-  points: number;
-  shortPomo?: boolean;
-}
+// export type PomodoroBase = {
+//   end: number;
+//   endedAt?: number;
+//   breaksDone: Break[];
+//   freeMode: boolean;
+//   tasks?: PomodoroTask[];
+//   deepWork: boolean;
+//   tag?: string;
+//   rating?: number;
+//   report?: StudySessionReport;
+//   id: string;
+//   name?: string;
+// }
 
-export type PomodoroBase = {
-  end: number;
-  endedAt?: number;
-  breaksDone: Break[];
-  freeMode: boolean;
-  tasks?: PomodoroTask[];
-  deepWork: boolean;
-  tag?: string;
-  rating?: number;
-  report?: PomoReport;
-  id: string;
-  name?: string;
-}
+// export interface PomodotoStatus extends PomodoroBase {
+//   // lastTick: number;
+//   version: number;
+//   startedAt?: number;
+//   state: PomodoroState;
+//   breaksTodo: Break[];
+//   soundEnd?: boolean;
+//   onLongBreak?: boolean;
+//   originalEnd?: number;
+//   timestamp?: number;
+// }
 
-export interface PomodotoStatus extends PomodoroBase {
-  // lastTick: number;
-  version: number;
-  startedAt?: number;
-  state: PomodoroState;
-  breaksTodo: Break[];
-  soundEnd?: boolean;
-  onLongBreak?: boolean;
-  originalEnd?: number;
-  timestamp?: number;
-}
+// export interface PomodoroRecord extends PomodoroBase {
+//   datetime: Date;
+//   displayBreaks?: DisplaySession[];
+//   displayStudy?: DisplaySession[];
+// }
 
-export interface PomodoroRecord extends PomodoroBase {
-  datetime: Date;
-  displayBreaks?: DisplaySession[];
-  displayStudy?: DisplaySession[];
-  // percentage?: number;
-}
-
-
-export interface PomodoroTask {
-  task: string;
-  done?: boolean;
-}
 
 // ---------- SETTINGS ----------
 export type PomodoroSettings = {
@@ -196,16 +222,16 @@ export interface Timer {
   freeMode?: boolean;
 }
 
-export interface PomodoroDBO extends PomodoroBase {
-  id: string;
-  datetime: Date;
-  lastUpdated?: Date;
-  tag?: string;
-  rating?: number;
-  deepWork: boolean;
-  tasks?: PomodoroTask[];
-  remoteUpdated: number;
-}
+// export interface PomodoroDBO extends PomodoroBase {
+//   id: string;
+//   datetime: Date;
+//   lastUpdated?: Date;
+//   tag?: string;
+//   rating?: number;
+//   deepWork: boolean;
+//   tasks?: PomodoroTask[];
+//   remoteUpdated: number;
+// }
 
 export interface ExamDBO {
   id?: number;
@@ -229,5 +255,5 @@ export type State = {
     dashboard: StudyElement;
     events: { [key: string]: Event[] },
   },
-  pomodoro?: PomodotoStatus;
+  pomodoro?: StudySession;
 }

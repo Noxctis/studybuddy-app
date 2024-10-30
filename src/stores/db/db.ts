@@ -1,6 +1,6 @@
 
 import Dexie, { type Table, type Transaction } from 'dexie';
-import type { Timer, Theme, PomodoroDBO, ExamDBO, UpdatesDBO } from '@/types';
+import type { Timer, Theme, ExamDBO, UpdatesDBO, StudySession } from '@/types';
 import { defineStore } from 'pinia';
 
 function getThemes() {
@@ -40,7 +40,7 @@ function getTimers() {
 export class StudyBuddyDB extends Dexie {
   public timer!: Table<Timer, number>;
   public themes!: Table<Theme, number>;
-  public pomodori!: Table<PomodoroDBO, string>;
+  public pomodori!: Table<StudySession, string>;
   public exams!: Table<ExamDBO, number>;
   public updates!: Table<UpdatesDBO, number>;
 
@@ -95,6 +95,13 @@ export class StudyBuddyDB extends Dexie {
       timer: "++id,title,studyLength,breakLength,repetitions,freeMode",
       themes: "++id,title,palette,category,backgroundColor,backgroundImg,og",
       pomodori: "++id,datetime,tag,remoteUpdated",
+      exams: "++id,_id,dataExamId,name"
+    }).upgrade(async trans => { await refreshThemes(trans) });
+    this.version(14).stores({
+      updates: "++id,entityName,lastUpdate",
+      timer: "++id,title,studyLength,breakLength,repetitions,freeMode",
+      themes: "++id,title,palette,category,backgroundColor,backgroundImg,og",
+      pomodori: "id,datetime,tag,remoteUpdated",
       exams: "++id,_id,dataExamId,name"
     }).upgrade(async trans => { await refreshThemes(trans) });
     this.on("populate", () => {
