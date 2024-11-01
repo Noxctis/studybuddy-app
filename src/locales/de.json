@@ -117,14 +117,16 @@
       "sinkSaved": "Für später aufgehoben",
       "sinkDone": "Waschbecken ist leer!"
     },
-    "setup":{
-      "title": "Pomodoro-Setup",
+    "setup": {
+      "title": "Session einrichten",
       "report": "Bericht",
       "details": "Einzelheiten",
-      "exam":"Prüfung",
+      "exam": "Prüfung",
       "name": "Name",
       "addTask": "Aufgabe hinzufügen",
-      "dontShow": "Diese Nachricht nicht mehr anzeigen"
+      "dontShow": "Diese Nachricht nicht mehr anzeigen",
+      "noExam": "Du hast keine Prüfung hinzugefügt",
+      "onbLink": "Onboarding abschließen"
     },
     "study": {
       "showTodo": "ToDo anzeigen",

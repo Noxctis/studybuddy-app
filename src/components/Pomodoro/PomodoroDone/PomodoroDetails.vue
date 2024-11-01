@@ -21,8 +21,8 @@
     </div>
     <div class="title" v-else>
       <div class="exams">
-        <p>Non hai nessun esame da collegare ai pomi</p>
-        <a class="text-primary" href="/#/welcome">Completa ora l'onboarding</a>
+        <p>{{ $t('setup.noExam') }}</p>
+        <a class="text-primary" href="/#/welcome">{{ $t('setup.onbLink') }}</a>
       </div>
     </div>
 

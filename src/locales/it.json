@@ -124,7 +124,9 @@
               "exam":"Esame",
               "name": "Titolo",
               "addTask": "Aggiungi Task",
-              "dontShow": "Non mostrare più questo messaggio"
+              "dontShow": "Non mostrare più questo messaggio",
+              "noExam": "Non hai aggiunto nessun esame",
+              "onbLink": "Completa Onboarding"
        },
        "study": {
               "showTodo": "Mostra ToDo",

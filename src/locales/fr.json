@@ -123,8 +123,8 @@
     "details": "Détails",
     "exam":"Examen",
     "name": "Nom",
-    "addTask": "Ajouter une tâche",
-    "dontShow": "Ne plus afficher ce message"
+    "noExam": "Vous n'avez ajouté aucun examen",
+    "onbLink": "Intégration Complète"
   },
   "study": {
     "showTodo": "Afficher ToDo",

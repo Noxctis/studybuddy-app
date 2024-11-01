@@ -117,14 +117,16 @@
     "sinkSaved": "Pozo guardado",
     "sinkDone": "¡El pozo esta vacio!"
   },
-  "setup":{
+  "setup": {
     "title": "Configuración de temporizador",
     "report": "Informes",
     "details": "Detalles",
     "exam": "Examen",
     "name": "Nombre",
     "addTask": "Nueva Tarea",
-    "dontShow": "No mostrar esta configuración nuevamente"
+    "dontShow": "No mostrar esta configuración nuevamente",
+    "noExam": "No has añadido ningún examen",
+    "onbLink": "Completa el Onboarding"
   },
   "study": {
     "showTodo": "Mostrar ToDo",
