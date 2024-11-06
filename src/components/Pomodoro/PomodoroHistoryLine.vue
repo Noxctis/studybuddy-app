@@ -38,7 +38,7 @@
           <v-card-actions>
             <v-spacer />
             <v-btn @click="deletePomoDialog = false; deletingPomoId = null">{{ $t("no") }}</v-btn>
-            <v-btn color="primary" @click="deletingPomoId && pomoDB.deletePomodoroRecord(deletingPomoId); deletePomoDialog = false">{{
+            <v-btn color="primary" @click="deletingPomoId && pomoDB.deletePomodoro(deletingPomoId); deletePomoDialog = false">{{
     $t("yes") }}</v-btn>
           </v-card-actions>
         </v-card>

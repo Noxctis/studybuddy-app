@@ -37,16 +37,6 @@ export const usePomodoroDBStore = defineStore('pomoDBStore', () => {
     }
   }
 
-  // function parsePomodorDboToRecord(p: StudySession): StudySession {
-  //   if (p.deepWork === undefined) p.deepWork = true;
-  //   return {
-  //     ...p,
-  //     displayBreaks: timeUtils.getDisplayBreaksRecord(p, p.endedAt ?? 0, settings.generalSettings.showSeconds),
-  //     displayStudy: timeUtils.getDisplayStudyRecord(p, p.endedAt ?? 0, settings.generalSettings.showSeconds),
-  //     report: reportUtils.getStudySession(p),
-  //   }
-  // }
-
   async function updatePomodoroRecords() {
     pomodoroRecords.value = (
       await db.pomodori.orderBy('datetime')
@@ -57,50 +47,42 @@ export const usePomodoroDBStore = defineStore('pomoDBStore', () => {
     updateStreak();
   }
 
-  async function addPomodoroToRecords(pomo: StudySession): Promise<StudySession> {
-    const dt = new Date(pomo.start ?? Date.now());
-    const pomoStorage = parsePomodoroForStorage(pomo);
-    // const parsed = parsePomodorDboToRecord(p);
-    const first = await db.pomodori.where('id').equals(pomoStorage.id!).first();
-    if (!first) {
-      await db.pomodori.add(pomoStorage);
-      pomodoroRecords.value.unshift(pomoStorage);
-      updateStreak();
-      postRemotePomodoro(pomoStorage);
-    }
-    return pomoStorage;
-  }
-  async function deletePomodoroRecord(id: string) {
-    pomodoroRecords.value = pomodoroRecords.value.filter(p => p.id !== id);
+  async function savePomodoro(pomo: StudySession): Promise<StudySession> {
+    let p = parsePomodoroForStorage(pomo);
+    try {
+      p = await api.pomodori.upsertPomodoro(p);
+    } catch (e) { }
+    await db.pomodori.put(p, p.id!);
+    pomodoroRecords.value.unshift(p);
     updateStreak();
-    await db.pomodori.delete(id);
-    await deleteRemotePomodoro(id)
+    return p;
   }
 
   async function updatePomodoro(id: string, updatePomo: (p: StudySession) => StudySession) {
     const pomo = await db.pomodori.get(id);
     if (pomo) {
+      const newP = updatePomo(pomo);
       pomo.remoteUpdated = 0;
-      await db.pomodori.put(updatePomo(pomo), id);
-      if (pomo.remoteUpdated === 0) {
-        updateRemotePomodoro(pomo);
+      try {
+        api.pomodori.upsertPomodoro(newP).then(apiP => {
+          db.pomodori.put(apiP, id);
+        });
+      } catch {
+        db.pomodori.put(newP, id);
       }
     }
   }
 
-  // -- REMOTE --
-  async function postRemotePomodoro(pomodoro: StudySession) {
-    if (!pomodoro.id) return;
-    await api.pomodori.postPomodoro(pomodoro);
-    await updatePomodoro(pomodoro.id, p => { p.remoteUpdated = 1; return p; });
-  }
-  async function updateRemotePomodoro(pomodoro: StudySession) {
-    if (!pomodoro.id) return;
-    await api.pomodori.updatePomodoro(pomodoro);
-    await updatePomodoro(pomodoro.id, p => { p.remoteUpdated = 1; return p; });
-  }
-  async function deleteRemotePomodoro(id: string) {
-    await api.pomodori.deletePomodoro(id);
+  async function deletePomodoro(id: string) {
+    pomodoroRecords.value = pomodoroRecords.value.filter(p => p.id !== id);
+    updateStreak();
+    try {
+      await api.pomodori.deletePomodoro(id);
+      await db.pomodori.delete(id);
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   // --- TAGS ---
@@ -181,7 +163,7 @@ export const usePomodoroDBStore = defineStore('pomoDBStore', () => {
 
   return {
     pomodoroRecords, tags, tagColors, streak, updatePomodoro,
-    addPomodoroToRecords, deletePomodoroRecord,
+    savePomodoro, deletePomodoro,
     parsePomodoroForStorage,
     updateTag, updateRating, updateTasks, updateDeepWork, updateName
   };

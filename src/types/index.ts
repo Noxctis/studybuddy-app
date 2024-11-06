@@ -94,6 +94,8 @@ export type StudySession = {
   userId?: string;
   lastUpdate?: Date;
   version: number;
+  deleted?: boolean;
+
   
   state: PomodoroState;
   start?: Date;

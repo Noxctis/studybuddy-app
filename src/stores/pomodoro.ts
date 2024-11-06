@@ -184,7 +184,7 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
       pomo.state = PomodoroState.TERMINATED;
       if (pomo.endActual > SHORT_POMO_THRESHOLD) {
         finishedPomoRecord.value = { shortPomo: false };
-        pomoDB.addPomodoroToRecords(pomo).then((pomo) => {
+        pomoDB.savePomodoro(pomo).then((pomo) => {
           if (!finishedPomoRecord.value)
             finishedPomoRecord.value = { shortPomo: false };
           finishedPomoRecord.value.pomo = pomo;
