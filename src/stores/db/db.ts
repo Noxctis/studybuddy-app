@@ -80,7 +80,7 @@ export class StudyBuddyDB extends Dexie {
       themes: "++id,title,palette,category,backgroundColor,backgroundImg,og",
       pomodori: "++id,datetime,tag"
     }).upgrade(async trans => { await refreshThemes(trans) });
-    this.version(8).stores({
+    this.version(14).stores({
       updates: "++id,entityName,lastUpdate",
       timer: "++id,title,studyLength,breakLength,repetitions,freeMode",
       themes: "++id,title,palette,category,backgroundColor,backgroundImg,og",
