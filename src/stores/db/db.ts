@@ -86,7 +86,6 @@ export class StudyBuddyDB extends Dexie {
       themes: "++id,title,palette,category,backgroundColor,backgroundImg,og",
       studySession: "id,start,tag,remoteUpdated",
       exams: "++id,_id,dataExamId,name",
-      pomodori: null
     }).upgrade(async trans => {
       const newPomi = (await trans.table('pomodori').toArray())
         .filter(p => (p as any).datetime)
@@ -121,6 +120,14 @@ export class StudyBuddyDB extends Dexie {
           return newP;
         })
       await trans.table('studySession').bulkAdd(newPomi);
+    });
+    this.version(15).stores({
+      updates: "++id,entityName,lastUpdate",
+      timer: "++id,title,studyLength,breakLength,repetitions,freeMode",
+      themes: "++id,title,palette,category,backgroundColor,backgroundImg,og",
+      studySession: "id,start,tag,remoteUpdated",
+      exams: "++id,_id,dataExamId,name",
+      pomodori: null
     });
     this.on("populate", () => {
       this.timer.bulkAdd(getTimers());
