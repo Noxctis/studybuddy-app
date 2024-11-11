@@ -94,7 +94,7 @@ export class StudyBuddyDB extends Dexie {
           const newP: StudySession = {
             id: p.id ?? uuidv4(),
             userId: p.userId,
-            lastUpdate: p.lastUpdate ?? new Date(),
+            lastUpdated: p.lastUpdate ?? p.lastUpdated ?? new Date(),
             version: p.version ?? 4,
             deleted: p.deleted ?? false,
 
@@ -143,45 +143,6 @@ export const useDBStore = defineStore('dbStore', () => {
   const timers = studyBuddyDB.timer;
   const pomodori = studyBuddyDB.studySession;
   const exams = studyBuddyDB.exams;
-
-  const a = async () => {
-    const newPomi = (await studyBuddyDB.studySession.toArray())
-      .filter(p => (p as any).datetime)
-      .map(p => {
-        const newP: StudySession = {
-          id: p.id ?? uuidv4(),
-          userId: p.userId,
-          lastUpdate: p.lastUpdate ?? new Date(),
-          version: p.version ?? 4,
-          deleted: p.deleted ?? false,
-
-          state: PomodoroState.TERMINATED,
-          start: (p as any).datetime,
-          endScheduled: (p as any).end,
-          endActual: (p as any).endedAt,
-
-          breaksDone: p.breaksDone.map(b => ({ start: b.start, end: b.end })),
-        }
-        if (p.title || (p as any).name) newP.title = p.title ?? (p as any).name;
-        if (p.freeMode) newP.freeMode = true;
-        if (p.deepWork) newP.deepWork = true;
-        if (p.tag) newP.tag = p.tag;
-        if (p.rating !== undefined) newP.rating = p.rating;
-        if (p.tasks) {
-          newP.tasks = p.tasks.map(task => {
-            const newTask: PomodoroTask = { task: task.task }
-            if (task.done) newTask.done = true;
-            return newTask;
-          });
-        }
-        newP.remoteUpdated = p.remoteUpdated ? 1 : 0;
-
-        return newP;
-      })
-  }
-  a();
-  console.log('DB')
-
 
   async function getLastUpdatedDBO(entity: EntitiesEnum) {
     return await studyBuddyDB.updates.where('entityName').equals(entity).first();

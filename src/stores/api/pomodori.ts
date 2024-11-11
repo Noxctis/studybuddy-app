@@ -6,7 +6,7 @@ export function getPomodoriAPI(endpoint: string, getOptions: () => Promise<{ hea
 
   function parsePomo(pomo: StudySession): StudySession {
     pomo.start = new Date(pomo.start!);
-    if (pomo.lastUpdate) pomo.lastUpdate = new Date(pomo.lastUpdate);
+    if (pomo.lastUpdated) pomo.lastUpdated = new Date(pomo.lastUpdated);
     return pomo;
   }
 

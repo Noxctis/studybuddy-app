@@ -17,7 +17,7 @@ export const usePomodoroDBStore = defineStore('pomoDBStore', () => {
     return {
       id: pomo.id ?? uuidv4(),
       userId: pomo.userId,
-      lastUpdate: new Date(),
+      lastUpdated: new Date(),
       version: pomo.version,
 
       state: PomodoroState.TERMINATED,

@@ -92,7 +92,7 @@ export type StudySessionReport = {
 export type StudySession = {
   id?: string;
   userId?: string;
-  lastUpdate?: Date;
+  lastUpdated?: Date;
   version: number;
   deleted?: boolean;
 
