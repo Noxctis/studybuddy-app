@@ -14,7 +14,7 @@ const { isAuthenticated, loginWithRedirect } = useAuth0();
 const pomodoro = usePomodoroStore();
 const settings = useSettingsStore();
 const pomoDB = usePomodoroDBStore();
-const openDetailsPomoId = ref(-1);
+const openDetailsPomoId = ref("");
 const openDay = ref('');
 
 const timeFormat = { html: false, showSeconds: false, format: 'hms' as 'hms' }

@@ -75,7 +75,6 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
     pomodoroStatus.value = status;
     if (interval) clearInterval(interval);
     if (status.state !== PomodoroState.CREATED && status.state !== PomodoroState.TERMINATED) {
-      console.log('Resuming');
       resumePomodoro();
     }
   }
@@ -187,7 +186,7 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
         const lastBreak = pomo.breaksDone.pop();
         if (lastBreak) {
           pomo.endActual = lastBreak.start;
-          if (!((pomo.endOriginal ?? 0) > pomo.endScheduled)) {
+          if ((pomo.endOriginal ?? 0) < pomo.endScheduled) {
             pomo.endActual = Math.max(pomo.endOriginal ?? 0, lastBreak.start)
           }
         }

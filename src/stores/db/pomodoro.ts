@@ -38,13 +38,12 @@ export const usePomodoroDBStore = defineStore('pomoDBStore', () => {
   }
 
   async function updatePomodoroRecords() {
-    console.log('Updating pomodoro records');
     pomodoroRecords.value = (
       await db.pomodori.orderBy('start')
         .reverse()
         .limit(500)
         .toArray()
-    ).map(p => parsePomodoroForStorage(p));
+    );
     updateStreak();
   }
 
