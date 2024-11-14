@@ -41,25 +41,20 @@ export const useSyncDBStore = defineStore('sync-db', () => {
         .limit(500)
         .toArray()
     for (const pomodoro of pomi) {
-      if (pomodoro._id) {
-        await api.pomodori.updatePomodoro(pomodoro);
-      } else {
-        await api.pomodori.postPomodoro(pomodoro);
-      }
-      pomodoro.remoteUpdated = 1;
-      await db.pomodori.put(pomodoro, pomodoro.id);
+      const newP = await api.pomodori.upsertPomodoro(pomodoro);
+      await db.pomodori.put(newP, newP.id);
     }
   }
 
   async function syncPomodoriFromRemote() {
     const lastUpdated = await db.getLastUpdated(EntitiesEnum.pomodori);
-    const newUpdatedDate = new Date();
+    const newUpdatedDate = new Date(); // IMPORTANT: Crate daate before update
     const newPomodori = await api.pomodori.getPomodoriUpdates(lastUpdated);
-    for (const pomodoro of newPomodori) {
-      if (pomodoro.id) {
-        await db.pomodori.put(pomodoro, pomodoro.id);
+    for (const p of newPomodori) {
+      if (p.deleted) {
+        await db.pomodori.delete(p.id!);
       } else {
-        await db.pomodori.add(pomodoro);
+        await db.pomodori.put(p, p.id!)
       }
     }
     await db.setLastUpdated(EntitiesEnum.pomodori, newUpdatedDate);

@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import type { PomoReport } from '@/types';
+import type { StudySessionReport } from '@/types';
 import { usePomodoroStore } from "@/stores/pomodoro";
 import * as reportUtils from '@/utils/report';
 
 const pomodoro = usePomodoroStore();
 const props = defineProps<{
-  report: PomoReport,
+  report: StudySessionReport,
 }>();
 </script>
 

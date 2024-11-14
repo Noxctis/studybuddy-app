@@ -11,9 +11,9 @@
   </v-card>
 </template>
 <script lang="ts" setup>
-import { type PomodoroRecord } from '@/types';
+import { type StudySession } from '@/types';
 import PomodoroDone from '../Pomodoro/PomodoroDone/PomodoroDone.vue';
-const props = defineProps<{ pomo: PomodoroRecord }>();
+const props = defineProps<{ pomo: StudySession }>();
 const emits = defineEmits<
   (e: 'done') => void
 >()

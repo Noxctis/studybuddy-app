@@ -1,7 +1,7 @@
 
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
-import { type State, type Exam, type Chapter, type PomodotoStatus, type StudyElement, type Event, type Deadline, DeadlineType } from '@/types'
+import { type State, type Exam, type Chapter, type StudyElement, type Event, type Deadline, DeadlineType, type StudySession } from '@/types'
 import defaultState from '@/assets/defaultState.json';
 import tutorialState from '@/assets/tutorialState.json';
 import { createEvent } from 'ics';
@@ -226,10 +226,10 @@ export const useStateStore = defineStore('state', () => {
   }
 
   // Pomodoro
-  function getPomodoroStatus(): PomodotoStatus | undefined {
+  function getPomodoroStatus(): StudySession | undefined {
     return state.value.pomodoro;
   }
-  function setPomodoroStatus(pomodoro: PomodotoStatus) {
+  function setPomodoroStatus(pomodoro: StudySession) {
     state.value.pomodoro = { ...pomodoro };
     save();
   }
