@@ -85,6 +85,10 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
 
   // ---------- Init ----------
   const pomodoroStatus = useStorage<StudySession>('timer-status', generatePomoStatus());
+  if (pomodoroStatus.value.lastUpdated)
+    pomodoroStatus.value.lastUpdated = new Date(pomodoroStatus.value.lastUpdated);
+  if (pomodoroStatus.value.start)
+    pomodoroStatus.value.start = new Date(pomodoroStatus.value.start);
   let interval: number | undefined;
   const finishedPomoRecord = ref<{ pomo?: StudySession, shortPomo: boolean } | null>(null);
   const now = ref(Date.now());
