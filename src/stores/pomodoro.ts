@@ -56,6 +56,13 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
   })();
   function loadStatus(status: StudySession | null) {
     if (!status) return;
+
+    if (status.lastUpdated)
+      status.lastUpdated = new Date(status.lastUpdated);
+    if (status.start)
+      status.start = new Date(status.start);
+
+
     if (status.state === PomodoroState.TERMINATED) {
       finishedPomoRecord.value = {
         shortPomo: ((status.endActual ?? getNow(status.start)) <= SHORT_POMO_THRESHOLD),
