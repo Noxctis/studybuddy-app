@@ -119,6 +119,7 @@ export class StudyBuddyDB extends Dexie {
           newP.remoteUpdated = 0;
           return newP;
         })
+      await trans.table('studySession').clear();
       await trans.table('studySession').bulkAdd(newPomi);
     });
     this.version(15).stores({

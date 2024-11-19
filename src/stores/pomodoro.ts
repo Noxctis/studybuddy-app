@@ -62,9 +62,6 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
     if (status.start)
       status.start = new Date(status.start);
 
-    console.log('Loading status');
-    console.log(status);
-
     if (status.state === PomodoroState.TERMINATED) {
       finishedPomoRecord.value = {
         shortPomo: ((status.endActual ?? getNow(status.start)) <= SHORT_POMO_THRESHOLD),
