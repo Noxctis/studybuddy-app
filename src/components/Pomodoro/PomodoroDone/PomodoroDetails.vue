@@ -2,7 +2,7 @@
   <div class="pomo-details-props">
     <div class="title" v-if="examDB.exams.length > 0">
       <v-chip v-if="pomo.tag" variant="flat" closable size="large" @click:close="deleteTag()"
-        :color="examDB.examsMapping[pomo.tag].color">{{ examDB.examsMapping[pomo.tag].name }}</v-chip>
+        :color="examDB.examsMapping[pomo.tag]?.color">{{ examDB.examsMapping[pomo.tag]?.name ?? pomo.tag}}</v-chip>
       <v-combobox v-else variant="outlined" class="text-box text-boxt-tag" :label="$t('setup.exam')" hide-details :items="examDB.exams"
         v-model="pomo.tag" item-title="name" item-value="_id" @update:modelValue="(e: ExamDBO) => { e && addExam(e) }">
         <template v-slot:selection="data"><v-chip :key="data.item.title">{{ data.item.title }}</v-chip></template>
