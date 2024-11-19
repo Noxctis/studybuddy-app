@@ -52,6 +52,10 @@ export const usePomodoroDBStore = defineStore('pomoDBStore', () => {
     try {
       p = await api.pomodori.upsertPomodoro(p);
     } catch (e) { }
+    if (p.lastUpdated)
+      p.lastUpdated = new Date(p.lastUpdated);
+    if (p.start)
+      p.start = new Date(p.start);
     await db.pomodori.put(p, p.id!);
     pomodoroRecords.value.unshift(p);
     updateStreak();
@@ -65,6 +69,10 @@ export const usePomodoroDBStore = defineStore('pomoDBStore', () => {
       pomo.remoteUpdated = 0;
       try {
         api.pomodori.upsertPomodoro(newP).then(apiP => {
+          if (apiP.lastUpdated)
+            apiP.lastUpdated = new Date(apiP.lastUpdated);
+          if (apiP.start)
+            apiP.start = new Date(apiP.start);
           db.pomodori.put(apiP, id);
         });
       } catch {

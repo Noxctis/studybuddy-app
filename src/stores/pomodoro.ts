@@ -62,6 +62,8 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
     if (status.start)
       status.start = new Date(status.start);
 
+    console.log('Loading status');
+    console.log(status);
 
     if (status.state === PomodoroState.TERMINATED) {
       finishedPomoRecord.value = {
@@ -79,11 +81,28 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
     }
   }
   function saveStatus() {
+    savePomodoroStatusToLocalStorage();
     socket?.emit('broadcast', pomodoroStatus.value);
   }
 
+
+  // ---------- LOCAL STORAGE ----------
+  function getPomodoroStatusFromLocalStorage(): StudySession | null {
+    const ls = localStorage.getItem('timer-status');
+    if (!ls) return null;
+    const status = JSON.parse(ls);
+    if (status.lastUpdated)
+      status.lastUpdated = new Date(status.lastUpdated);
+    if (status.start)
+      status.start = new Date(status.start);
+    return status;
+  }
+  function savePomodoroStatusToLocalStorage() {
+    localStorage.setItem('timer-status', JSON.stringify(pomodoroStatus.value));
+  }
+
   // ---------- Init ----------
-  const pomodoroStatus = useStorage<StudySession>('timer-status', generatePomoStatus());
+  const pomodoroStatus = ref<StudySession>(getPomodoroStatusFromLocalStorage() ?? generatePomoStatus());
   if (pomodoroStatus.value.lastUpdated)
     pomodoroStatus.value.lastUpdated = new Date(pomodoroStatus.value.lastUpdated);
   if (pomodoroStatus.value.start)
