@@ -2,7 +2,7 @@
   <div class="pomo-details-props">
     <div class="title" v-if="examDB.exams.length > 0">
       <v-chip v-if="pomo.tag" variant="flat" closable size="large" @click:close="deleteTag()"
-        :color="examDB.examsMapping[pomo.tag].color">{{ examDB.examsMapping[pomo.tag].name }}</v-chip>
+        :color="examDB.examsMapping[pomo.tag]?.color">{{ examDB.examsMapping[pomo.tag]?.name ?? pomo.tag}}</v-chip>
       <v-combobox v-else variant="outlined" class="text-box text-boxt-tag" :label="$t('setup.exam')" hide-details :items="examDB.exams"
         v-model="pomo.tag" item-title="name" item-value="_id" @update:modelValue="(e: ExamDBO) => { e && addExam(e) }">
         <template v-slot:selection="data"><v-chip :key="data.item.title">{{ data.item.title }}</v-chip></template>
@@ -16,13 +16,13 @@
         </template>
       </v-combobox>
 
-      <v-text-field v-model="pomo.name" :label="$t('setup.name')" hide-details dense variant="outlined" class="text-box text-boxt-title"
+      <v-text-field v-model="pomo.title" :label="$t('setup.name')" hide-details dense variant="outlined" class="text-box text-boxt-title"
         @update:modelValue="(newName: any) => { updateName(pomo.id, newName) }" />
     </div>
     <div class="title" v-else>
       <div class="exams">
-        <p>Non hai nessun esame da collegare ai pomi</p>
-        <a class="text-primary" href="/#/welcome">Completa ora l'onboarding</a>
+        <p>{{ $t('setup.noExam') }}</p>
+        <a class="text-primary" href="/#/welcome">{{ $t('setup.onbLink') }}</a>
       </div>
     </div>
 
@@ -40,7 +40,7 @@
     </div>
 
     <div class="details">
-      <v-rating v-if="pomo.endedAt" v-model="pomo.rating" length="3" size="x-large" color="accent" clearable
+      <v-rating v-if="pomo.endActual" v-model="pomo.rating" length="3" size="x-large" color="accent" clearable
         @update:modelValue="(newRating: any) => { updateRating(pomo.id, newRating) }" />
 
       <div v-show="false">
@@ -58,23 +58,23 @@
 import { ref } from 'vue';
 import { usePomodoroDBStore } from "@/stores/db/pomodoro";
 import { useExamsStore } from "@/stores/db/exams";
-import type { PomodoroBase, PomodoroTask, ExamDBO } from '@/types';
+import type { StudySession, PomodoroTask, ExamDBO } from '@/types';
 import { usePomodoroStore } from '@/stores/pomodoro';
 
-const props = defineProps<{ pomo: PomodoroBase }>();
+const props = defineProps<{ pomo: StudySession }>();
 const pomoDB = usePomodoroDBStore();
 const examDB = useExamsStore();
 const pomoStore = usePomodoroStore();
 
-async function updateDeepWork(pomoId: string, deep: boolean) {
+async function updateDeepWork(pomoId: string | undefined, deep: boolean) {
   if (pomoId) await pomoDB.updateDeepWork(pomoId, deep);
   else pomoStore.saveStatus()
 }
-async function updateName(pomoId: string, name: string) {
+async function updateName(pomoId: string | undefined, name: string) {
   if (pomoId) await pomoDB.updateName(pomoId, name);
   else pomoStore.saveStatus()
 }
-async function updateRating(pomoId: string, rating: number) {
+async function updateRating(pomoId: string | undefined, rating: number) {
   if (pomoId) await pomoDB.updateRating(pomoId, rating);
   else pomoStore.saveStatus()
 }

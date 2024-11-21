@@ -124,7 +124,9 @@
     "exam":"Exam",
     "name": "Title",
     "addTask": "Add Task",
-    "dontShow": "Don't show this again"
+    "dontShow": "Don't show this again",
+    "noExam": "No exam selected",
+    "onbLink": "Complete Onboarding"
   },
   "study": {
     "showTodo": "Show ToDo",

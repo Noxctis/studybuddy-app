@@ -1,18 +1,18 @@
-import type { PomodoroBase, PomoReport } from '.';
+import type { StudySession, StudySessionReport } from '.';
 
 export default class Report {
-  private report: PomoReport;
+  private report: StudySessionReport;
   private WEIGHT_EFFICIENCY = 0.7;
   private WEIGHT_DURATION = 0.3;
   private OPTIMAL_STUDY_RATIO = 5/6;
 
-  constructor(pomo?: PomodoroBase) {
+  constructor(pomo?: StudySession) {
     if (!pomo) {
       this.report = { timeTotal: 0, timeStudy: 0, timeBreak: 0, nrBreaks: 0, points: 0 };
       return;
     } 
     const timeBreak = pomo.breaksDone.reduce((acc, curr) => acc + ((curr.end ?? curr.start) - curr.start), 0);
-    const timeTotal = pomo.endedAt ?? pomo.end;
+    const timeTotal = pomo.endActual ?? pomo.endScheduled;
     const timeStudy = timeTotal - timeBreak;
 
     const durataPomelli: number[] = [];
@@ -21,7 +21,7 @@ export default class Report {
       durataPomelli.push(pomo.breaksDone[i].start - prevBreakEnd);
       prevBreakEnd = pomo.breaksDone[i].end ?? 0;
     }
-    durataPomelli.push(pomo.end - prevBreakEnd);
+    durataPomelli.push(pomo.endScheduled - prevBreakEnd);
 
     const scorePomelli = durataPomelli
       .map(p => p / 60000)

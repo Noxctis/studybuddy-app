@@ -1,30 +1,31 @@
 
 import Dexie, { type Table, type Transaction } from 'dexie';
-import type { Timer, Theme, PomodoroDBO, ExamDBO, UpdatesDBO } from '@/types';
+import { type Timer, type Theme, type ExamDBO, type UpdatesDBO, type StudySession, PomodoroState, type PomodoroTask } from '@/types';
 import { defineStore } from 'pinia';
+import { v4 as uuidv4 } from 'uuid';
 
 function getThemes() {
   const themes: Partial<Theme>[] = [
-    { title: 'Autumn',      category: '🌲 Nature', palette: 'bio',      },
-    { title: 'Forest',      category: '🌲 Nature', palette: 'bio',      backgroundVideo: 'https://www.youtube.com/watch?v=xNN7iTA57jM', showOnlyMusic: true },
-    { title: 'Mountain',    category: '🌲 Nature', palette: 'nord',     },
-    { title: 'Rocks',       category: '🌲 Nature', palette: 'gptday',   },
-    { title: 'Rain',        category: '🌲 Nature', palette: 'gptnight', backgroundVideo: 'https://www.youtube.com/watch?v=mPZkdNFkNps' },
-    { title: 'Space',       category: '🌲 Nature', palette: 'gptnight', },
-    { title: 'Night',       category: '🌲 Nature', palette: 'dark',     },
-    { title: 'Aurora',      category: '🌲 Nature', palette: 'blallo',   },
-    { title: 'Beach',       category: '🌲 Nature', palette: 'pastel',   },
-    { title: 'Ghibli',      category: '🎨 Art',    palette: 'verdone',  backgroundVideo: 'https://www.youtube.com/watch?v=z9Ug-3qhrwY' },
-    { title: 'Wave',        category: '🎨 Art',    palette: 'nord',     },
-    { title: 'Vaporwave',   category: '🎨 Art',    palette: 'vaporwave',backgroundVideo: 'https://www.youtube.com/watch?v=rqJDO3TWnac' },
-    { title: 'Purple',      category: '🏢 Urban',  palette: 'purple',   },
-    { title: 'LOFI',        category: '🏢 Urban',  palette: 'gptnight', backgroundVideo: 'https://www.youtube.com/watch?v=jfKfPfyJRdk' },
-    { title: 'City',        category: '🏢 Urban',  palette: 'nord',     backgroundColor: 'https://www.youtube.com/watch?v=Vg1mpD1BICI', showOnlyMusic: true },
-    { title: 'Fog',         category: '🏢 Urban',  palette: 'gptday',   },
-    { title: 'Barbie',      category: '🍿 Movies', palette: 'pastel',   },
+    { title: 'Autumn', category: '🌲 Nature', palette: 'bio', },
+    { title: 'Forest', category: '🌲 Nature', palette: 'bio', backgroundVideo: 'https://www.youtube.com/watch?v=xNN7iTA57jM', showOnlyMusic: true },
+    { title: 'Mountain', category: '🌲 Nature', palette: 'nord', },
+    { title: 'Rocks', category: '🌲 Nature', palette: 'gptday', },
+    { title: 'Rain', category: '🌲 Nature', palette: 'gptnight', backgroundVideo: 'https://www.youtube.com/watch?v=mPZkdNFkNps' },
+    { title: 'Space', category: '🌲 Nature', palette: 'gptnight', },
+    { title: 'Night', category: '🌲 Nature', palette: 'dark', },
+    { title: 'Aurora', category: '🌲 Nature', palette: 'blallo', },
+    { title: 'Beach', category: '🌲 Nature', palette: 'pastel', },
+    { title: 'Ghibli', category: '🎨 Art', palette: 'verdone', backgroundVideo: 'https://www.youtube.com/watch?v=z9Ug-3qhrwY' },
+    { title: 'Wave', category: '🎨 Art', palette: 'nord', },
+    { title: 'Vaporwave', category: '🎨 Art', palette: 'vaporwave', backgroundVideo: 'https://www.youtube.com/watch?v=rqJDO3TWnac' },
+    { title: 'Purple', category: '🏢 Urban', palette: 'purple', },
+    { title: 'LOFI', category: '🏢 Urban', palette: 'gptnight', backgroundVideo: 'https://www.youtube.com/watch?v=jfKfPfyJRdk' },
+    { title: 'City', category: '🏢 Urban', palette: 'nord', backgroundColor: 'https://www.youtube.com/watch?v=Vg1mpD1BICI', showOnlyMusic: true },
+    { title: 'Fog', category: '🏢 Urban', palette: 'gptday', },
+    { title: 'Barbie', category: '🍿 Movies', palette: 'pastel', },
     { title: 'Oppenheimer', category: '🍿 Movies', palette: 'gptnight', },
-    { title: 'Dune',        category: '🍿 Movies', palette: 'desert',   },
-    { title: 'Gandalf',     category: '🍿 Movies', palette: 'blallo',   }
+    { title: 'Dune', category: '🍿 Movies', palette: 'desert', },
+    { title: 'Gandalf', category: '🍿 Movies', palette: 'blallo', }
   ]
   return themes.map((t) => ({ ...t, previewImg: `/images/themes/${t.title}.webp`, backgroundImg: `https://api.studybuddy.it/images/${t.title}`, og: true }));
 }
@@ -40,7 +41,7 @@ function getTimers() {
 export class StudyBuddyDB extends Dexie {
   public timer!: Table<Timer, number>;
   public themes!: Table<Theme, number>;
-  public pomodori!: Table<PomodoroDBO, string>;
+  public studySession!: Table<StudySession, string>;
   public exams!: Table<ExamDBO, number>;
   public updates!: Table<UpdatesDBO, number>;
 
@@ -58,8 +59,6 @@ export class StudyBuddyDB extends Dexie {
       await trans.table('themes').bulkAdd(getThemes());
       themeRefreshed = true;
     }
-
-
 
     this.version(3).stores({
       timer: "++id,title,studyLength,breakLength,repetitions,freeMode",
@@ -81,60 +80,67 @@ export class StudyBuddyDB extends Dexie {
       themes: "++id,title,palette,category,backgroundColor,backgroundImg,og",
       pomodori: "++id,datetime,tag"
     }).upgrade(async trans => { await refreshThemes(trans) });
-    this.version(11).stores({
+    this.version(14).stores({
       updates: "++id,entityName,lastUpdate",
       timer: "++id,title,studyLength,breakLength,repetitions,freeMode",
       themes: "++id,title,palette,category,backgroundColor,backgroundImg,og",
-      pomodori: "++id,datetime,tag,remoteUpdated",
-      exams: "++id,_id,examId,examName"
+      studySession: "id,start,tag,remoteUpdated",
+      exams: "++id,_id,dataExamId,name",
     }).upgrade(async trans => {
-      await trans.table('pomodori').toCollection().modify({ remoteUpdated: 0 });
+      const newPomi = (await trans.table('pomodori').toArray())
+        .filter(p => (p as any).datetime)
+        .map(p => {
+          const newP: StudySession = {
+            id: p.id ?? uuidv4(),
+            userId: p.userId,
+            lastUpdated: p.lastUpdate ?? p.lastUpdated ?? new Date(),
+            version: p.version ?? 4,
+            deleted: p.deleted ?? false,
+
+            state: PomodoroState.TERMINATED,
+            start: (p as any).datetime,
+            endScheduled: (p as any).end,
+            endActual: (p as any).endedAt,
+
+            breaksDone: p.breaksDone.map((b: any) => ({ start: b.start, end: b.end })),
+          }
+          if (p.title || (p as any).name) newP.title = p.title ?? (p as any).name;
+          if (p.freeMode) newP.freeMode = true;
+          if (p.deepWork) newP.deepWork = true;
+          if (p.tag) newP.tag = p.tag;
+          if (p.rating !== undefined) newP.rating = p.rating;
+          if (p.tasks) {
+            newP.tasks = p.tasks.map((task: any) => {
+              const newTask: PomodoroTask = { task: task.task }
+              if (task.done) newTask.done = true;
+              return newTask;
+            });
+          }
+          newP.remoteUpdated = 0;
+          return newP;
+        })
+      await trans.table('studySession').clear();
+      await trans.table('studySession').bulkAdd(newPomi);
     });
-    this.version(13).stores({
+    this.version(15).stores({
       updates: "++id,entityName,lastUpdate",
       timer: "++id,title,studyLength,breakLength,repetitions,freeMode",
       themes: "++id,title,palette,category,backgroundColor,backgroundImg,og",
-      pomodori: "++id,datetime,tag,remoteUpdated",
-      exams: "++id,_id,dataExamId,name"
-    }).upgrade(async trans => { await refreshThemes(trans) });
+      studySession: "id,start,tag,remoteUpdated",
+      exams: "++id,_id,dataExamId,name",
+      pomodori: null
+    });
     this.on("populate", () => {
       this.timer.bulkAdd(getTimers());
       this.themes.bulkAdd(getThemes());
     })
   }
-
 }
-
-// async function addPomodoriTest(pomodori: Table<PomodoroDBO, number>) {
-//   function getRandom(n: number = 7200000) {
-//     return Math.floor(Math.random() * n);
-//   }
-//   await pomodori.clear()
-//   for (let m = 0; m < 12; m++) {
-//     for (let d = 1; d < 28; d++) {
-//       for (let i = 0; i < 50; i++) {
-//         const breaks = []
-//         let tIndex = 0;
-//         for (let b = 0; b < Math.floor(Math.random() * 5); b++) {
-//           const start = Math.floor(Math.random() * 720000) + tIndex;
-//           const end = Math.floor(Math.random() * 720000) + start;
-//           const b = { start, end }
-//           tIndex += b.end
-//           breaks.push(b)
-//         }
-//         await pomodori.add({ end: 7200000, endedAt: getRandom(),
-//           breaksDone: breaks, freeMode: false, deepWork: true,
-//           datetime: new Date(2023, m, d, getRandom(24), getRandom(60), getRandom(60), 0) })
-//       }
-//     }
-//     console.log('Month', m);
-//   }
-// }
 
 export enum EntitiesEnum {
   themes = 'themes',
   timers = 'timers',
-  pomodori = 'pomodori',
+  pomodori = 'studySession',
   exams = 'exams'
 }
 
@@ -143,9 +149,8 @@ export const useDBStore = defineStore('dbStore', () => {
 
   const themes = studyBuddyDB.themes;
   const timers = studyBuddyDB.timer;
-  const pomodori = studyBuddyDB.pomodori;
+  const pomodori = studyBuddyDB.studySession;
   const exams = studyBuddyDB.exams;
-
 
   async function getLastUpdatedDBO(entity: EntitiesEnum) {
     return await studyBuddyDB.updates.where('entityName').equals(entity).first();
@@ -165,8 +170,8 @@ export const useDBStore = defineStore('dbStore', () => {
   }
 
   return {
-      studyBuddyDB,
-      themes, timers, pomodori, exams,
-      getLastUpdated, setLastUpdated
-    };
+    studyBuddyDB,
+    themes, timers, pomodori, exams,
+    getLastUpdated, setLastUpdated
+  };
 });
