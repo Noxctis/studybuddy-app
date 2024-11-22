@@ -89,6 +89,7 @@ const showDetailsEnd = computed(() => !(pomodoro.going || pomodoro.countdownRunn
               <PomodoroSetup v-else-if="showSetup"
                 @exit-setup="pomodoro.exitSetup()" @open-settings-tab="event => openSettingsTab = event" />
               <FinishPage v-else-if="showFinishPage"
+                :points-loaded="!!pomodoro.finishedPomoRecord?.pomo?.report"
                 :short-pomo="!!pomodoro.finishedPomoRecord?.shortPomo"
                 :points="(pomodoro.finishedPomoRecord?.pomo?.report?.points ?? 0)" />
               <PomodoroPip

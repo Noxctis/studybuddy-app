@@ -41,7 +41,7 @@ export const usePomodoroDBStore = defineStore('pomoDBStore', () => {
     pomodoroRecords.value = (
       await db.pomodori.orderBy('start')
         .reverse()
-        .limit(500)
+        .limit(2000)
         .toArray()
     );
     updateStreak();
@@ -173,6 +173,7 @@ export const usePomodoroDBStore = defineStore('pomoDBStore', () => {
     pomodoroRecords, tags, tagColors, streak, updatePomodoro,
     savePomodoro, deletePomodoro,
     parsePomodoroForStorage,
-    updateTag, updateRating, updateTasks, updateDeepWork, updateName
+    updateTag, updateRating, updateTasks, updateDeepWork, updateName,
+    updatePomodoroRecords
   };
 });

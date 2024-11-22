@@ -19,9 +19,12 @@ function openClick() {
   <div class="info-tip">
     <v-tooltip location="top center" origin="auto" no-click-animation v-model="open" >
       <template v-slot:activator="{ props }">
-        <v-icon v-bind="props" icon="mdi-information-outline" @click="openClick()"  />
+        <div v-bind="props">
+          <slot>
+            <v-icon icon="mdi-information-outline" @click="openClick()"  />
+          </slot>
+        </div>
       </template>
-      
       <div class="info-box">
         <p>{{ text }}</p>
       </div>

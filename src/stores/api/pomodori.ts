@@ -24,9 +24,13 @@ export function getPomodoriAPI(endpoint: string, getOptions: () => Promise<{ hea
     return (await axios.put(`${API_ENDPOINT}`, pomodoro, await getOptions())).data;
   }
 
+  async function upsertPomodori(pomodori: StudySession[]): Promise<StudySession[]> {
+    return (await axios.put(`${API_ENDPOINT}/many`, pomodori, await getOptions())).data;
+  }
+
   async function deletePomodoro(pomoId: string): Promise<void> {
     await axios.delete(`${API_ENDPOINT}/${pomoId}`, await getOptions());
   }
 
-  return { getPomodoro, getPomodoriUpdates, upsertPomodoro, deletePomodoro }
+  return { getPomodoro, getPomodoriUpdates, upsertPomodoro, deletePomodoro, upsertPomodori }
 }

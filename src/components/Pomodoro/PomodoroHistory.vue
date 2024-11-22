@@ -9,11 +9,14 @@ import PomodoroHistoryLine from '@/components/Pomodoro/PomodoroHistoryLine.vue';
 import { useAuth0 } from "@auth0/auth0-vue";
 import * as reportUtils from '@/utils/report';
 import PomodoroStreak from '../Pomodoro/PomodoroStreak.vue'
+import Info from '../common/Info.vue';
+import { useSyncDBStore } from '@/stores/db/sync-db';
 
 const { isAuthenticated, loginWithRedirect } = useAuth0();
 const pomodoro = usePomodoroStore();
 const settings = useSettingsStore();
 const pomoDB = usePomodoroDBStore();
+const syncDB = useSyncDBStore();
 const openDetailsPomoId = ref("");
 const openDay = ref('');
 
@@ -22,6 +25,10 @@ defineEmits(['startPomodoro']);
 
 const hStart = computed(() => settings.settings.general.dayStartEndHours[0]);
 const hEnd = computed(() => settings.settings.general.dayStartEndHours[1]);
+
+const reloadingPomis = ref(false);
+const reloadingPomisError = ref(false);
+const reloadingPomisSuccess = ref(false);
 
 const props = defineProps<{
   open: boolean,
@@ -34,6 +41,17 @@ type DayGroup = {
   points: number | null,
   totalTime: number,
   maxLength: number
+}
+
+async function reloadPomis() {
+  reloadingPomis.value = true;
+  try {
+    await syncDB.syncPomodori(true);
+    reloadingPomisSuccess.value = true;
+  } catch (e) {
+    reloadingPomisError.value = true;
+  }
+  reloadingPomis.value = false;
 }
 
 const dailyPomodoriGroups = computed(() => {
@@ -150,12 +168,41 @@ const hoursList = computed(() => {
   for (let i = start; i < end; i++) hours.push(i % 24);
   return hours;
 })
+
+function openFeedbackPage() {
+  window.open('https://docs.google.com/forms/d/e/1FAIpQLSf6Rp7-zbtUJJlB5eWEMVqEvmUsKADCe2N3wrJEVTqOESEIpg/viewform', '_blank');
+}
+
 </script>
 
 <template>
-  <div :class="`pomo-history ${open ? '' : 'hide-pomo-history'}`">
-    <PomodoroStreak v-if="isAuthenticated" class="streak" :streak="pomoDB.streak" />
 
+  <v-dialog v-model="reloadingPomis" persistent max-width="300">
+    <v-card>
+      <v-card-text class="text-center my-2">
+        <p class="my-2">Your study session are syncing...</p>
+        <v-progress-circular indeterminate color="primary" class="my-2"></v-progress-circular>
+      </v-card-text>
+    </v-card>
+  </v-dialog>
+  
+
+  <v-snackbar v-model="reloadingPomisError" color="error" timeout="6000" @click="openFeedbackPage()">
+    Something went wrong, please report the issue clicking here
+  </v-snackbar>
+  <v-snackbar v-model="reloadingPomisSuccess" color="success" timeout="6000">
+    Timers synced successfully!
+  </v-snackbar>
+
+
+  <div :class="`pomo-history ${open ? '' : 'hide-pomo-history'}`">
+    <div class="streak-box">
+      <Info text="Is something not as you expect it? Try to resync everything">
+        <v-btn class='btn bg-secondary pomo-btn pomo-box font-press btn-main-reload' icon="mdi-reload" @click="reloadPomis()" />
+      </Info>
+      <PomodoroStreak v-if="isAuthenticated" :streak="pomoDB.streak" />
+    </div>
+      
     <div v-if="!isAuthenticated" class="no-history">
       <p class="text-center text-medium-emphasis"> {{ $t('history.loginMsg') }}</p>
       <v-btn class='btn bg-secondary pomo-btn pomo-box font-press btn-main-start' @click="loginWithRedirect()">
@@ -223,7 +270,6 @@ const hoursList = computed(() => {
 </template>
 
 <style lang="scss" scoped>
-
 .hour-list {
   display: flex;
   flex-direction: row;
@@ -305,11 +351,13 @@ const hoursList = computed(() => {
   overflow-y: auto;
   position: relative;
 
-  .streak {
+  .streak-box {
     position: absolute;
     top: 0;
-    right: 0;
-    margin: 1rem;
+    right: 1rem;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
   }
 
   .scrollable-history {
