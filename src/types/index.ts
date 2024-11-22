@@ -185,6 +185,7 @@ export type GeneralSettings = {
   pulsingPause: boolean;
   showSeconds: boolean;
   startPipped: boolean;
+  pauseVideoOnPause: boolean;
   dayStartEndHours: [number, number];
 }
 export type ThemeSettings = {

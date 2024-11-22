@@ -21,9 +21,7 @@ import { fa } from 'vuetify/iconsets/fa4'
 import { themes } from '@/config/themes'
 
 import { setupCalendar } from 'v-calendar';
-
 import Hotjar from '@hotjar/browser';
-
 import { createAuth0 } from '@auth0/auth0-vue';
 
 // Hotjar
