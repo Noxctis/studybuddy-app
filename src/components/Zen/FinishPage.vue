@@ -4,9 +4,9 @@
       <p class="pause font-press text-center">{{ $t("pause.pomoDoneShort") }}</p>
       <h3 class="text-primary font-press text-center">{{ $t("pause.goodjobShort") }}</h3>
     </div>
-    <div v-else-if="points < 0.5">
+    <div v-else-if="pointsLoaded && points < 0.5">
       <p class="pause font-press text-center">{{ $t("pause.pomoDoneBad") }}</p>
-      <h2 class="text-primary font-press text-center">{{ $t("pause.goodjobBad") }}</h2>
+      <h3 class="text-primary font-press text-center">{{ $t("pause.goodjobBad") }}</h3>
     </div>
     <div v-else>
       <p class="pause font-press text-center">{{ $t("pause.pomoDone") }}</p>
@@ -18,6 +18,7 @@
 <script lang="ts" setup>
 const props = defineProps<{
   shortPomo: boolean;
+  pointsLoaded: boolean;
   points: number;
 }>();
 </script>
@@ -33,6 +34,10 @@ const props = defineProps<{
     font-size: 3rem;
   }
 
+  h3 {
+    font-size: 2rem;
+  }
+
   @media (max-width: 600px) {
     padding: 1rem;
 
@@ -40,7 +45,7 @@ const props = defineProps<{
       font-size: 0.7rem;
     }
 
-    h2 {
+    h2, h3 {
       font-size: 1rem;
     }
   }
