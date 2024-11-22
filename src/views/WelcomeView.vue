@@ -143,7 +143,7 @@ import { useExamsStore } from '@/stores/db/exams';
 import { useStateStore } from "@/stores/state";
 
 const state = useStateStore();
-const { user, isLoading } = useAuth0();
+const { user, isLoading, isAuthenticated, loginWithRedirect } = useAuth0();
 const router = useRouter()
 const step = ref(1);
 const settings = useSettingsStore();
@@ -153,6 +153,10 @@ const userInfo = ref<DBO.UserOnboarding>({
   username: '',
 })
 async function loadData() {
+  if (!isAuthenticated.value) {
+    loginWithRedirect();
+    return;
+  }
   userInfo.value.username = await api.users.generateUsername(user.value?.nickname)
   usernameValidLoading.value = false;
   universities.value = await api.data.getUniversities();
