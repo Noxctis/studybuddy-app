@@ -10,7 +10,9 @@ import YouTubePlayer from 'youtube-player'
 import { useSettingsStore } from "@/stores/settings";
 import type { YouTubePlayer as YouTubePlayerType } from 'youtube-player/dist/types'
 import { getYotubeId } from '@/utils/common'
+import { usePomodoroStore } from '@/stores/pomodoro';
 
+const pomodoro = usePomodoroStore();
 const settings = useSettingsStore();
 const isThereAVideo = ref(false);
 let player: YouTubePlayerType | null = null;
@@ -21,6 +23,17 @@ const props = defineProps<{
   shouldUnmute: boolean
 }>();
 
+watch(() => pomodoro.pauseing, (pauseing) => {
+  if (pomodoro.going && settings.generalSettings.pauseVideoOnPause) {
+    if (pauseing) {
+      if (settings.generalSettings.pauseVideoOnPause) {
+        player?.pauseVideo()
+      }
+    } else {
+      player?.playVideo()
+    }
+  }
+})
 
 onMounted(() => {
   if (settings.settings.theme?.backgroundVideo) {
@@ -54,6 +67,9 @@ function playVideo(id: string) {
       loop: 1,
       controls: 0,
       playlist: id,
+      iv_load_policy: 3,
+      rel: 0,
+      modestbranding: 1
     }
   });
 

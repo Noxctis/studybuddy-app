@@ -12,6 +12,7 @@ import { watch } from 'vue';
 const { isLoading, isAuthenticated } = useAuth0();
 const router = useRouter()
 
+
 async function checkOnboarding() {
   const isOnboarded = await useAPIStore().api.users.isOnboarded();
   if (!isOnboarded) {

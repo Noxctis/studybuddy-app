@@ -27,6 +27,7 @@ const defaultSettings: Settings = {
     hideSetup: false,
     startPipped: true,
     dayStartEndHours: [8, 18],
+    pauseVideoOnPause: true,
   },
 
   pomodoro: {

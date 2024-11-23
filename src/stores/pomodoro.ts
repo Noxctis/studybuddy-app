@@ -10,6 +10,7 @@ import * as timeUtils from '@/utils/time';
 import config from '@/config/config';
 import { io, type Socket } from 'socket.io-client';
 import { useAPIStore } from './api';
+import { useJuneStore } from './june';
 
 const TICK_TIME = 100;
 const SECONDS_MULTIPLIER = 1000;
@@ -33,6 +34,7 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
   const settings = useSettingsStore();
   const pomoDB = usePomodoroDBStore();
   const api = useAPIStore();
+  const june = useJuneStore();
 
   // ---------- Last interaction ----------
   const lastInteraction = ref(+(localStorage.getItem('lastInteraction') ?? Date.now()));
@@ -219,6 +221,7 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
         finishedPomoRecord.value = { shortPomo: true };
       }
       saveStatus();
+      june.trackStudySession(pomo.endActual)
     }
   }
   function togglePauseStudy(noCountdown: boolean = false) {
