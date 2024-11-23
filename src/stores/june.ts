@@ -8,7 +8,6 @@ export const useJuneStore = defineStore('june', () => {
 
   const { user, isLoading } = useAuth0();
 
-  console.log('isLoading',isLoading.value)
   if (!isLoading.value) {
     identify();
   } else {

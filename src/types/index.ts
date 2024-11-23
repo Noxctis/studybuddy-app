@@ -101,6 +101,7 @@ export type StudySession = {
   start?: Date;
   endScheduled: number;
   endActual?: number;
+  endForced?: number;
   breaksDone: Break[];
 
 
