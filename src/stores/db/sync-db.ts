@@ -15,7 +15,7 @@ export const useSyncDBStore = defineStore('sync-db', () => {
 
 
     const synching = [
-      // syncExams(),
+      syncExams(),
       syncPomodori(),
     ];
 
@@ -27,8 +27,8 @@ export const useSyncDBStore = defineStore('sync-db', () => {
     const lastUpdated = await db.getLastUpdated(EntitiesEnum.exams);
     const newUpdatedDate = new Date();
     const newExams = await api.exams.getExamUpdates(lastUpdated);
-    for (const exam of newExams) {
-      // update exams
+    for (const e of newExams) {
+      await db.exams.put(e, e.id);
     }
     await db.setLastUpdated(EntitiesEnum.exams, newUpdatedDate);
   }
