@@ -13,7 +13,7 @@
   "loginMsg": "Hola, estás en la versión de prueba de Studybuddy, ¿te gustaría ayudarnos siendo tester?",
   "doLogin": "¡Inicia sesión ahora!",
   "backHome": "página de inicio",
-  "longAway": "¡Olvidaste un temporizador activo!",
+  "longAway": "¿sigues estudiando?",
   "continue": "¿Quieres continuar?",
   "shortBreak": "Los descansos de menos de 5 segundos no se muestran",
   "welcome": {
@@ -70,7 +70,8 @@
       "pulsingPause": "Pausa palpitante",
       "showSeconds": "Muestra segundos",
       "hideSetup": "Ocultar configuración",
-      "startPipped": "Imagen en Imagen automàtico"
+      "startPipped": "Imagen en Imagen automàtico",
+      "pauseVideoOnPause": "Pausar video durante el descanso"
     },
     "timer": {
       "timer": "Temporizador",
@@ -193,7 +194,8 @@
     "feedback": "Si tiene sugerencias o desea informar un error, puede hacerlo aquí. ¡Gracias!",
     "setup": "Elige el tipo de cronómetro que deseas utilizar, puedes crear nuevos en la configuración. Si deseas agrega el examen que estás por estudiar, ingresa un título y objetivos o tareas para esta sesión de estudio. Selecciona ya sea un momento de trabajo profundo (concentración) o trabajo superficial (trabajo ligero). ¡Cuando estés listo, dale play y comienza a estudiar!",
     "snake": "Esta barra indica el progreso de tu sesión de estudio. Estudia hasta llegar al siguiente descanso o hasta que te apetezca.",
-    "snakePause": "La manzana representa una pausa. Cuando lo alcances podrás decidir si tomar un descanso o seguir estudiando. Puede pausar en cualquier momento presionando el botón de pausa. Puede ajustar el número y la duración de las pausas desde la configuración."
+    "snakePause": "La manzana representa una pausa. Cuando lo alcances podrás decidir si tomar un descanso o seguir estudiando. Puede pausar en cualquier momento presionando el botón de pausa. Puede ajustar el número y la duración de las pausas desde la configuración.",
+    "interface": "Aquí hay algunas configuraciones avanzadas para personalizar tu experiencia. Puedes alternar la animación pulsante cuando es hora de un descanso, puedes elegir ocultar el tiempo, la cuenta regresiva, los segundos y la pantalla de configuración. Puedes configurar la imagen en imagen (el pequeño widget que te sigue) para que se inicie automáticamente cuando presiones reproducir y puedes elegir si el video de fondo se detiene cuando pausas el temporizador."
   },
   "history":{
     "loginMsg" : "Inicia sesión para ver el historial de tus sesiones de estudio y para una experiencia personalizada",

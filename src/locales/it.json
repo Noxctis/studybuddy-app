@@ -13,7 +13,7 @@
        "loginMsg": "Ciao, sei nella versione di test di Studybuddy, vuoi aiutarci diventando tester?",
        "doLogin": "Effettua il login ora!",
        "backHome": "Home",
-       "longAway": "Hai dimenticato un timer attivo!",
+       "longAway": "Stai ancora studiando?",
        "continue": "Vuoi continuarlo?",
        "shortBreak": "Le pause più corte di 5 secondi non vengono mostrate",
        "welcome": {
@@ -70,7 +70,8 @@
                      "pulsingPause": "Pausa rimbalzante",
                      "showSeconds": "Mostra secondi",
                      "hideSetup": "Nascondi setup",
-                     "startPipped": "Picture in Picture automatico"
+                     "startPipped": "Picture in Picture automatico",
+                     "pauseVideoOnPause": "Pausa video automatica durante la pausa"
               },
               "timer": {
                      "timer": "Timer",
@@ -193,7 +194,8 @@
               "feedback": "Se hai suggerimenti o vuoi segnalare un bug, puoi farlo qui. Grazie!",
               "setup": "Scegli il tipo di timer che vuoi usare, puoi crearne di nuovi nelle impostazioni. Se vuoi, aggiungi l'esame che stai per studiare, inserisci un titolo e degli obiettivi o task per questa sessione di studio. Seleziona se sarà un momento di deep work (concentrazione) o shallow work (lavoro leggero). Quando sei pronto/a, premi play e inizia a studiare!",
               "snake": "Questa barra indica l'avanzamento della sessione di studio. Studia finchè non raggiungi la prossima pausa o finchè te la senti.",
-              "snakePause": "La mela rappresenta una pausa. Quando la raggiungi, puoi decidere se fare una pausa o continuare a studiare. Puoi fare pausa in qualsiasi momento premendo il tasto pausa. Puoi regolare il numero e la durata delle pause dalle impostazioni."
+              "snakePause": "La mela rappresenta una pausa. Quando la raggiungi, puoi decidere se fare una pausa o continuare a studiare. Puoi fare pausa in qualsiasi momento premendo il tasto pausa. Puoi regolare il numero e la durata delle pause dalle impostazioni.",
+              "interface": "Qui puoi personalizzare la tua esperienza ancora più nel dettaglio: decidi se il timer cominci a pulsare quando è ora di fare pausa, se vuoi nascondere il tempo, il countdown o i secondi. Puoi anche decidere di nascondere il setup, far partire il Picture in Picture automaticamente (il widget col timer che ti insegue ovunque vai) e se il video di sottofondo deve fermarsi quando vai in pausa oppure no. Mica male eh?"
        },
        "history":{
               "loginMsg" : "Effettua il login per tenere traccia dei tuoi progressi e personalizzare l'esperienza",

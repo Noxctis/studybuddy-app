@@ -13,7 +13,7 @@
   "loginMsg": "Hello, you are in the test version of Studybuddy, would you like to help us by becoming a tester?",
   "doLogin": "Log in now!",
   "backHome": "Home",
-  "longAway": "Did you forget a running timer!",
+  "longAway": "Are you still studying?",
   "continue": "Do you want to continue it?",
   "shortBreak": "Breaks shorter than 5 seconds are not displayed",
   "welcome": {
@@ -70,7 +70,8 @@
       "pulsingPause": "Pulsing pause",
       "showSeconds": "Show seconds",
       "hideSetup": "Hide setup",
-      "startPipped": "Automatic Picture in Picture"
+      "startPipped": "Automatic Picture in Picture",
+      "pauseVideoOnPause": "Pause video on break"
     },
     "timer": {
       "timer": "Timer",
@@ -193,7 +194,8 @@
     "feedback": "If you have any suggestion or you want to report a bug, you can do it here. Thank you!",
     "setup": "Choose the type of timer you want to use, you can create new ones in the settings. If you want, add the exam you are about to study, enter a title and objectives or tasks for this study session. Select whether it will be a moment of deep work (concentration) or shallow work (light work). When you're ready, press play and start studying!",
     "snake": "The snake represents your study session. The apple represents a break. When you reach it, you can decide if you want to take a break or continue studying. You can pause at any time by pressing the pause button. You can adjust the number and duration of the breaks from the set",
-    "snakePause": "The apple represents a break. When you reach it, you can decide if you want to take a break or continue studying. You can pause at any time by pressing the pause button. You can adjust the number and duration of the breaks from the settings."
+    "snakePause": "The apple represents a break. When you reach it, you can decide if you want to take a break or continue studying. You can pause at any time by pressing the pause button. You can adjust the number and duration of the breaks from the settings.",
+    "interface": "Here are some advanced settings to customize your experience. You can toggle the pulsing animation when it's time for a break, you can choose to hide the time, the countdown, the seconds and the setup screen. You can set the Picture in Picture (the small widget that follows you around) to start automatically when you press play, and you can choose if the background video stops when you pause the timer."
 },
   "history":{
     "loginMsg" : "Log in to track your progress and for a customized experience",

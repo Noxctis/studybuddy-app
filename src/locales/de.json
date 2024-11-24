@@ -13,7 +13,7 @@
     "loginMsg": "Hallo, du bist in der Testversion von Studybuddy. Möchtest du uns helfen und Tester werden?",
     "doLogin": "Jetzt anmelden!",
     "backHome": "Startseite",
-    "longAway": "Du hast einen aktiven Timer vergessen!",
+    "longAway": "Bist du noch am Lernen?",
     "continue": "Möchten Sie es fortsetzen?",
     "shortBreak": "Pausen, die kürzer als 5 Sekunden sind, werden nicht angezeigt",
     "welcome": {
@@ -70,7 +70,8 @@
         "pulsingPause": "Pochende Pause",
         "showSeconds": "Sekunden anzeigen",
         "hideSetup": "Einstellungen ausblenden",
-        "startPipped": "Bild in Bild automatisch"
+        "startPipped": "Bild in Bild automatisch",
+        "pauseVideoOnPause": "Video bei Pause anhalten"
       },
       "timer": {
         "timer": "Timer",
@@ -193,7 +194,8 @@
       "feedback": "Wenn Sie Vorschläge haben oder einen Fehler melden möchten, können Sie dies hier tun. Danke schön!",
       "setup": "Wählen Sie die Art des Timers aus, den Sie verwenden möchten. Sie können in den Einstellungen neue erstellen. Wenn Sie möchten, fügen Sie die Prüfung hinzu, die Sie gerade studieren möchten, geben Sie einen Titel und Ziele oder Aufgaben für diese Lernsitzung ein. Wählen Sie Egal, ob es sich um einen Moment intensiver Arbeit (Konzentration) oder flacher Arbeit (leichte Arbeit) handelt. Wenn Sie bereit sind, drücken Sie die Wiedergabetaste und beginnen Sie mit dem Lernen!",
       "snake": "Dieser Balken zeigt den Fortschritt Ihrer Lernsitzung an. Lernen Sie, bis Sie die nächste Pause erreichen oder bis Sie Lust dazu haben.",
-      "snakePause":  "Der Apfel stellt eine Pause dar. Wenn Sie ihn erreichen, können Sie entscheiden, ob Sie eine Pause machen oder mit dem Lernen fortfahren möchten. Sie können jederzeit pausieren, indem Sie die Pause-Taste drücken. Die Anzahl und Dauer der Pausen können Sie von anpassen Einstellungen."
+      "snakePause":  "Der Apfel stellt eine Pause dar. Wenn Sie ihn erreichen, können Sie entscheiden, ob Sie eine Pause machen oder mit dem Lernen fortfahren möchten. Sie können jederzeit pausieren, indem Sie die Pause-Taste drücken. Die Anzahl und Dauer der Pausen können Sie von anpassen Einstellungen.",
+      "interface": "Hier sind einige erweiterte Einstellungen, um Ihr Erlebnis anzupassen. Sie können die pulsierende Animation ein- und ausschalten, wenn es Zeit für eine Pause ist, Sie können die Zeit, den Countdown, die Sekunden und den Setup-Bildschirm ausblenden. Sie können das Bild-in-Bild (das kleine Widget, das Ihnen folgt) so einstellen, dass es automatisch startet, wenn Sie auf Wiedergabe drücken, und Sie können wählen, ob das Hintergrundvideo stoppt, wenn Sie den Timer anhalten."
     },
     "history":{
       "loginMsg" : "Melden Sie sich an, um den Verlauf Ihrer Lernsitzungen anzuzeigen und für ein personalisiertes Erlebnis",

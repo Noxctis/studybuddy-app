@@ -94,30 +94,9 @@ export const usePomodoroDBStore = defineStore('pomoDBStore', () => {
   }
 
   // --- TAGS ---
-  const tags = ref<string[]>([]);
-  const tagColors = ref<{ [id: string]: string; }>({});
-  async function updateTags() {
-    const colorList = [
-      '#33FFCC', '#FF1A66', '#FFFF99', '#809900', '#CC80CC',
-      '#E6331A', '#CC9999', '#FFB399', '#80B300', '#E666B3',
-      '#00E680', '#B33300', '#B366CC', '#6680B3', '#66994D',
-      '#FF6633', '#00B3E6', '#991AFF', '#3366E6', '#B3B31A',
-      '#99FF99', '#FF33FF', '#1AB399', '#B34D4D', '#4D8000',
-      '#999966', '#E6B333', '#33991A', '#66664D', '#FF99E6',
-      '#CCFF1A', '#E666FF', '#E6B3B3', '#66991A', '#4DB3FF'
-    ];
-    tags.value = (await db.pomodori.orderBy('tag').uniqueKeys()).map((t, i) => t.toString())
-    tagColors.value = tags.value.reduce((acc, t, i) => {
-      acc[t] = colorList[i % colorList.length];
-      return acc;
-    }, {} as { [id: string]: string; });
-  }
   async function updateTag(id: string, tag: string | undefined) {
     await updatePomodoro(id, p => { p.tag = tag; return p; });
-    await updateTags();
   }
-  updateTags();
-
   async function updateRating(id: string, rating: number) {
     await updatePomodoro(id, p => { p.rating = rating; return p; });
   }
@@ -170,7 +149,7 @@ export const usePomodoroDBStore = defineStore('pomoDBStore', () => {
   updatePomodoroRecords();
 
   return {
-    pomodoroRecords, tags, tagColors, streak, updatePomodoro,
+    pomodoroRecords, streak, updatePomodoro,
     savePomodoro, deletePomodoro,
     parsePomodoroForStorage,
     updateTag, updateRating, updateTasks, updateDeepWork, updateName,

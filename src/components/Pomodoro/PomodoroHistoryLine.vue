@@ -1,7 +1,7 @@
 <template>
   <div :class="`pomo-info ${openDetails ? 'pomo-info-open' : ''}`">
     <div class="pomo-line" v-ripple @click="model = (pomo.id === model ? '' : (pomo.id ?? ''))">
-      <v-chip size="small" :color="pomo.tag ? pomoDB.tagColors[pomo.tag] : '#FFFFFF00'" variant="flat" class="time">
+      <v-chip size="small" :color="exams.examsMapping[pomo.tag ?? '']?.color ?? '#FFFFFF00'" variant="flat" class="time">
         <div :class="pomo.tag ? '' : 'text-tag-chip'">
           <p> {{ getStartTime(pomo) }}</p>
           <p v-if="openDetails"> {{ getEndTime(pomo) }}</p>
@@ -57,6 +57,7 @@ import * as timeUtils from '@/utils/time';
 import PomodoroFlex from '@/components/Pomodoro/PomodoroFlex.vue';
 import PomodoroDone from '@/components/Pomodoro/PomodoroDone/PomodoroDone.vue';
 import { useSettingsStore } from "@/stores/settings";
+import { useExamsStore } from '@/stores/db/exams';
 
 
 const model = defineModel<string>()
@@ -68,6 +69,7 @@ const deletingPomoId = ref<string | null>(null);
 const pomodoro = usePomodoroStore();
 const pomoDB = usePomodoroDBStore();
 const settings = useSettingsStore();
+const exams = useExamsStore();
 
 const props = defineProps<{
   pomo: StudySession,
