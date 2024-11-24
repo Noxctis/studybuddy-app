@@ -42,7 +42,7 @@ export class StudyBuddyDB extends Dexie {
   public timer!: Table<Timer, number>;
   public themes!: Table<Theme, number>;
   public studySession!: Table<StudySession, string>;
-  public exams!: Table<ExamDBO, number>;
+  public exams!: Table<ExamDBO, string>;
   public updates!: Table<UpdatesDBO, number>;
 
 
@@ -130,6 +130,33 @@ export class StudyBuddyDB extends Dexie {
       exams: "++id,_id,dataExamId,name",
       pomodori: null
     });
+    this.version(16).stores({
+      updates: "++id,entityName,lastUpdate",
+      timer: "++id,title,studyLength,breakLength,repetitions,freeMode",
+      themes: "++id,title,palette,category,backgroundColor,backgroundImg,og",
+      studySession: "id,start,tag,remoteUpdated",
+      exams: null,
+      tempExams: "id,dataExamId,name",
+    }).upgrade(async trans => {
+      const newPomi = (await trans.table('exams').toArray())
+        .map(e => {
+          delete e._id;
+          if (!e.id) e.id = uuidv4();
+          return e;
+        })
+      await trans.table('tempExams').bulkAdd(newPomi);
+    });
+    this.version(17).stores({
+      updates: "++id,entityName,lastUpdate",
+      timer: "++id,title,studyLength,breakLength,repetitions,freeMode",
+      themes: "++id,title,palette,category,backgroundColor,backgroundImg,og",
+      studySession: "id,start,tag,remoteUpdated",
+      exams: "id,dataExamId,name",
+      tempExams: null,
+    }).upgrade(async trans => {
+      await trans.table('exams').bulkAdd(await trans.table('tempExams').toArray());
+    });
+
     this.on("populate", () => {
       this.timer.bulkAdd(getTimers());
       this.themes.bulkAdd(getThemes());

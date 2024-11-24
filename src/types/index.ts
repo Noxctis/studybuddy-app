@@ -101,6 +101,7 @@ export type StudySession = {
   start?: Date;
   endScheduled: number;
   endActual?: number;
+  endForced?: number;
   breaksDone: Break[];
 
 
@@ -225,25 +226,14 @@ export interface Timer {
   freeMode?: boolean;
 }
 
-// export interface PomodoroDBO extends PomodoroBase {
-//   id: string;
-//   datetime: Date;
-//   lastUpdated?: Date;
-//   tag?: string;
-//   rating?: number;
-//   deepWork: boolean;
-//   tasks?: PomodoroTask[];
-//   remoteUpdated: number;
-// }
-
 export interface ExamDBO {
-  id?: number;
-  _id: string;
+  id: string;
+  userId: string;
   dataExamId: string;
   name: string;
-  exam: any;
   color: string;
   icon: string;
+  lastUpdated: Date;
 }
 
 export interface UpdatesDBO {

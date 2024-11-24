@@ -65,7 +65,7 @@ const showDetailsEnd = computed(() => !(pomodoro.going || pomodoro.countdownRunn
 <template>
   <div :class="(zenStyle.backgroundImage || zenStyle.backgroundVideo) ? 'img-background' : ''">
     <Settings v-model="openSettingsTab" />
-    <LongAwayPopup />
+    <LongAwayPopup v-if="pomodoro.forceStopAlert" />
 
     <div transition="fade-transition">
       <v-scroll-y-reverse-transition>

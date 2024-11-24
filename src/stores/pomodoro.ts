@@ -4,7 +4,6 @@ import { useSettingsStore } from "@/stores/settings";
 import { computed, ref, watch } from 'vue';
 import { usePomodoroDBStore } from "@/stores/db/pomodoro";
 import { v4 as uuidv4 } from 'uuid';
-import { useStorage } from '@vueuse/core'
 
 import * as timeUtils from '@/utils/time';
 import config from '@/config/config';
@@ -17,9 +16,11 @@ const SECONDS_MULTIPLIER = 1000;
 const MINUTE_MULTIPLIER = 60 * SECONDS_MULTIPLIER * config.timer.speedMultiplier;
 const POMO_VERSION = 4;
 
-const SHORT_POMO_THRESHOLD = MINUTE_MULTIPLIER * config.timer.shortPomoMinutes;
-const LONG_BREAK_THRESHOLD = MINUTE_MULTIPLIER * config.timer.longBreakMinutes;
-const STOPPOMODORO_TIMEOUT = MINUTE_MULTIPLIER * config.timer.stopPomoMinutes;
+const SHORT_POMO_THRESHOLD          = MINUTE_MULTIPLIER * config.timer.shortPomoMinutes;
+const LONG_BREAK_THRESHOLD          = MINUTE_MULTIPLIER * config.timer.longBreakMinutes;
+const FORCE_STOP_THRESHOLD          = MINUTE_MULTIPLIER * config.timer.forceStopMinutes;
+const POSTPONE_FORCE_STOP_THRESHOLD = MINUTE_MULTIPLIER * config.timer.postponeforceStopMinutes;
+const FORCE_STOP_ALERT_BEFORE       = MINUTE_MULTIPLIER * config.timer.forceStopAlertMinutesBefore;
 
 enum ENotification {
   BreakStart = 'pomo.wav',
@@ -29,17 +30,11 @@ enum ENotification {
 
 export const usePomodoroStore = defineStore('pomodoro', () => {
 
-
   // ---------- STORES ----------
   const settings = useSettingsStore();
   const pomoDB = usePomodoroDBStore();
   const api = useAPIStore();
   const june = useJuneStore();
-
-  // ---------- Last interaction ----------
-  const lastInteraction = ref(+(localStorage.getItem('lastInteraction') ?? Date.now()));
-  const longAwaitPopup = ref(false);
-  let longAwaitLastInteraction = 0;
 
   // ---------- Settings ----------
   watch(settings.pomoSettings, () => { // TODO
@@ -116,13 +111,7 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
     if (!pomo || pomo.version !== POMO_VERSION || pomo.state === PomodoroState.TERMINATED || pomo.state === PomodoroState.CREATED) {
       createPomodoro();
     } else {
-      const lastInteractionDelta = Date.now() - lastInteraction.value;
-      if (lastInteractionDelta > STOPPOMODORO_TIMEOUT) {
-        longAwaitPopup.value = true;
-        longAwaitLastInteraction = lastInteraction.value;
-      } else {
-        resumePomodoro();
-      }
+      resumePomodoro();
     }
   }
 
@@ -133,9 +122,6 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
 
   function resumePomodoro() {
     interval = setInterval(tick, TICK_TIME);
-  }
-  function stopAtLastInteraction() {
-    stopPomodoro(longAwaitLastInteraction);
   }
   function generatePomoStatus(): StudySession {
     const free = !!settings.pomoSettings.freeMode;
@@ -181,14 +167,16 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
       createPomodoro();
     }
     pomo = pomodoroStatus.value;
-    pomo!.start = new Date();
-    pomo!.state = PomodoroState.STUDY;
-    pomo!.endOriginal = pomo!.endScheduled;
+    pomo.start = new Date();
+    pomo.state = PomodoroState.STUDY;
+    pomo.endOriginal = pomo!.endScheduled;
+    pomo.endForced = FORCE_STOP_THRESHOLD;
+
     interval = setInterval(tick, TICK_TIME);
     settingUp.value = false;
     saveStatus();
   }
-  function stopPomodoro(lastInteraction: number | undefined = undefined) {
+  function stopPomodoro(forcedStop: number | undefined = undefined) {
     const pomo = pomodoroStatus.value;
     if (countdownRunning.value) {
       clearTimeout(countDownTimerout);
@@ -197,7 +185,10 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
     }
 
     if (pomo) {
-      const now = lastInteraction === undefined ? getNow(pomo.start) : lastInteraction - (pomo.start?.getTime() ?? 0)
+      const now = forcedStop === undefined ? getNow(pomo.start) : forcedStop;
+      if (forcedStop === undefined) {
+        delete pomo.endForced;
+      }
       pomo.onLongBreak = false;
       pomo.endActual = now;
       if (pomo.state === PomodoroState.BREAK) {
@@ -227,6 +218,7 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
   function togglePauseStudy(noCountdown: boolean = false) {
     const pomo = pomodoroStatus.value;
     if (!pomo) return;
+
     if (pomo.state === PomodoroState.STUDY) {
       pause();
     } else if (pomo.state === PomodoroState.BREAK) {
@@ -252,6 +244,8 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
     } else {
       pomo.breaksDone.push({ start: now, end: now, soundStart: true, soundEnd: true });     // create new break
     }
+
+    postponeForceStop();
     saveStatus();
   }
   function study(noCountdown: boolean = false) {
@@ -278,12 +272,22 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
       pauseShortSnack.value = true;
     }
 
+    postponeForceStop();
     saveStatus();
+  }
+
+  function postponeForceStop() {
+    const pomo = pomodoroStatus.value;
+    if (!pomo || !pomo.endForced) return;
+    const newEndForced = getNow(pomo.start) + POSTPONE_FORCE_STOP_THRESHOLD
+    if (pomo.endForced < newEndForced) {
+      pomo.endForced = newEndForced;
+      saveStatus();
+    }
   }
 
   
   function tick() { 
-    interaction();
     const pomo = pomodoroStatus.value
     if (pomo && (pomo.state === PomodoroState.BREAK || pomo.state === PomodoroState.STUDY)) {
       adjustPomo();
@@ -293,6 +297,7 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
     }
     now.value = Date.now(); // TOMOVE
   }
+
   function adjustPomo() {
     const pomo = pomodoroStatus.value;
     if (!pomo) {
@@ -300,6 +305,11 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
       return;
     }
     const now = getNow(pomo.start);
+
+    if (pomo.endForced && now > pomo.endForced) {
+      stopPomodoro(FORCE_STOP_THRESHOLD);
+      return
+    }
 
     if (pomo.endScheduled < now) {
 
@@ -543,12 +553,6 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
     }
   }
 
-  // ---------- STILL WATCHING ----------
-  function interaction() {
-    lastInteraction.value = Date.now();
-    localStorage.setItem('lastInteraction', lastInteraction.value.toString());
-  }
-
   // ---------- SETUP ----------
   const settingUp = ref(false);
   function setup() {
@@ -560,6 +564,7 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
 
 
   // ---------- COMPUTED ----------
+  const forceStopAlert = computed(() => going.value && pomodoroStatus.value?.endForced && (pomodoroStatus.value?.endForced - FORCE_STOP_ALERT_BEFORE <= getNow(pomodoroStatus.value?.start)));
   const created = computed(() => pomodoroStatus.value?.state === PomodoroState.CREATED);
   const studing = computed(() => pomodoroStatus.value?.state === PomodoroState.STUDY);
   const pauseing = computed(() => pomodoroStatus.value?.state === PomodoroState.BREAK);
@@ -604,15 +609,16 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
   return {
     pomodoroStatus, saveStatus,
     init,
-    createPomodoro, startPomodoro, stopPomodoro, togglePauseStudy, pause, study, resumePomodoro, stopAtLastInteraction,
+    createPomodoro, startPomodoro, stopPomodoro, togglePauseStudy, pause, study, resumePomodoro,
     getBreaks, percentage, displayBreaks, displayStudy, finishedPomoRecord,
     created, going, studing, pauseing, terminated, done, freeMode, timeToBreak, timeToStudy, onLongPause,
     timeSinceStart, timeInCurrentBreak, timeInCurrentStudy, percInCurrentState,
     timeFormatted, timeInTitle,
-    startCountdown, countdownRunning, longAwaitPopup,
+    startCountdown, countdownRunning,
     parseTime,
     setup, settingUp, exitSetup,
-    pauseShortSnack
+    pauseShortSnack,
+    forceStopAlert, postponeForceStop
   }
 
 })

@@ -14,21 +14,18 @@ export const useExamsStore = defineStore('exams', () => {
   async function load() {
     exams.value = await db.exams.toArray()
     for (const e of exams.value) {
-      examsMapping.value[e._id] = e
+      examsMapping.value[e.id] = e
     }
   }
 
   async function getExam(examId: string) {
-    const exam = await db.exams.where('_id').equals(examId).first();
+    const exam = await db.exams.where('id').equals(examId).first();
     return exam;
   }
 
 
   async function upsertExam(exam: ExamDBO) {
-    const exists = await db.exams.where('_id').equals(exam._id).first();
-    // to undestand why update does not work
-    if (exists) await db.exams.delete(exists.id!);
-    await db.exams.add(exam);
+    await db.exams.put(exam, exam.id);
   }
 
   async function updateLocalDB() {
