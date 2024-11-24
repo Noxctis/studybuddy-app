@@ -13,7 +13,7 @@
        "loginMsg": "Ciao, sei nella versione di test di Studybuddy, vuoi aiutarci diventando tester?",
        "doLogin": "Effettua il login ora!",
        "backHome": "Home",
-       "longAway": "Hai dimenticato un timer attivo!",
+       "longAway": "Stai ancora studiando?",
        "continue": "Vuoi continuarlo?",
        "shortBreak": "Le pause più corte di 5 secondi non vengono mostrate",
        "welcome": {
@@ -70,7 +70,8 @@
                      "pulsingPause": "Pausa rimbalzante",
                      "showSeconds": "Mostra secondi",
                      "hideSetup": "Nascondi setup",
-                     "startPipped": "Picture in Picture automatico"
+                     "startPipped": "Picture in Picture automatico",
+                     "pauseVideoOnPause": "Pausa video automatica durante la pausa"
               },
               "timer": {
                      "timer": "Timer",

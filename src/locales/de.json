@@ -13,7 +13,7 @@
     "loginMsg": "Hallo, du bist in der Testversion von Studybuddy. Möchtest du uns helfen und Tester werden?",
     "doLogin": "Jetzt anmelden!",
     "backHome": "Startseite",
-    "longAway": "Du hast einen aktiven Timer vergessen!",
+    "longAway": "Bist du noch am Lernen?",
     "continue": "Möchten Sie es fortsetzen?",
     "shortBreak": "Pausen, die kürzer als 5 Sekunden sind, werden nicht angezeigt",
     "welcome": {
@@ -70,7 +70,8 @@
         "pulsingPause": "Pochende Pause",
         "showSeconds": "Sekunden anzeigen",
         "hideSetup": "Einstellungen ausblenden",
-        "startPipped": "Bild in Bild automatisch"
+        "startPipped": "Bild in Bild automatisch",
+        "pauseVideoOnPause": "Video bei Pause anhalten"
       },
       "timer": {
         "timer": "Timer",

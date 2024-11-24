@@ -13,7 +13,7 @@
   "loginMsg": "Hello, you are in the test version of Studybuddy, would you like to help us by becoming a tester?",
   "doLogin": "Log in now!",
   "backHome": "Home",
-  "longAway": "Did you forget a running timer!",
+  "longAway": "Are you still studying?",
   "continue": "Do you want to continue it?",
   "shortBreak": "Breaks shorter than 5 seconds are not displayed",
   "welcome": {
@@ -70,7 +70,8 @@
       "pulsingPause": "Pulsing pause",
       "showSeconds": "Show seconds",
       "hideSetup": "Hide setup",
-      "startPipped": "Automatic Picture in Picture"
+      "startPipped": "Automatic Picture in Picture",
+      "pauseVideoOnPause": "Pause video on break"
     },
     "timer": {
       "timer": "Timer",
