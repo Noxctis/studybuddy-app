@@ -11,11 +11,13 @@ import * as reportUtils from '@/utils/report';
 import PomodoroStreak from '../Pomodoro/PomodoroStreak.vue'
 import Info from '../common/Info.vue';
 import { useSyncDBStore } from '@/stores/db/sync-db';
+import { useExamsStore } from '@/stores/db/exams';
 
 const { isAuthenticated, loginWithRedirect } = useAuth0();
 const pomodoro = usePomodoroStore();
 const settings = useSettingsStore();
 const pomoDB = usePomodoroDBStore();
+const exams = useExamsStore();
 const syncDB = useSyncDBStore();
 const openDetailsPomoId = ref("");
 const openDay = ref('');
@@ -99,7 +101,7 @@ const dailyPomodoriGroups = computed(() => {
         lengthPerc: endMs * 100,
         lengthTime: pomodoro.timeFormatted(p.endActual ?? 0, { html: false }),
         index: i,
-        color: p.tag ? pomoDB.tagColors[p.tag] : undefined,
+        color: p.tag ? exams.examsMapping[p.tag]?.color : undefined,
         deepWork: p.deepWork
       } as DisplaySession
     })
