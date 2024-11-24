@@ -32,7 +32,7 @@
       <v-expansion-panel>
         <v-expansion-panel-title class="bg-background advance-panel-closed">{{ $t('pause.general.interface') }}</v-expansion-panel-title>
         <v-expansion-panel-text>
-          <div class="mx-5">
+          <div class="mx-5 advance-list">
             <v-switch :label="$t('pause.general.pulsingPause')" color="primary" inset v-model="settings.generalSettings.pulsingPause" hide-details/>
             <v-switch :label="$t('pause.general.showSeconds')" color="primary" inset v-model="settings.generalSettings.showSeconds" hide-details/>
             <v-switch :label="$t('pause.general.hideTime')" color="primary" inset v-model="settings.generalSettings.hideTime" hide-details/>
@@ -40,6 +40,7 @@
             <v-switch :label="$t('pause.general.hideSetup')" color="primary" inset v-model="settings.generalSettings.hideSetup" hide-details/>
             <v-switch :label="$t('pause.general.startPipped')" color="primary" inset v-model="settings.generalSettings.startPipped" hide-details/>
             <v-switch :label="$t('pause.general.pauseVideoOnPause')" color="primary" inset v-model="settings.generalSettings.pauseVideoOnPause" hide-details/>
+            <Info :text="$t('info.pause')" class="info-box mt-1" />
           </div>
         </v-expansion-panel-text>
       </v-expansion-panel>
@@ -59,6 +60,7 @@
 </template>
 
 <script lang="ts" setup>
+import Info from '../common/Info.vue';
 import { computed } from 'vue'
 import { useStateStore } from "@/stores/state";
 import { useAuth0 } from "@auth0/auth0-vue";
@@ -110,5 +112,13 @@ function importData() {
 <style scoped lang="scss">
 .advance-panel-closed {
   border-bottom: 1px solid rgba(var(--v-theme-primary), 0.6);
+}
+.advance-list {
+  position: relative;
+  .info-box {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
 }
 </style>
