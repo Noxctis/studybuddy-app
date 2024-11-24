@@ -40,7 +40,7 @@
             <v-switch :label="$t('pause.general.hideSetup')" color="primary" inset v-model="settings.generalSettings.hideSetup" hide-details/>
             <v-switch :label="$t('pause.general.startPipped')" color="primary" inset v-model="settings.generalSettings.startPipped" hide-details/>
             <v-switch :label="$t('pause.general.pauseVideoOnPause')" color="primary" inset v-model="settings.generalSettings.pauseVideoOnPause" hide-details/>
-            <Info :text="$t('info.pause')" class="info-box mt-1" />
+            <Info :text="$t('info.interface')" class="info-box mt-1" />
           </div>
         </v-expansion-panel-text>
       </v-expansion-panel>
