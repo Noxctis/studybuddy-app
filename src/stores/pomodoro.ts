@@ -245,7 +245,7 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
       pomo.breaksDone.push({ start: now, end: now, soundStart: true, soundEnd: true });     // create new break
     }
 
-    postponeForceStop();
+    _postponeForceStop();
     saveStatus();
   }
   function study(noCountdown: boolean = false) {
@@ -272,17 +272,21 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
       pauseShortSnack.value = true;
     }
 
-    postponeForceStop();
+    _postponeForceStop();
     saveStatus();
   }
 
   function postponeForceStop() {
+    _postponeForceStop();
+    saveStatus();
+  }
+
+  function _postponeForceStop() {
     const pomo = pomodoroStatus.value;
     if (!pomo || !pomo.endForced) return;
-    const newEndForced = getNow(pomo.start) + POSTPONE_FORCE_STOP_THRESHOLD
+    const newEndForced = getNow(pomo.start) + FORCE_STOP_THRESHOLD
     if (pomo.endForced < newEndForced) {
       pomo.endForced = newEndForced;
-      saveStatus();
     }
   }
 
