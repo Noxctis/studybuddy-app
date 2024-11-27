@@ -565,7 +565,7 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
   const terminated = computed(() => pomodoroStatus.value?.state === PomodoroState.TERMINATED);
   const going = computed(() => studing.value || pauseing.value || countdownRunning.value);
   const onLongPause = computed(() => !terminated.value && (pomodoroStatus.value?.onLongBreak ?? false));
-  const shortPomo = computed(() => terminated && ((pomodoroStatus.value.endActual ?? 0) > SHORT_POMO_THRESHOLD));
+  const shortPomo = computed(() => terminated && ((pomodoroStatus.value.endActual ?? 0) < SHORT_POMO_THRESHOLD));
   const timeToBreak = computed(() => {
     if (!studing.value) return false;
     const pomo = pomodoroStatus.value;
@@ -613,7 +613,7 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
     parseTime,
     setup, settingUp, exitSetup,
     pauseShortSnack,
-    forceStopAlert, postponeForceStop
+    forceStopAlert, postponeForceStop, SHORT_POMO_THRESHOLD
   }
 
 })
