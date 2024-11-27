@@ -44,7 +44,7 @@ export function getPointsColorClass(points: number | null, deepWork: boolean = t
   if (points < 0.6) {
     return 'points bg-error' + deepWorkClass;
   }
-  if (points < 0.85) {
+  if (points < 0.8) {
     return 'points bg-warning' + deepWorkClass;
   }
   return 'points bg-success' + deepWorkClass;
