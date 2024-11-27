@@ -5,7 +5,7 @@ export default {
   },
   timer: {
     speedMultiplier: +(import.meta.env.VITE_TIMER_SPEED_MULTIPLIER ?? 1),
-    shortPomoMinutes: +(import.meta.env.VITE_TIMER_MINUTES_SHORTPOMO ?? 5),
+    shortPomoMinutes: +(import.meta.env.VITE_TIMER_MINUTES_SHORTPOMO ?? 0.005),
     longBreakMinutes: +(import.meta.env.VITE_TIMER_MINUTES_LONGBREAK ?? 15),
     forceStopMinutes: +(import.meta.env.VITE_TIMER_MINUTES_FORCESTOP ?? 120),
     postponeforceStopMinutes: +(import.meta.env.VITE_TIMER_MINUTES_POSTPONRFORCESTOP ?? 60),

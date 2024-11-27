@@ -1,10 +1,10 @@
 <template>
   <div class="blur finish-box">
-    <div v-if="shortPomo">
+    <div v-if="pomo.shortPomo">
       <p class="pause font-press text-center">{{ $t("pause.pomoDoneShort") }}</p>
       <h3 class="text-primary font-press text-center">{{ $t("pause.goodjobShort") }}</h3>
     </div>
-    <div v-else-if="pointsLoaded && points < 0.5">
+    <div v-else-if="pomo.pomodoroStatus.report && pomo.pomodoroStatus.report.points < 0.5">
       <p class="pause font-press text-center">{{ $t("pause.pomoDoneBad") }}</p>
       <h3 class="text-primary font-press text-center">{{ $t("pause.goodjobBad") }}</h3>
     </div>
@@ -16,11 +16,8 @@
 </template>
 
 <script lang="ts" setup>
-const props = defineProps<{
-  shortPomo: boolean;
-  pointsLoaded: boolean;
-  points: number;
-}>();
+import { usePomodoroStore } from '@/stores/pomodoro';
+const pomo =  usePomodoroStore();
 </script>
 
 <style scoped lang="scss">

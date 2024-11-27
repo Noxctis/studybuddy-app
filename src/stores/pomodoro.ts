@@ -59,15 +59,6 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
     if (status.start)
       status.start = new Date(status.start);
 
-    if (status.state === PomodoroState.TERMINATED) {
-      finishedPomoRecord.value = {
-        shortPomo: ((status.endActual ?? getNow(status.start)) <= SHORT_POMO_THRESHOLD),
-        pomo: status
-      }
-    } else {
-      finishedPomoRecord.value = null;
-    }
-    
     pomodoroStatus.value = status;
     if (interval) clearInterval(interval);
     if (status.state !== PomodoroState.CREATED && status.state !== PomodoroState.TERMINATED) {
@@ -102,7 +93,6 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
   if (pomodoroStatus.value.start)
     pomodoroStatus.value.start = new Date(pomodoroStatus.value.start);
   let interval: number | undefined;
-  const finishedPomoRecord = ref<{ pomo?: StudySession, shortPomo: boolean } | null>(null);
   const now = ref(Date.now());
   init();
 
@@ -123,13 +113,13 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
   function resumePomodoro() {
     interval = setInterval(tick, TICK_TIME);
   }
-  function generatePomoStatus(): StudySession {
+  function generatePomoStatus(defaults?: Partial<StudySession>): StudySession {
     const free = !!settings.pomoSettings.freeMode;
     const totalLength = free ? 0 : settings.pomoSettings.totalLength * MINUTE_MULTIPLIER;
     const breaksLength = free ? 0 : settings.pomoSettings.breaksLength * MINUTE_MULTIPLIER;
     const nrOfBreaks = free ? 0 : settings.pomoSettings.numberOfBreak;
 
-    return {
+    const newPomo: StudySession = {
       deepWork: true,
       version: POMO_VERSION,
       endScheduled: totalLength,
@@ -140,31 +130,35 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
       freeMode: free,
       id: uuidv4(),
     }
+    if (defaults) {
+      if (defaults.tag) newPomo.tag = defaults.tag;
+    }
+    return newPomo;
   }
-  function createPomodoro() { 
+  function createPomodoro(defaults?: Partial<StudySession>) { 
     clearStuff();
-    pomodoroStatus.value = generatePomoStatus();
+    pomodoroStatus.value = generatePomoStatus(defaults);
     // saveStatus();
   }
-  function startPomodoro(noCountdown: boolean = false) {
+  function startPomodoro(noCountdown: boolean = false, defaults?: Partial<StudySession>) {
     clearStuff();
     settingUp.value = false;
     if (countdownRunning.value) {
       clearTimeout(countDownTimerout);
       countdownRunning.value = false;
-      _startPomodoro()
+      _startPomodoro(defaults)
     } else {
       if (noCountdown) {
-        _startPomodoro();
+        _startPomodoro(defaults);
       } else {
-        startCountdown(() => _startPomodoro());
+        startCountdown(() => _startPomodoro(defaults));
       }
     }
   }
-  function _startPomodoro() {
+  function _startPomodoro(defaults?: Partial<StudySession>) {
     let pomo = pomodoroStatus.value;
     if (!pomo || pomo.state === PomodoroState.TERMINATED) {
-      createPomodoro();
+      createPomodoro(defaults);
     }
     pomo = pomodoroStatus.value;
     pomo.start = new Date();
@@ -189,7 +183,7 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
       if (forcedStop === undefined) {
         delete pomo.endForced;
       }
-      pomo.onLongBreak = false;
+
       pomo.endActual = now;
       if (pomo.state === PomodoroState.BREAK) {
         const lastBreak = pomo.breaksDone.pop();
@@ -202,14 +196,10 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
       }
       pomo.state = PomodoroState.TERMINATED;
       if (pomo.endActual > SHORT_POMO_THRESHOLD) {
-        finishedPomoRecord.value = { shortPomo: false };
-        pomoDB.savePomodoro(pomo).then((pomo) => {
-          if (!finishedPomoRecord.value)
-            finishedPomoRecord.value = { shortPomo: false };
-          finishedPomoRecord.value.pomo = pomo;
+        pomoDB.savePomodoro(pomo).then((newPomo: StudySession) => {
+          if (pomo.state === PomodoroState.TERMINATED && pomo.id === newPomo.id)
+            pomo.report = newPomo.report;
         });
-      } else {
-        finishedPomoRecord.value = { shortPomo: true };
       }
       saveStatus();
       june.trackStudySession(pomo.endActual)
@@ -255,8 +245,9 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
       return;
     }
     if (pomo.onLongBreak) {
+      const defaults: Partial<StudySession> = { tag: pomo.tag };
       stopPomodoro();
-      startPomodoro(noCountdown);
+      startPomodoro(noCountdown, defaults);
       return;
     }
     adjustPomo();
@@ -404,7 +395,6 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
     if (interval) {
       clearInterval(interval);
     }
-    finishedPomoRecord.value = null;
   }
   function getNowInPercentage() {
     const pomo = pomodoroStatus.value;
@@ -574,7 +564,8 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
   const pauseing = computed(() => pomodoroStatus.value?.state === PomodoroState.BREAK);
   const terminated = computed(() => pomodoroStatus.value?.state === PomodoroState.TERMINATED);
   const going = computed(() => studing.value || pauseing.value || countdownRunning.value);
-  const onLongPause = computed(() => pomodoroStatus.value?.onLongBreak ?? false);
+  const onLongPause = computed(() => !terminated.value && (pomodoroStatus.value?.onLongBreak ?? false));
+  const shortPomo = computed(() => terminated && ((pomodoroStatus.value.endActual ?? 0) > SHORT_POMO_THRESHOLD));
   const timeToBreak = computed(() => {
     if (!studing.value) return false;
     const pomo = pomodoroStatus.value;
@@ -614,8 +605,8 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
     pomodoroStatus, saveStatus,
     init,
     createPomodoro, startPomodoro, stopPomodoro, togglePauseStudy, pause, study, resumePomodoro,
-    getBreaks, percentage, displayBreaks, displayStudy, finishedPomoRecord,
-    created, going, studing, pauseing, terminated, done, freeMode, timeToBreak, timeToStudy, onLongPause,
+    getBreaks, percentage, displayBreaks, displayStudy,
+    created, going, studing, pauseing, terminated, done, freeMode, timeToBreak, timeToStudy, onLongPause, shortPomo,
     timeSinceStart, timeInCurrentBreak, timeInCurrentStudy, percInCurrentState,
     timeFormatted, timeInTitle,
     startCountdown, countdownRunning,

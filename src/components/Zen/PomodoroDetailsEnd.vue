@@ -1,6 +1,6 @@
 <template>
   <v-card class="pomo-details-end blur blur-strong">
-    <PomodoroDone :pomo="pomo" />
+    <PomodoroDone :pomo="pomo.pomodoroStatus" />
     <div class="pomo-details-actions">
       <v-btn
         color="primary"
@@ -11,9 +11,9 @@
   </v-card>
 </template>
 <script lang="ts" setup>
-import { type StudySession } from '@/types';
 import PomodoroDone from '../Pomodoro/PomodoroDone/PomodoroDone.vue';
-const props = defineProps<{ pomo: StudySession }>();
+import { usePomodoroStore } from '@/stores/pomodoro';
+const pomo =  usePomodoroStore();
 const emits = defineEmits<
   (e: 'done') => void
 >()
