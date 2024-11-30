@@ -5,8 +5,8 @@
       <h3 class="text-primary font-press text-center">{{ $t("pause.goodjobShort") }}</h3>
     </div>
     <div v-else-if="pomo.pomodoroStatus.endForced">
-      <p class="pause font-press text-center">End forced</p>
-      <h3 class="text-primary font-press text-center">Oh no</h3>
+      <p class="pause font-press text-center">{{ $t("pause.endForced") }}</p>
+      <h3 class="text-primary font-press text-center">{{ $t("pause.goodjobForced") }}</h3>
     </div>
     <div v-else-if="pomo.pomodoroStatus.report && pomo.pomodoroStatus.report.points < 0.5">
       <p class="pause font-press text-center">{{ $t("pause.pomoDoneBad") }}</p>
