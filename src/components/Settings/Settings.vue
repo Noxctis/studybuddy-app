@@ -31,9 +31,10 @@
 
         </v-window>
       </v-container>
-      <v-card-actions v-if="!hideDone" class="pb-6 px-6 pt-3">
+      <v-card-actions v-if="!hideDone" class="pb-6 px-6 pt-3 mt-2">
+        <v-btn v-if="pomodoro.going && modelTab === 'pomodoro'" @click="pomodoro.stopPomodoro()" color="error" variant="outlined" class="stop-btn">{{ $t('pause.timer.stopNow') }}</v-btn>
         <v-spacer />
-        <v-btn variant="outlined" color="primary" @click="modelDialog = false">{{ $t('done') }}</v-btn>
+        <v-btn variant="flat" color="primary" @click="modelDialog = false">{{ $t('done') }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -45,9 +46,12 @@ import SettingsPomodoro from './SettingsPomodoro.vue';
 import SettingsGeneral from './SettingsGeneral.vue';
 import SettingsTheme from './SettingsTheme.vue';
 import { useDisplay } from 'vuetify'
+import { usePomodoroStore } from "@/stores/pomodoro";
+
 
 const { xs } = useDisplay()
 const hideDone = ref(false);
+const pomodoro = usePomodoroStore();
 
 const props = defineProps<{ modelValue: string | boolean }>()
 const emit = defineEmits(['update:modelValue', 'update:tab'])
@@ -64,5 +68,9 @@ const modelTab = computed({
 <style scoped lang="scss">
 .settings {
   z-index: 2000;
+}
+
+.stop-btn {
+  width: 9em;
 }
 </style>

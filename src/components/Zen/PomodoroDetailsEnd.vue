@@ -4,9 +4,9 @@
     <div class="pomo-details-actions">
       <v-btn
         color="primary"
-        class="pomo-edit-btn"
-        variant="outlined"
-        @click="emits('done')">Done</v-btn>
+        class="pomo-edit-btn ma-2"
+        variant="flat"
+        @click="emits('done')">{{ $t('done') }}</v-btn>
     </div>
   </v-card>
 </template>
@@ -28,7 +28,7 @@ const emits = defineEmits<
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
-  margin: 0.5rem 1rem;
+  margin: 0.5rem;
 }
 </style>
 

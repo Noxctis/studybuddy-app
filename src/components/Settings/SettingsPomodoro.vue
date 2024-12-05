@@ -4,7 +4,6 @@
       <v-alert variant="tonal" class="mb-5" type="warning">
         <div class="pomo-running-alert">
           <p>{{ $t('pause.timer.stopFirst') }}</p>
-          <v-btn @click="pomodoro.stopPomodoro()" color="error" class="stop-btn">{{ $t('pause.timer.stopNow') }}</v-btn>
         </div>
       </v-alert>
     </div>
@@ -231,10 +230,5 @@ const freeMode = computed(() => settingsStore.settings!.pomodoro!.freeMode);
 
 .pomo-running-alert {
   display: grid;
-
-  .stop-btn {
-    width: 9em;
-    justify-self: right;
-  }
 }
 </style>
