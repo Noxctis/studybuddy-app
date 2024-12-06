@@ -5,6 +5,7 @@
   "advanced": "Avanzados",
   "yes": "Sì",
   "no": "No",
+  "end": "Termina",
   "back": "Atràs",
   "next": "Siguiente",
   "search": "Buscar",
@@ -116,6 +117,7 @@
   },
   "zen": {
     "confirm": "¿Realmente quieres terminar la sesión de estudio?",
+    "delete": "¿Estás seguro de que quieres eliminar esta sesión?",
     "sink": "Pozo",
     "sinkSaved": "Pozo guardado",
     "sinkDone": "¡El pozo esta vacio!"

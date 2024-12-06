@@ -5,6 +5,7 @@
     "advanced": "fortschrittlich",
     "yes": "Ja",
     "no": "Nein",
+    "end": "Ende",
     "back": "Rückwärts",
     "next": "Weiter",
     "search": "Suche",
@@ -116,6 +117,7 @@
     },
     "zen": {
       "confirm": "Möchten Sie Ihre Lerneinheit wirklich beenden?",
+      "delete": "Möchten Sie diese Lerneinheit wirklich löschen?",
       "sink": "Waschbecken",
       "sinkSaved": "Für später aufgehoben",
       "sinkDone": "Waschbecken ist leer!"

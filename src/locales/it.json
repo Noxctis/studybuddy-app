@@ -5,6 +5,7 @@
        "advanced": "Avanzate",
        "yes": "Sì",
        "no": "No",
+       "end": "Termina",
        "back": "Indietro",
        "next": "Avanti",
        "delete": "Elimina",
@@ -116,6 +117,7 @@
        },
        "zen":{
               "confirm": "Vuoi davvero terminare la sessione di studio?",
+              "delete": "Vuoi davvero eliminare questa sessione?",
               "sink": "Promemoria",
               "sinkSaved": "Salvato per dopo",
               "sinkDone": "Il lavandino è vuoto!"
