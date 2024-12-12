@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import PomodoroReport from '@/components/Pomodoro/PomodoroDone/PomodoroReport.vue';
 import PomodoroDetails from '@/components/Pomodoro/PomodoroDone/PomodoroDetails.vue';
 import SinkList from '@/components/Sink/SinkList.vue';
@@ -33,7 +33,13 @@ const tab = ref(1);
 const props = defineProps<{
   pomo: StudySession,
   hideSink?: boolean
- }>();
+}>();
+
+watch(() => props.pomo.report, (report) => {
+  if (!report && tab.value === 1) {
+    tab.value = 2;
+  }
+});
 
 const showSink = computed(() => !props.hideSink && (sink.itemsCount > 0 || tab.value === 3));
 </script>

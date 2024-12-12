@@ -82,12 +82,13 @@ export interface PomodoroTask {
   done?: boolean;
 }
 export type StudySessionReport = {
-  timeTotal: number;
-  timeStudy: number;
-  timeBreak: number;
-  nrBreaks: number;
-  points: number;
+  timeTotal?: number;
+  timeStudy?: number;
+  timeBreak?: number;
+  nrBreaks?: number;
+  points?: number;
   shortPomo?: boolean;
+  loading?: boolean;
 }
 export type StudySession = {
   id?: string;

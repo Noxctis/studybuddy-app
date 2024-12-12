@@ -196,6 +196,7 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
       }
       pomo.state = PomodoroState.TERMINATED;
       if (pomo.endActual > SHORT_POMO_THRESHOLD) {
+        pomo.report = { loading: true }
         pomoDB.savePomodoro(pomo).then((newPomo: StudySession) => {
           if (pomo.state === PomodoroState.TERMINATED && pomo.id === newPomo.id)
             pomo.report = newPomo.report;
