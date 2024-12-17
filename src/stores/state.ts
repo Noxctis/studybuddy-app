@@ -118,8 +118,9 @@ export const useStateStore = defineStore('state', () => {
   }
 
   function checkValidExamName(name: string, original?: Exam | Chapter) {
-    if (!name) return false;
-    if (state.value.data.exams?.find(e => e !== original && e.name === name)) return false;
+    if (!name) return 'Field is required';
+    if (!(/^[a-zA-Z0-9_ -]*$/.test(name))) return 'Please use only letters, numbers, spaces, - or _';
+    if (state.value.data.exams?.find(e => e !== original && e.name === name)) return 'Name already in use';
     return true;
   }
   // ========= Events =========

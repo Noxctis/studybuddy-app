@@ -14,7 +14,7 @@
             <h3 class="text-h5 font-weight-light mb-2">{{ $t("welcome.welcome") }}</h3>
             <span class="text-caption text-grey">{{ $t("welcome.thanks") }}</span>
 
-            <v-text-field :label="$t('welcome.username')" class="mt-10 username-input" prefix="@"
+            <v-text-field :label="$t('welcome.username')" class="mt-10 username-input" prefix="@" variant="outlined"
               v-model="userInfo.username" :rules="[(v: string) => !!v || 'Username is required']" loading>
               <template v-slot:loader>
                 <v-progress-linear :active="true"
@@ -45,9 +45,9 @@
             <div v-if="userInfo.university === ''">
 
               <v-text-field class="uni-input my-5" label="University name" hide-details clearable
-                v-model="userInfo.customUniversity" />
+                v-model="userInfo.customUniversity" variant="outlined" />
               <v-text-field class="uni-input my-5" label="Course name" hide-details clearable
-                v-model="userInfo.customCourse" />
+                v-model="userInfo.customCourse" variant="outlined" />
 
             </div>
 
@@ -75,9 +75,9 @@
           <div class="windows-content card-exams pa-10">
             <!-- <v-list :items="exams"></v-list> -->
             <h3 class="text-h5 font-weight-light my-6">{{ $t("welcome.exams") }}</h3>
-            <v-text-field v-if="!isOnlyCustomExams" :label="$t('search')" clearable hide-details prepend-inner-icon="mdi-magnify"
+            <v-text-field v-if="!isOnlyCustomExams" :label="$t('search')" clearable hide-details prepend-inner-icon="mdi-magnify" variant="outlined"
               class="mb-6 search-bar" v-model="searchExam" />
-            <v-text-field v-else label="Add exam" hide-details
+            <v-text-field v-else label="Add exam" hide-details variant="outlined"
               class="mb-6 search-bar" v-model="searchExam" append-icon="mdi-send"
               @click:append="addCustomExam(searchExam)"
               @keydown.enter="addCustomExam(searchExam)" />
