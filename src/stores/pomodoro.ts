@@ -38,8 +38,12 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
 
   // ---------- Settings ----------
   watch(settings.pomoSettings, () => { // TODO
-    if (pomodoroStatus.value?.state === PomodoroState.CREATED)
-      createPomodoro();
+    if (pomodoroStatus.value?.state === PomodoroState.CREATED) {
+      const defaults: Partial<StudySession> = { };
+      if (pomodoroStatus.value?.tag) defaults.tag = pomodoroStatus.value.tag;
+      if (pomodoroStatus.value?.title) defaults.title = pomodoroStatus.value.title;
+      createPomodoro(defaults);
+    }
   });
 
   // ---------- WebSocket ----------
@@ -132,6 +136,7 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
     }
     if (defaults) {
       if (defaults.tag) newPomo.tag = defaults.tag;
+      if (defaults.title) newPomo.title = defaults.title;
     }
     return newPomo;
   }
