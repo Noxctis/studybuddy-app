@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 function getThemes() {
   const themes: Partial<Theme>[] = [
+    { title: 'Winter', category: '🌲 Nature', palette: 'nord', backgroundVideo: 'https://www.youtube.com/watch?v=DWq3gm2gPpg' },
     { title: 'Autumn', category: '🌲 Nature', palette: 'bio', },
     { title: 'Forest', category: '🌲 Nature', palette: 'bio', backgroundVideo: 'https://www.youtube.com/watch?v=xNN7iTA57jM', showOnlyMusic: true },
     { title: 'Mountain', category: '🌲 Nature', palette: 'nord', },

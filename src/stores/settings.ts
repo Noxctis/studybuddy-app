@@ -7,10 +7,12 @@ import { useAPIStore } from './api';
 
 const LOCAL_STORAGE_KEY = 'settings';
 const DEFAULT_LANG = 'it';
-const DEFAULT_PALETTE = 'bio';
 const DEFAULT_ICONS = 'mdi-icon';
-const DEFAULT_IMG = 'https://api.studybuddy.it/images/autumn';
-const DEFAULT_VIDEO = undefined;
+
+
+const DEFAULT_PALETTE = 'nord';
+const DEFAULT_IMG = 'https://api.studybuddy.it/images/Winter';
+const DEFAULT_VIDEO = 'https://www.youtube.com/watch?v=DWq3gm2gPpg';
 
 
 const defaultSettings: Settings = {
