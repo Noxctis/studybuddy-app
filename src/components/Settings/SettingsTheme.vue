@@ -5,7 +5,7 @@
       <div class="header px-6 pb-6">
         <div class="header-title">
           <p class="text-h6">{{ $t('pause.theme.chooseTheme') }}</p>
-          <Info :text="$t('info.timer')" class="info-settings" />
+          <Info :text="$t('info.theme')" class="info-settings" />
         </div>
         <v-btn @click="step = 2" color="primary" variant="text"
           prepend-icon="mdi-plus">{{ $t('pause.theme.newTheme') }}</v-btn>

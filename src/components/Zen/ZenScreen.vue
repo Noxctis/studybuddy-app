@@ -59,7 +59,7 @@ const showStartPage = computed(() => pomodoro.created && !pomodoro.going && !pom
 const showSetup = computed(() => pomodoro.created && !pomodoro.going && pomodoro.settingUp);
 const showFinishPage = computed(() => pomodoro.terminated && !pomodoro.going);
 const showPomo = computed(() => (pomodoro.countdownRunning || (pomodoro.going && (!settings.generalSettings.hideTime || pomodoro.pauseing))));
-const showDetailsEnd = computed(() => !(pomodoro.going || pomodoro.countdownRunning) && pomodoro.finishedPomoRecord?.pomo);
+const showDetailsEnd = computed(() => !pomodoro.countdownRunning && pomodoro.terminated);
 </script>
 
 <template>
@@ -85,21 +85,12 @@ const showDetailsEnd = computed(() => !(pomodoro.going || pomodoro.countdownRunn
 
           <div class="main-content-wrapper">
             <div class="main-content">
-              <StartPage v-if="showStartPage" />
-              <PomodoroSetup v-else-if="showSetup"
-                @exit-setup="pomodoro.exitSetup()" @open-settings-tab="event => openSettingsTab = event" />
-              <FinishPage v-else-if="showFinishPage"
-                :points-loaded="!!pomodoro.finishedPomoRecord?.pomo?.report"
-                :short-pomo="!!pomodoro.finishedPomoRecord?.shortPomo"
-                :points="(pomodoro.finishedPomoRecord?.pomo?.report?.points ?? 0)" />
-              <PomodoroPip
-                v-if="showPomo"
-                :zen-style="zenStyle" :hide-time="settings.generalSettings.hideTime" />
-              <ZenActions @show-history="showPomoHistory = true" />
-              <PomodoroDetailsEnd class="pomo-details"
-                v-if="showDetailsEnd"
-                :pomo="pomodoro!.finishedPomoRecord!.pomo!" @done="pomodoro.createPomodoro()" />
-
+              <StartPage          v-if=     "showStartPage" />
+              <PomodoroSetup      v-else-if="showSetup" @exit-setup="pomodoro.exitSetup()" @open-settings-tab="event => openSettingsTab = event" />
+              <FinishPage         v-else-if="showFinishPage" />
+              <PomodoroPip        v-if=     "showPomo" :zen-style="zenStyle" :hide-time="settings.generalSettings.hideTime" />
+              <ZenActions         @show-history="showPomoHistory = true" />
+              <PomodoroDetailsEnd  v-if=    "!pomodoro.shortPomo && showDetailsEnd" @done="pomodoro.createPomodoro()" class="pomo-details" />
             </div>
           </div>
 

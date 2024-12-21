@@ -46,13 +46,11 @@
       </v-expansion-panel>
     </v-expansion-panels>
 
-    <v-row>
+    <v-row class="mt-1">
       <v-spacer />
-      <v-col> <v-btn class="bg-background ma-2" @click="exportData()" icon="mdi-tray-arrow-down"
-          :title="$t('pause.general.exportData')" color="background" /> </v-col>
-      <v-col> <v-btn class="bg-background ma-2" @click="importData()" icon="mdi-tray-arrow-up"
-          :title="$t('pause.general.importData')" color="background" /> </v-col>
-      <v-col> <v-btn @click="logoutProfile()" class="ma-2" icon="mdi-logout-variant" color="error" title="Logout"></v-btn>
+      <v-col> <v-btn class="bg-background ma-2" @click="exportData()" icon="mdi-tray-arrow-down" :title="$t('pause.general.exportData')" variant="flat" color="background" /> </v-col>
+      <v-col> <v-btn class="bg-background ma-2" @click="importData()" icon="mdi-tray-arrow-up" :title="$t('pause.general.importData')" variant="flat" color="background" /> </v-col>
+      <v-col> <v-btn @click="logoutProfile()" class="ma-2" icon="mdi-logout-variant" color="error" title="Logout" variant="flat"></v-btn>
       </v-col>
       <v-spacer />
     </v-row>

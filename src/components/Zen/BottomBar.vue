@@ -69,8 +69,8 @@
       <v-card :text="$t('zen.confirm')">
         <v-card-actions>
           <v-spacer />
-          <v-btn @click="terminatePomoDialog = false">{{ $t("no") }}</v-btn>
-          <v-btn color="primary" @click="stopPomodoro(); terminatePomoDialog = false">{{ $t("yes") }}</v-btn>
+          <v-btn @click="terminatePomoDialog = false">{{ $t("cancel") }}</v-btn>
+          <v-btn color="error" @click="stopPomodoro(); terminatePomoDialog = false">{{ $t("end") }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

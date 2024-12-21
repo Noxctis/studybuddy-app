@@ -1,19 +1,19 @@
 <template>
   <v-card class="pomo-details-end blur blur-strong">
-    <PomodoroDone :pomo="pomo" />
+    <PomodoroDone :pomo="pomo.pomodoroStatus" />
     <div class="pomo-details-actions">
       <v-btn
         color="primary"
-        class="pomo-edit-btn"
-        variant="outlined"
-        @click="emits('done')">Done</v-btn>
+        class="pomo-edit-btn ma-2"
+        variant="flat"
+        @click="emits('done')">{{ $t('done') }}</v-btn>
     </div>
   </v-card>
 </template>
 <script lang="ts" setup>
-import { type StudySession } from '@/types';
 import PomodoroDone from '../Pomodoro/PomodoroDone/PomodoroDone.vue';
-const props = defineProps<{ pomo: StudySession }>();
+import { usePomodoroStore } from '@/stores/pomodoro';
+const pomo =  usePomodoroStore();
 const emits = defineEmits<
   (e: 'done') => void
 >()
@@ -28,7 +28,7 @@ const emits = defineEmits<
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
-  margin: 0.5rem 1rem;
+  margin: 0.5rem;
 }
 </style>
 

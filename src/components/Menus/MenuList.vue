@@ -37,8 +37,9 @@
               <!-- Exam name -->
               <v-col cols="12">
                 <v-text-field required autofocus v-model="newElementDialog.element.name"
+                  :rules="[rules.examName]"
                   :label="$t('study.name', { 'element': props.elementsName })"
-                  :error-messages="state.checkValidExamName(newElementDialog.element.name, newElementDialog.original) ? '' : $t('study.invalidName', { element: props.elementsName })" />
+                  />
               </v-col>
               <!--Deadline-->
               <v-col cols="12" v-if="props.elementsName === $t('study.exam')">
@@ -102,7 +103,11 @@ const props = withDefaults(defineProps<{
 })
 const emit = defineEmits(['rail', 'update:modelValue'])
 
+// :error-messages="state.checkValidExamName(newElementDialog.element.name, newElementDialog.original) ? '' : $t('study.invalidName', { element: props.elementsName })"
 
+const rules = {
+  examName: (value: string) => state.checkValidExamName(value),
+}
 
 const defaultElement = props.areExams ? { name: '', icon: 'mdi-account-school', color: 'primary', deadline: undefined } : { name: '' };
 const newElementDialog = ref({
@@ -133,7 +138,7 @@ function removeElement(el: Exam | Chapter) {
 }
 
 function saveElement() {
-  if (state.checkValidExamName(newElementDialog.value.element.name, newElementDialog.value.original)) {
+  if (state.checkValidExamName(newElementDialog.value.element.name, newElementDialog.value.original) === true) {
     if (!newElementDialog.value.original) {
       emit('update:modelValue', [...props.modelValue, newElementDialog.value.element])
     } else {

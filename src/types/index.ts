@@ -82,12 +82,13 @@ export interface PomodoroTask {
   done?: boolean;
 }
 export type StudySessionReport = {
-  timeTotal: number;
-  timeStudy: number;
-  timeBreak: number;
-  nrBreaks: number;
-  points: number;
+  timeTotal?: number;
+  timeStudy?: number;
+  timeBreak?: number;
+  nrBreaks?: number;
+  points?: number;
   shortPomo?: boolean;
+  loading?: boolean;
 }
 export type StudySession = {
   id?: string;
@@ -133,39 +134,6 @@ export type DisplaySession = {
   color?: string;
   deepWork?: boolean;
 }
-
-// export type PomodoroBase = {
-//   end: number;
-//   endedAt?: number;
-//   breaksDone: Break[];
-//   freeMode: boolean;
-//   tasks?: PomodoroTask[];
-//   deepWork: boolean;
-//   tag?: string;
-//   rating?: number;
-//   report?: StudySessionReport;
-//   id: string;
-//   name?: string;
-// }
-
-// export interface PomodotoStatus extends PomodoroBase {
-//   // lastTick: number;
-//   version: number;
-//   startedAt?: number;
-//   state: PomodoroState;
-//   breaksTodo: Break[];
-//   soundEnd?: boolean;
-//   onLongBreak?: boolean;
-//   originalEnd?: number;
-//   timestamp?: number;
-// }
-
-// export interface PomodoroRecord extends PomodoroBase {
-//   datetime: Date;
-//   displayBreaks?: DisplaySession[];
-//   displayStudy?: DisplaySession[];
-// }
-
 
 // ---------- SETTINGS ----------
 export type PomodoroSettings = {
