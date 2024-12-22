@@ -157,6 +157,14 @@ export class StudyBuddyDB extends Dexie {
     }).upgrade(async trans => {
       await trans.table('exams').bulkAdd(await trans.table('tempExams').toArray());
     });
+    this.version(18).stores({
+      updates: "++id,entityName,lastUpdate",
+      timer: "++id,title,studyLength,breakLength,repetitions,freeMode",
+      themes: "++id,title,palette,category,backgroundColor,backgroundImg,og",
+      studySession: "id,start,tag,remoteUpdated",
+      exams: "id,dataExamId,name",
+      tempExams: null,
+    }).upgrade(async trans => { await refreshThemes(trans) });
 
     this.on("populate", () => {
       this.timer.bulkAdd(getTimers());
