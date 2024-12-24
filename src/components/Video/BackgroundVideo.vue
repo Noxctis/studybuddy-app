@@ -73,7 +73,9 @@ function playVideo(id: string) {
     }
   });
 
+
   player.on('ready', async () => {
+    player?.setVolume(settings.generalSettings.videoVolume) 
     if (settings.generalSettings.videoMute) await player?.mute()
     else await player?.unMute()
     await player?.playVideo()
