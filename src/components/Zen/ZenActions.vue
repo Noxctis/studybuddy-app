@@ -1,7 +1,7 @@
 <template>
   <div class="pomopause">
 
-    <v-btn class='btn bg-primary pomo-btn pomo-box font-press btn-main-start' v-if="pomodoro.finishedPomoRecord?.pomo"
+    <v-btn class='btn bg-primary pomo-btn pomo-box font-press btn-main-start' v-if="pomodoro.pomodoroStatus.endActual"
       @click="share()">
       <v-icon class="icon" icon="mdi-share-variant" />
     </v-btn>
@@ -12,11 +12,13 @@
     </v-btn>
 
     <v-btn class='btn bg-accent pomo-btn pomo-box font-press btn-main-start'
-      v-if="!pomodoro.going && !pomodoro.finishedPomoRecord?.shortPomo && !pomodoro.settingUp" @click="
+      v-if="!pomodoro.going || (pomodoro.shortPomo && pomodoro.pomodoroStatus.endActual)" @click="
+        
         pomodoro.createPomodoro(); settingsStore.generalSettings.hideSetup ? pomodoro.startPomodoro() : pomodoro.setup()
-        ">
-      <span>{{ $t("pause.study") }}</span>
-      <v-icon class="icon" icon="mdi-play" />
+        "
+        :disabled="!props.acceptedTerms">
+        <span v-bind="props">{{ $t("pause.study") }}</span>
+        <v-icon class="icon" icon="mdi-play" />
     </v-btn>
 
     <v-btn class='btn bg-accent pomo-btn pomo-box font-press btn-main-start' v-if="pomodoro.settingUp"
@@ -26,7 +28,7 @@
     </v-btn>
 
     <v-btn class='btn bg-accent pomo-btn pomo-box font-press btn-main-start'
-      v-if="!pomodoro.going && pomodoro.finishedPomoRecord?.shortPomo" @click="pomodoro.createPomodoro()">
+      v-if="!pomodoro.going && (pomodoro.shortPomo && pomodoro.pomodoroStatus.endActual)" @click="pomodoro.createPomodoro()">
       <span>{{ $t("backHome") }}</span>
       <v-icon class="icon" icon="mdi-home" />
     </v-btn>
@@ -38,6 +40,9 @@ import { usePomodoroStore } from "@/stores/pomodoro";
 import { useSettingsStore } from "@/stores/settings";
 const pomodoro = usePomodoroStore();
 const settingsStore = useSettingsStore();
+const props = defineProps<{
+  acceptedTerms: boolean
+}>();
 const emit = defineEmits<{
   (e: 'show-history'): void
 }>();

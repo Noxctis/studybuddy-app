@@ -9,12 +9,33 @@
       </div>
       <h6 class="text-version">v{{ appVersion }}</h6>
       <h3 class="minecraft-sentence font-press">{{ minecraftSentence }}</h3>
+
+      <v-checkbox
+        v-if="!alreadyAccepted"
+        hide-details
+        v-model="acceptedTerms"
+        class="text-center"
+      >
+        <template v-slot:label>
+          <div>I agree to all <a href="https://google.com" target="_blank" class="text-primary">term and services</a></div>
+        </template>
+      </v-checkbox>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import Info from '@/components/common/Info.vue';
 import minecraftSentences from '@/assets/minecraft.json';
+import { ref, watch } from 'vue';
+
+const alreadyAccepted = !!localStorage.getItem('acceptedTerms');
+const acceptedTerms = ref(alreadyAccepted);
+const emit = defineEmits(['accepted'])
+
+
+// emit event when accepted
+watch(acceptedTerms, (value) => emit('accepted', value));
+
 
 const appVersion = APP_VERSION;
 const minecraftSentence = minecraftSentences.sentences[Math.floor(Math.random() * minecraftSentences.sentences.length)];
@@ -48,6 +69,9 @@ h3 {
   .created-box-wrapper {
     position: relative;
     border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   @media (max-width: 600px) {
@@ -55,6 +79,7 @@ h3 {
       display: flex;
       flex-direction: column;
     }
+
     .minecraft-sentence {
       display: none;
     }

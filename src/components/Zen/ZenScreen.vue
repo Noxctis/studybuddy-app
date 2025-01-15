@@ -19,6 +19,8 @@ import BackgroundVideo from '@/components/Video/BackgroundVideo.vue';
 const pomodoro = usePomodoroStore();
 const settings = useSettingsStore();
 
+const acceptedTerms = ref(!!localStorage.getItem('acceptedTerms'));
+
 const zenMode = ref(true);
 const showPomoHistory = ref(false);
 const openSettingsTab = ref<boolean | string>(false);
@@ -85,11 +87,12 @@ const showDetailsEnd = computed(() => !pomodoro.countdownRunning && pomodoro.ter
 
           <div class="main-content-wrapper">
             <div class="main-content">
-              <StartPage          v-if=     "showStartPage" />
+              <StartPage          v-if=     "showStartPage" @accepted="acceptedTerms = $event" />
               <PomodoroSetup      v-else-if="showSetup" @exit-setup="pomodoro.exitSetup()" @open-settings-tab="event => openSettingsTab = event" />
               <FinishPage         v-else-if="showFinishPage" />
               <PomodoroPip        v-if=     "showPomo" :zen-style="zenStyle" :hide-time="settings.generalSettings.hideTime" />
-              <ZenActions         @show-history="showPomoHistory = true" />
+
+              <ZenActions         @show-history="showPomoHistory = true" :accepted-terms="acceptedTerms" />
               <PomodoroDetailsEnd  v-if=    "!pomodoro.shortPomo && showDetailsEnd" @done="pomodoro.createPomodoro()" class="pomo-details" />
             </div>
           </div>
