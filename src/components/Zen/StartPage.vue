@@ -17,7 +17,7 @@
         class="text-center"
       >
         <template v-slot:label>
-          <div>I agree to all <a href="https://google.com" target="_blank" class="text-primary">term and services</a></div>
+            <div>{{ $t('agree') }} <a href="https://studybuddy.it/en/tos.html" target="_blank" class="text-primary">{{ $t('termsOfService') }}</a></div>
         </template>
       </v-checkbox>
     </div>
