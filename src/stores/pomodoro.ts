@@ -227,6 +227,7 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
       stopPomodoro();
       return;
     }
+    _postponeForceStop();
     adjustPomo();
 
     const now = getNow(pomo.start);
@@ -241,7 +242,6 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
       pomo.breaksDone.push({ start: now, end: now, soundStart: true, soundEnd: true });     // create new break
     }
 
-    _postponeForceStop();
     saveStatus();
   }
   function study(noCountdown: boolean = false) {
