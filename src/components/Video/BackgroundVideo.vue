@@ -33,7 +33,7 @@ watch(() => pomodoro.studing, (studing) => {
       playingStatus.value = true;
     }
   } else {
-    if (playingStatus.value) {
+    if (playingStatus.value && settings.generalSettings.pauseVideoOnPause) {
       player?.pauseVideo();
       playingStatus.value = false;
     }
