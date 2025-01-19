@@ -51,11 +51,9 @@ const showSink = computed(() => !props.hideSink && (sink.itemsCount > 0 || tab.v
   display: grid;
   align-content: center;
 }
-.report {
-  max-width: 35rem;
-}
-.details {
-  max-width: 50rem;
+.report, .details {
+  max-width: calc(100vw - 2rem);
+  width: 25rem;
 }
 .sink-list {
   max-width: 40rem;

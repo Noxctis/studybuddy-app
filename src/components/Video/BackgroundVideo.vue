@@ -17,20 +17,25 @@ const settings = useSettingsStore();
 const isThereAVideo = ref(false);
 let player: YouTubePlayerType | null = null;
 
+const playingStatus = ref(false);
+
 let currentVideo: string | null = null;
 
 const props = defineProps<{
   shouldUnmute: boolean
 }>();
 
-watch(() => pomodoro.pauseing, (pauseing) => {
-  if (pomodoro.going && settings.generalSettings.pauseVideoOnPause) {
-    if (pauseing) {
-      if (settings.generalSettings.pauseVideoOnPause) {
-        player?.pauseVideo()
-      }
-    } else {
-      player?.playVideo()
+watch(() => pomodoro.studing, (studing) => {
+  console.log('pomodoro.studing', pomodoro.studing, studing)
+  if (studing) {
+    if (!playingStatus.value) {
+      player?.playVideo();
+      playingStatus.value = true;
+    }
+  } else {
+    if (playingStatus.value) {
+      player?.pauseVideo();
+      playingStatus.value = false;
     }
   }
 })
@@ -75,10 +80,11 @@ function playVideo(id: string) {
 
 
   player.on('ready', async () => {
-    player?.setVolume(settings.generalSettings.videoVolume) 
+    player?.setVolume(settings.generalSettings.videoVolume)
     if (settings.generalSettings.videoMute) await player?.mute()
     else await player?.unMute()
     await player?.playVideo()
+    playingStatus.value = true;
   });
 
   isThereAVideo.value = true;
@@ -116,7 +122,7 @@ watch(() => settings.settings.theme?.backgroundVideo, (bgVideo) => {
   }
 })
 watch(() => settings.generalSettings.videoVolume, (volume) => {
-  player?.setVolume(volume) 
+  player?.setVolume(volume)
 })
 watch(() => settings.generalSettings.videoMute, (muted) => {
   if (muted) {
@@ -131,7 +137,7 @@ watch(() => props.shouldUnmute, (unMute) => {
     navigator.userActivation.isActive &&
     !settings.generalSettings.videoMute
   ) {
-    
+
     player?.unMute()
   }
 });

@@ -10,10 +10,10 @@
       <h6 class="text-version">v{{ appVersion }}</h6>
       <h3 class="minecraft-sentence font-press">{{ minecraftSentence }}</h3>
 
-      <v-checkbox
-        v-if="!alreadyAccepted"
+    <v-checkbox
+        v-if="!termsStore.acceptedTerms"
         hide-details
-        v-model="acceptedTerms"
+        v-model="termsStore.acceptedTermsCheck"
         class="text-center"
       >
         <template v-slot:label>
@@ -26,17 +26,9 @@
 <script lang="ts" setup>
 import Info from '@/components/common/Info.vue';
 import minecraftSentences from '@/assets/minecraft.json';
-import { ref, watch } from 'vue';
+import { useTermsStore } from '@/stores/terms';
 
-const alreadyAccepted = !!localStorage.getItem('acceptedTerms');
-const acceptedTerms = ref(alreadyAccepted);
-const emit = defineEmits(['accepted'])
-
-
-// emit event when accepted
-watch(acceptedTerms, (value) => emit('accepted', value));
-
-
+const termsStore = useTermsStore();
 const appVersion = APP_VERSION;
 const minecraftSentence = minecraftSentences.sentences[Math.floor(Math.random() * minecraftSentences.sentences.length)];
 </script>

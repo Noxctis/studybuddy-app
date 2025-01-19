@@ -24,7 +24,7 @@
               </template>
             </v-text-field>
 
-            <v-checkbox v-if="!alreadyAccepted" hide-details v-model="acceptedTerms">
+            <v-checkbox v-if="!termsStore.acceptedTerms" hide-details v-model="termsStore.acceptedTermsCheck">
               <template v-slot:label>
                 <div>I agree to all <a href="https://google.com" target="_blank" class="text-primary">term and services</a></div>
               </template>
@@ -124,8 +124,8 @@
           }}</v-btn>
         <v-btn v-if="step > 1" size="large" variant="text" @click="step--">{{ $t("back") }}</v-btn>
         <v-spacer></v-spacer>
-        <v-btn v-if="step == 1" size="large" color="primary" variant="flat" @click="acceptTerms(); step++"
-          :disabled="!acceptedTerms || usernameValidLoading || !usernameValid">{{ $t("welcome.start") }}</v-btn>
+        <v-btn v-if="step == 1" size="large" color="primary" variant="flat" @click="termsStore.acceptTerms(); step++"
+          :disabled="!termsStore.acceptedTermsCheck || usernameValidLoading || !usernameValid">{{ $t("welcome.start") }}</v-btn>
         <v-btn v-if="step == 2" size="large" color="primary" variant="flat"
           :disabled="!(userInfo.course || userInfo.customUniversity)" @click="step++; loadExams()">{{ $t("next")
           }}</v-btn>
@@ -146,22 +146,15 @@ import { useRouter } from 'vue-router'
 import * as DBO from '@/types/dbo';
 import { useExamsStore } from '@/stores/db/exams';
 import { useStateStore } from "@/stores/state";
+import { useTermsStore } from '@/stores/terms';
 
+const termsStore = useTermsStore();
 const state = useStateStore();
 const { user, isLoading, isAuthenticated, loginWithRedirect } = useAuth0();
 const router = useRouter()
 const step = ref(1);
 const settings = useSettingsStore();
 const api = useAPIStore().api;
-
-const alreadyAccepted = !!localStorage.getItem('acceptedTerms');
-const acceptedTerms = ref(alreadyAccepted);
-
-function acceptTerms() {
-  if (acceptedTerms.value) {
-    localStorage.setItem('acceptedTerms', 'true');
-  }
-}
 
 const userInfo = ref<DBO.UserOnboarding>({
   username: '',
