@@ -12,7 +12,7 @@ const DEFAULT_ICONS = 'mdi-icon';
 
 const DEFAULT_PALETTE = 'nord';
 const DEFAULT_IMG = 'https://api.studybuddy.it/images/Winter';
-const DEFAULT_VIDEO = 'https://www.youtube.com/watch?v=DWq3gm2gPpg';
+const DEFAULT_VIDEO = 'https://www.youtube.com/watch?v=O5KlCvDvj4o';
 
 
 const defaultSettings: Settings = {

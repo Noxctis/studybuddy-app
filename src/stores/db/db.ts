@@ -6,13 +6,16 @@ import { v4 as uuidv4 } from 'uuid';
 
 function getThemes() {
   const themes: Partial<Theme>[] = [
-    { title: 'Winter', category: '🌲 Nature', palette: 'nord', backgroundVideo: 'https://www.youtube.com/watch?v=DWq3gm2gPpg'},
+    { title: 'Winter', category: '🌲 Nature', palette: 'nord', backgroundVideo: 'https://www.youtube.com/watch?v=O5KlCvDvj4o'},
     { title: 'Autumn', category: '🌲 Nature', palette: 'bio', },
-    { title: 'Forest', category: '🌲 Nature', palette: 'bio', backgroundVideo: 'https://www.youtube.com/watch?v=xNN7iTA57jM', showOnlyMusic: true },
+    { title: 'Lake', category: '🌲 Nature', palette: 'bio', backgroundVideo: 'https://www.youtube.com/watch?v=qRTVg8HHzUo'},
+    { title: 'Forest', category: '🌲 Nature', palette: 'bio', backgroundVideo: 'https://www.youtube.com/watch?v=xNN7iTA57jM' },
     { title: 'Mountain', category: '🌲 Nature', palette: 'nord', },
+    { title: 'Waterfall', category: '🌲 Nature', palette: 'bio', backgroundVideo: 'https://www.youtube.com/live/5UuvHzy3nvg'},
     { title: 'Rocks', category: '🌲 Nature', palette: 'gptday', },
     { title: 'Rain', category: '🌲 Nature', palette: 'gptnight', backgroundVideo: 'https://www.youtube.com/watch?v=mPZkdNFkNps' },
-    { title: 'Space', category: '🌲 Nature', palette: 'gptnight', },
+    { title: 'Micro', category: '🌲 Nature', palette: 'nord', backgroundVideo: 'https://youtu.be/5RAyvhOunxA?si=WQE6XdMHy5Lb0MLm&t=135' },
+    { title: 'Space', category: '🌲 Nature', palette: 'gptnight', backgroundVideo: 'https://www.youtube.com/watch?v=Z8FBnz6USIM'},
     { title: 'Night', category: '🌲 Nature', palette: 'dark', },
     { title: 'Aurora', category: '🌲 Nature', palette: 'blallo', },
     { title: 'Beach', category: '🌲 Nature', palette: 'pastel', },
@@ -21,8 +24,12 @@ function getThemes() {
     { title: 'Vaporwave', category: '🎨 Art', palette: 'vaporwave', backgroundVideo: 'https://www.youtube.com/watch?v=rqJDO3TWnac' },
     { title: 'Purple', category: '🏢 Urban', palette: 'purple', },
     { title: 'LOFI', category: '🏢 Urban', palette: 'gptnight', backgroundVideo: 'https://www.youtube.com/watch?v=jfKfPfyJRdk' },
-    { title: 'City', category: '🏢 Urban', palette: 'nord', backgroundColor: 'https://www.youtube.com/watch?v=Vg1mpD1BICI', showOnlyMusic: true },
+    { title: 'NYC', category: '🏢 Urban', palette: 'nord', backgroundVideo: 'https://www.youtube.com/watch?v=xZUhl-kzLPQ' },
+    { title: 'Cafe', category: '🏢 Urban', palette: 'gptnight', backgroundVideo: 'https://www.youtube.com/watch?v=MYPVQccHhAQ' },
+    { title: 'Library', category: '🏢 Urban', palette: 'bio', backgroundVideo: 'https://www.youtube.com/watch?v=2cHAeTBCu5c' },
+    { title: 'City', category: '🏢 Urban', palette: 'nord', backgroundVideo: 'https://www.youtube.com/watch?v=ntGy5Hl_Rd0' },
     { title: 'Fog', category: '🏢 Urban', palette: 'gptday', },
+    { title: 'Hogwarts', category: '🍿 Movies', palette: 'nord', backgroundVideo: 'https://www.youtube.com/watch?v=oE-pXV-G9aY' },
     { title: 'Barbie', category: '🍿 Movies', palette: 'pastel', },
     { title: 'Oppenheimer', category: '🍿 Movies', palette: 'gptnight', },
     { title: 'Dune', category: '🍿 Movies', palette: 'desert', },
@@ -158,6 +165,14 @@ export class StudyBuddyDB extends Dexie {
       await trans.table('exams').bulkAdd(await trans.table('tempExams').toArray());
     });
     this.version(18).stores({
+      updates: "++id,entityName,lastUpdate",
+      timer: "++id,title,studyLength,breakLength,repetitions,freeMode",
+      themes: "++id,title,palette,category,backgroundColor,backgroundImg,og",
+      studySession: "id,start,tag,remoteUpdated",
+      exams: "id,dataExamId,name",
+      tempExams: null,
+    }).upgrade(async trans => { await refreshThemes(trans) });
+    this.version(19).stores({
       updates: "++id,entityName,lastUpdate",
       timer: "++id,title,studyLength,breakLength,repetitions,freeMode",
       themes: "++id,title,palette,category,backgroundColor,backgroundImg,og",
