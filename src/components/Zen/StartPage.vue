@@ -9,13 +9,26 @@
       </div>
       <h6 class="text-version">v{{ appVersion }}</h6>
       <h3 class="minecraft-sentence font-press">{{ minecraftSentence }}</h3>
+
+    <v-checkbox
+        v-if="!termsStore.acceptedTerms"
+        hide-details
+        v-model="termsStore.acceptedTermsCheck"
+        class="text-center"
+      >
+        <template v-slot:label>
+            <div>{{ $t('agree') }} <a href="https://studybuddy.it/en/tos.html" target="_blank" class="text-primary">{{ $t('termsOfService') }}</a></div>
+        </template>
+      </v-checkbox>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import Info from '@/components/common/Info.vue';
 import minecraftSentences from '@/assets/minecraft.json';
+import { useTermsStore } from '@/stores/terms';
 
+const termsStore = useTermsStore();
 const appVersion = APP_VERSION;
 const minecraftSentence = minecraftSentences.sentences[Math.floor(Math.random() * minecraftSentences.sentences.length)];
 </script>
@@ -48,6 +61,9 @@ h3 {
   .created-box-wrapper {
     position: relative;
     border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   @media (max-width: 600px) {
@@ -55,6 +71,7 @@ h3 {
       display: flex;
       flex-direction: column;
     }
+
     .minecraft-sentence {
       display: none;
     }

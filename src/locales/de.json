@@ -17,6 +17,8 @@
     "longAway": "Bist du noch am Lernen?",
     "continue": "Möchten Sie es fortsetzen?",
     "shortBreak": "Pausen, die kürzer als 5 Sekunden sind, werden nicht angezeigt",
+    "agree": "Ich akzeptiere die ",
+    "termsOfService": "Geschäftsbedingungen des Dienstes.",
     "welcome": {
       "welcome": "Willkommen bei StudyBuddy!",
       "start" : "Start",

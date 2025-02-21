@@ -24,6 +24,13 @@
               </template>
             </v-text-field>
 
+            <v-checkbox v-if="!termsStore.acceptedTerms" hide-details v-model="termsStore.acceptedTermsCheck">
+              <template v-slot:label>
+                <div>I agree to all <a href="https://google.com" target="_blank" class="text-primary">term and services</a></div>
+              </template>
+            </v-checkbox>
+
+
           </div>
         </v-window-item>
 
@@ -59,13 +66,10 @@
                   {{ type.title }}
                 </div>
               </div>
-              
-              <v-combobox class="uni-input my-5" :label="$t('welcome.course')"
-                  :disabled="!selectedCourseType" hide-details clearable
-                  :items="selectedUniCourses?.filter(c => c.type === selectedCourseType)"
-                  item-title="name" item-value="id" :return-object="false"
-                  v-model="userInfo.course"
-                />
+
+              <v-combobox class="uni-input my-5" :label="$t('welcome.course')" :disabled="!selectedCourseType"
+                hide-details clearable :items="selectedUniCourses?.filter(c => c.type === selectedCourseType)"
+                item-title="name" item-value="id" :return-object="false" v-model="userInfo.course" />
             </div>
           </div>
         </v-window-item>
@@ -75,11 +79,10 @@
           <div class="windows-content card-exams pa-10">
             <!-- <v-list :items="exams"></v-list> -->
             <h3 class="text-h5 font-weight-light my-6">{{ $t("welcome.exams") }}</h3>
-            <v-text-field v-if="!isOnlyCustomExams" :label="$t('search')" clearable hide-details prepend-inner-icon="mdi-magnify" variant="outlined"
-              class="mb-6 search-bar" v-model="searchExam" />
-            <v-text-field v-else label="Add exam" hide-details variant="outlined"
-              class="mb-6 search-bar" v-model="searchExam" append-icon="mdi-send"
-              @click:append="addCustomExam(searchExam)"
+            <v-text-field v-if="!isOnlyCustomExams" :label="$t('search')" clearable hide-details
+              prepend-inner-icon="mdi-magnify" variant="outlined" class="mb-6 search-bar" v-model="searchExam" />
+            <v-text-field v-else label="Add exam" hide-details variant="outlined" class="mb-6 search-bar"
+              v-model="searchExam" append-icon="mdi-send" @click:append="addCustomExam(searchExam)"
               @keydown.enter="addCustomExam(searchExam)" />
 
             <div :class="`list-wrapper ${!isOnlyCustomExams ? 'list-wrapper-double' : 'list-wrapper-single'}`">
@@ -99,7 +102,8 @@
               </v-list>
 
               <v-list class="exam-list selected">
-                <v-list-subheader>Your exams</v-list-subheader>
+                <v-list-subheader>Your exams<v-badge :content="selectedExams.length" inline
+                    color="primary" /></v-list-subheader>
                 <v-list-item v-for="(item, i) in selectedExams" :key="i" :value="i" :title="item.name"
                   :subtitle="item.info">
                   <template v-slot:append><v-btn icon="mdi-close" variant="text"
@@ -120,13 +124,14 @@
           }}</v-btn>
         <v-btn v-if="step > 1" size="large" variant="text" @click="step--">{{ $t("back") }}</v-btn>
         <v-spacer></v-spacer>
-        <v-btn v-if="step == 1" size="large" color="primary" variant="flat" @click="step++"
-          :disabled="usernameValidLoading || !usernameValid">{{ $t("welcome.start") }}</v-btn>
-        <v-btn v-if="step == 2" size="large" color="primary" variant="flat" :disabled="!(userInfo.course || userInfo.customUniversity)"
-          @click="step++; loadExams()">{{ $t("next") }}</v-btn>
+        <v-btn v-if="step == 1" size="large" color="primary" variant="flat" @click="termsStore.acceptTerms(); step++"
+          :disabled="!termsStore.acceptedTermsCheck || usernameValidLoading || !usernameValid">{{ $t("welcome.start") }}</v-btn>
+        <v-btn v-if="step == 2" size="large" color="primary" variant="flat"
+          :disabled="!(userInfo.course || userInfo.customUniversity)" @click="step++; loadExams()">{{ $t("next")
+          }}</v-btn>
         <v-btn v-if="step == 3" size="large" color="secondary" variant="flat" @click="saveOnboarding()">{{
           $t("welcome.startNow")
-          }}</v-btn>
+        }}</v-btn>
       </v-card-actions>
     </v-card>
   </div>
@@ -141,7 +146,9 @@ import { useRouter } from 'vue-router'
 import * as DBO from '@/types/dbo';
 import { useExamsStore } from '@/stores/db/exams';
 import { useStateStore } from "@/stores/state";
+import { useTermsStore } from '@/stores/terms';
 
+const termsStore = useTermsStore();
 const state = useStateStore();
 const { user, isLoading, isAuthenticated, loginWithRedirect } = useAuth0();
 const router = useRouter()
@@ -363,7 +370,7 @@ async function saveOnboardingOnSkip() {
         gap: 1rem;
         margin: 1rem;
 
-        > div {
+        >div {
           border-radius: 1rem;
           cursor: pointer;
           border: 1px solid rgb(var(--v-theme-primary));

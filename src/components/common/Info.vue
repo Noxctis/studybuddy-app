@@ -21,7 +21,7 @@ function openClick() {
       <template v-slot:activator="{ props }">
         <div v-bind="props">
           <slot>
-            <v-icon icon="mdi-information-outline" @click="openClick()"  />
+            <v-icon icon="mdi-help-circle-outline" @click="openClick()"  />
           </slot>
         </div>
       </template>

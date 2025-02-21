@@ -89,6 +89,7 @@ const showDetailsEnd = computed(() => !pomodoro.countdownRunning && pomodoro.ter
               <PomodoroSetup      v-else-if="showSetup" @exit-setup="pomodoro.exitSetup()" @open-settings-tab="event => openSettingsTab = event" />
               <FinishPage         v-else-if="showFinishPage" />
               <PomodoroPip        v-if=     "showPomo" :zen-style="zenStyle" :hide-time="settings.generalSettings.hideTime" />
+
               <ZenActions         @show-history="showPomoHistory = true" />
               <PomodoroDetailsEnd  v-if=    "!pomodoro.shortPomo && showDetailsEnd" @done="pomodoro.createPomodoro()" class="pomo-details" />
             </div>
