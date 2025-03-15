@@ -41,11 +41,14 @@
         class="px-6 font-weight-bold"
         append-icon="mdi-arrow-right"
         :ripple="true"
+        @click="trackMigrationClick"
+        rounded="l"
           >  
         {{ $t('newApp.button') }}
           </v-btn>
+
         </v-card-actions>
-        <v-chip class="position-absolute" color="error" size="small" style="top: 10px; right: 40px;">NEW!</v-chip>
+        <v-chip class="position-absolute" color="error" size="small" style="top: 10px; left: 10px;">NEW!</v-chip>
       </v-card>
 
       <v-checkbox
@@ -55,32 +58,42 @@
         class="text-center"
       >
         <template v-slot:label>
-            <div>{{ $t('agree') }} <a href="https://studybuddy.it/en/tos.html" target="_blank" class="text-primary">{{ $t('termsOfService') }}</a></div>
-        </template>
+        <div>{{ $t('agree') }} <a href="https://studybuddy.it/en/tos.html" target="_blank" class="text-primary">{{ $t('termsOfService') }}</a></div>
+        </template> 
       </v-checkbox>
-    </div>
-  </div>
-</template>
-<script lang="ts" setup>
-import Info from '@/components/common/Info.vue';
-import minecraftSentences from '@/assets/minecraft.json';
-import { useTermsStore } from '@/stores/terms';
-import { ref } from 'vue';
+        </div>
+      </div>
+    </template>
+    <script lang="ts" setup>
+    import Info from '@/components/common/Info.vue';
+    import minecraftSentences from '@/assets/minecraft.json';
+    import { useTermsStore } from '@/stores/terms';
+    import { ref } from 'vue';
+    import { useJuneStore } from '@/stores/june';
 
-const termsStore = useTermsStore();
-const appVersion = APP_VERSION;
-const minecraftSentence = minecraftSentences.sentences[Math.floor(Math.random() * minecraftSentences.sentences.length)];
-const isNewAppPromoClosed = ref(false);
+    const termsStore = useTermsStore();
+    const appVersion = APP_VERSION;
+    const minecraftSentence = minecraftSentences.sentences[Math.floor(Math.random() * minecraftSentences.sentences.length)];
+    const isNewAppPromoClosed = ref(false);
 
-const closeNewAppPromo = () => {
-  isNewAppPromoClosed.value = true;
-};
+    const closeNewAppPromo = () => {
+      isNewAppPromoClosed.value = true;
+      useJuneStore().trackMigration(false);
+    };
+
+    const trackMigrationClick = () => {
+      useJuneStore().trackMigration(true);
+    };
 </script>
 <style scoped lang="scss">
 p {
   max-width: 700px;
   text-align: center;
   font-size: 1rem;
+}
+
+.v-btn {
+  border-radius:12px!important;
 }
 
 h1 {

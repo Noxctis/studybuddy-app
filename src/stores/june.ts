@@ -33,6 +33,17 @@ export const useJuneStore = defineStore('june', () => {
     });
   }
 
+  function trackMigration(done: boolean) {
+    analytics.track({
+      userId: getUserId(),
+      event: 'Migration to app',
+
+      properties: {
+        done: done
+      }
+      
+    })}
+
   function trackStudySession(duration: number) {
     analytics.track({
       userId: getUserId(),
@@ -43,6 +54,7 @@ export const useJuneStore = defineStore('june', () => {
     })
   }
 
-  return { trackStudySession }
+
+  return { trackStudySession, trackMigration, identify }
 
 });
