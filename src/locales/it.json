@@ -208,5 +208,13 @@
               "sliderTitle" : "Intervallo orario",
               "noHistory": "Non hai ancora fatto una sessione di studio di almeno 5 minuti",
               "startNow": "Inizia ora!"
-       }
+       },
+
+       "newApp": {
+              "title": "Prova la nostra NUOVA app",
+              "description": "C'è una nuova app in città, con nuove funzionalità e un nuovo stile",
+              "subtitle": "Sii tra i primi a provarla!",
+              "info": "non perderai alcun dato",
+              "button": "Scopri di più"
+            }
 }

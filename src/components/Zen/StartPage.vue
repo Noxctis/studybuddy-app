@@ -10,7 +10,45 @@
       <h6 class="text-version">v{{ appVersion }}</h6>
       <h3 class="minecraft-sentence font-press">{{ minecraftSentence }}</h3>
 
-    <v-checkbox
+      <!-- New app invitation box -->
+      <v-card v-if="!isNewAppPromoClosed" class="mt-6 new-app-promo pa-4" variant="flat" color="surface" elevation="0" rounded="xl" style="border: 2px solid rgb(var(--v-theme-warning)); background-color: white;">
+        <v-btn
+          icon="mdi-close"
+          size="small"
+          variant="text"
+          color="grey"
+          class="position-absolute"
+          style="top: 5px; right: 5px;"
+          @click="closeNewAppPromo"
+        ></v-btn>
+        <v-card-title class="text-center text-h4 font-weight-bold text-warning">
+          {{ $t('newApp.title') }}
+        </v-card-title>
+        <v-card-text class="text-center my-2 text-primary">
+          {{ $t('newApp.description') }}
+          <br>
+        <span class="font-weight-bold">{{ $t('newApp.subtitle') }}</span>
+        <br>
+        {{ $t('newApp.info') }}
+        </v-card-text>
+        <v-card-actions class="justify-center">
+          <v-btn 
+        color="warning" 
+        variant="elevated"
+        size="large"
+        href="https://app.studybuddy.it"
+        target="_blank"
+        class="px-6 font-weight-bold"
+        append-icon="mdi-arrow-right"
+        :ripple="true"
+          >  
+        {{ $t('newApp.button') }}
+          </v-btn>
+        </v-card-actions>
+        <v-chip class="position-absolute" color="error" size="small" style="top: 10px; right: 40px;">NEW!</v-chip>
+      </v-card>
+
+      <v-checkbox
         v-if="!termsStore.acceptedTerms"
         hide-details
         v-model="termsStore.acceptedTermsCheck"
@@ -27,10 +65,16 @@
 import Info from '@/components/common/Info.vue';
 import minecraftSentences from '@/assets/minecraft.json';
 import { useTermsStore } from '@/stores/terms';
+import { ref } from 'vue';
 
 const termsStore = useTermsStore();
 const appVersion = APP_VERSION;
 const minecraftSentence = minecraftSentences.sentences[Math.floor(Math.random() * minecraftSentences.sentences.length)];
+const isNewAppPromoClosed = ref(false);
+
+const closeNewAppPromo = () => {
+  isNewAppPromoClosed.value = true;
+};
 </script>
 <style scoped lang="scss">
 p {
