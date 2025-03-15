@@ -208,5 +208,13 @@
     "sliderTitle" : "Set hour range",
     "noHistory": "You have not yet completed a study session of at least 5 minutes",
     "startNow": "Start now"
+  },
+
+  "newApp": {
+    "title": "Try our NEW app",
+    "description": "We've created a new version with exciting features and improvements.",
+    "subtitle": "Be one of the first to try it out!",
+    "info": "you won't lose any data",
+    "button": "Check it out"
   }
 }

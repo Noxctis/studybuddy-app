@@ -10,7 +10,37 @@
       <h6 class="text-version">v{{ appVersion }}</h6>
       <h3 class="minecraft-sentence font-press">{{ minecraftSentence }}</h3>
 
-    <v-checkbox
+      <!-- New app invitation box -->
+      <v-card class="mt-6 new-app-promo pa-4" variant="flat" color="surface" elevation="0" rounded="xl" style="border: 2px solid rgb(var(--v-theme-warning)); background-color: white;">
+        <v-card-title class="text-center text-h4 font-weight-bold text-warning">
+          
+          {{ $t('newApp.title') }}
+        </v-card-title>
+        <v-card-text class="text-center my-2 text-primary">
+          {{ $t('newApp.description') }}
+          <br>
+            <span class="font-weight-bold">{{ $t('newApp.subtitle') }}</span>
+            <br>
+            {{ $t('newApp.info') }}
+        </v-card-text>
+        <v-card-actions class="justify-center">
+          <v-btn 
+        color="warning" 
+        variant="elevated"
+        size="large"
+        href="https://app.studybuddy.it"
+        target="_blank"
+        class="px-6 font-weight-bold"
+        append-icon="mdi-arrow-right"
+        :ripple="true"
+          >  
+        {{ $t('newApp.button') }}
+          </v-btn>
+        </v-card-actions>
+        <v-chip class="position-absolute" color="error" size="small" style="top: 10px; right: 10px;">NEW!</v-chip>
+      </v-card>
+
+      <v-checkbox
         v-if="!termsStore.acceptedTerms"
         hide-details
         v-model="termsStore.acceptedTermsCheck"
