@@ -10,8 +10,8 @@ const DEFAULT_LANG = 'it';
 const DEFAULT_ICONS = 'mdi-icon';
 
 
-const DEFAULT_PALETTE = 'nord';
-const DEFAULT_IMG = 'https://api.studybuddy.it/images/Winter';
+const DEFAULT_PALETTE = 'bio';
+const DEFAULT_IMG = 'https://api.studybuddy.it/images/Rocks';
 const DEFAULT_VIDEO = 'https://www.youtube.com/watch?v=O5KlCvDvj4o';
 
 
@@ -44,7 +44,7 @@ const defaultSettings: Settings = {
     palette: DEFAULT_PALETTE,
     backgroundColor: undefined,
     backgroundImg: DEFAULT_IMG,
-    backgroundVideo: DEFAULT_VIDEO,
+    //backgroundVideo: DEFAULT_VIDEO,
     showOnlyMusic: false,
   }
 };
