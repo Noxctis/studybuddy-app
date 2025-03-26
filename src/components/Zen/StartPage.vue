@@ -33,21 +33,34 @@
         </v-card-text>
         <v-card-actions class="justify-center">
           <v-btn 
-        color="warning" 
-        variant="elevated"
-        size="large"
-        href="https://app.studybuddy.it"
-        target="_blank"
-        class="px-6 font-weight-bold"
-        append-icon="mdi-arrow-right"
-        :ripple="true"
-        @click="trackMigrationClick"
-        rounded="l"
+            color="warning" 
+            variant="elevated"
+            size="large"
+            href="https://app.studybuddy.it"
+            target="_blank"
+            class="px-6 font-weight-bold"
+            append-icon="mdi-arrow-right"
+            :ripple="true"
+            @click="trackMigrationClick"
+            rounded="l"
           >  
-        {{ $t('newApp.button') }}
+            {{ $t('newApp.button') }}
           </v-btn>
-
+          <v-btn 
+            color="primary" 
+            variant="elevated"
+            size="large"
+            href="https://studybuddy.it/en/#contact"
+            target="_blank"
+            class="px-6 font-weight-bold ml-4"
+            append-icon="mdi-information"
+            :ripple="true"
+            rounded="l"
+          >  
+            {{ $t('newApp.contactButton') }}
+          </v-btn>
         </v-card-actions>
+
         <v-chip class="position-absolute" color="error" size="small" style="top: 10px; left: 10px;">NEW!</v-chip>
       </v-card>
 
