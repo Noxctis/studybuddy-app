@@ -210,11 +210,13 @@
     "startNow": "Start now"
   },
 
+
   "newApp": {
-    "title": "Try our NEW app",
-    "description": "We've created a new version with exciting features and improvements.",
-    "subtitle": "Be one of the first to try it out!",
-    "info": "you won't lose any data",
-    "button": "Check it out"
+    "title": "Don't you like the new app?",
+    "description": "This app is built around students and understanding what's wrong helps us know where we can improve",
+    "subtitle": "What made you come back?",
+    "info": "Please contact us, this project risks shutting down without you",
+    "button": "new APP",
+    "contactButton": "contact us"
   }
 }
