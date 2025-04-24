@@ -19,7 +19,7 @@ import { v4 as uuid } from 'uuid';
 
 const componentKey = ref(0);
 
-function forceRerender(){
+function forceRerender() {
   componentKey.value += 1;
 }
 
@@ -55,8 +55,8 @@ function dayClick(day: string) {
 function intervalClick(interval: Interval) {
   console.log("Interval", interval);
 
-  const start = interval.intervalStart
-  const end = interval.intervalEnd
+  const start = interval.intervalStart;
+  const end = interval.intervalEnd;
   const id = uuid();
 
   events.value.push({
@@ -66,10 +66,10 @@ function intervalClick(interval: Interval) {
     color: "yellow",
     isEditable: true,
     id: id,
-    description: "nuovo ventooo!"
-  })
+    description: "new event!"
+  });
 
-  forceRerender()
+  forceRerender();
 }
 
 </script>

@@ -1,8 +1,8 @@
 <template>
   <div v-if="state.isInTutorial" class="tutorial-discalimer bg-background">
-    <b class="text-error">Sei nel Tutorial</b>
-    <p>Niente verrá salvato</p>
-    <p>Per uscire premi ESC e "Exit Tutorial"</p>
+    <b class="text-error">You are in the Tutorial</b>
+    <p>Nothing will be saved</p>
+    <p>To exit, press ESC and "Exit Tutorial"</p>
   </div>
   <div class="controls">
     <!-- <div class="status">
@@ -14,7 +14,7 @@
       :class="pomodoro.itsTimeToBreak || pomodoro.itsFinished ? 'btn bg-secondary' : 'btn bg-secondary small'"
       icon="mdi-check-circle"
       @click="btnClick()"
-      text="CIAO"
+      text="HELLO"
     >
       <div class="btn-content">
         <v-icon v-if="pomodoro.itsFinished" class="icon" >mdi-stop</v-icon>
@@ -59,7 +59,6 @@ function btnClick() {
   } else {
     pomodoro.nextStep()
   }
-
 }
 </script>
 

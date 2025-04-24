@@ -27,9 +27,9 @@
         </ul>
 
         <div class="report" v-if="pomodoro.getReport.reportDone">
-          <p>Hai fatto <br />
-            {{ msTominutes(pomodoro.getReport.studyLength) }} minuti di studio <br />
-            {{ msTominutes(pomodoro.getReport.breakLength) }} minuti di pause
+          <p>You completed <br />
+            {{ msTominutes(pomodoro.getReport.studyLength) }} minutes of study <br />
+            {{ msTominutes(pomodoro.getReport.breakLength) }} minutes of breaks
           </p>
         </div>
       </div>
@@ -169,9 +169,6 @@ function msTominutes(ms: number): string {
       text-align: center;
       cursor: pointer;
       padding: 0.5rem 4rem;
-
-      // text-shadow: -1px -1px 0 rgb(var(--v-theme-primary)), 1px -1px 0 rgb(var(--v-theme-primary)), -1px 1px 0 rgb(var(--v-theme-primary)), 1px 1px 0 rgb(var(--v-theme-primary));
-
 
       &:hover {
         color: rgb(var(--v-theme-primary));

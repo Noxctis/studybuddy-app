@@ -1,13 +1,13 @@
 {
   "exams": [
     {
-      "name": "Benvenuto",
+      "name": "Welcome",
       "icon": "mdi-account-school",
       "color": "indigo",
       "postIts": [
         {
           "color": "#e6b905",
-          "content": "<p>Ciao! grazie di essere qui a testare <strong>StudyBuddy</strong></p><p><br></p><p>la piattaforma è in una fase ancora embrionale e in costante evoluzione, il tuo supporto e feedback è necessario per costruire l'applicazione nel migliore dei modi ed aiutare più studenti possibile.</p>"
+          "content": "<p>Hello! Thank you for being here to test <strong>StudyBuddy</strong></p><p><br></p><p>The platform is still in its early stages and constantly evolving. Your support and feedback are necessary to build the application in the best way possible and help as many students as we can.</p>"
         }
       ]
     },
@@ -18,46 +18,46 @@
       "postIts": [
         {
           "color": "#e6b905",
-          "content": "<p><strong>INTRO</strong></p><p>In basso nella pagina puoi vedere un timer che scorre rappresentato da un serpente verde. </p><p>L'obiettivo è arrivare in fondo alla sessione di studio, nel mezzo della quale si hanno a disposizione delle pause (le mele) che si possono fare in qualsiasi momento.</p>"
+          "content": "<p><strong>INTRO</strong></p><p>At the bottom of the page, you can see a timer represented by a green snake. </p><p>The goal is to complete the study session, during which you have breaks (the apples) that you can take at any time.</p>"
         },
         {
           "color": "#6ed261",
-          "content": "<p><strong>LE PAUSE</strong></p><p>Di default durano 5 minuti. Le pause brevi servono per prendere un po' d'aria, mangiare una mela e riposare gli occhi, rimanendo però concentrati e rielaborando inconsciamente quanto si è studiato fino a quel momento.</p><p><br></p><p>Ti consigliamo di non abbandonarti alle distrazioni dei social e simili e di goderti al meglio questi meritati 5 minuti. Piuttosto fai una passeggiata verso il bagno o bevi dell'acqua.</p><p>La pausa può essere interrotta in qualsiasi momento.</p>"
+          "content": "<p><strong>BREAKS</strong></p><p>By default, they last 5 minutes. Short breaks are meant to get some air, eat an apple, and rest your eyes while staying focused and unconsciously processing what you've studied so far.</p><p><br></p><p>We recommend avoiding distractions like social media and making the most of these well-deserved 5 minutes. Instead, take a walk to the bathroom or drink some water.</p><p>The break can be interrupted at any time.</p>"
         },
         {
           "color": "#ea86c2",
-          "content": "<p><strong>MOTIVAZIONE</strong></p><p><strong>tracciare il tempo di studio e di pausa ha molteplici pro:</strong></p><p><br></p><ul><li>chiarezza mentale tra momento di studio e di pausa </li><li>consapevolezza di come hai gestito il tempo</li><li>resistenza alle distrazioni (telefono ecc...) durante la fase di studio </li></ul>"
+          "content": "<p><strong>MOTIVATION</strong></p><p><strong>Tracking study and break time has multiple benefits:</strong></p><p><br></p><ul><li>Clear distinction between study and break time</li><li>Awareness of how you managed your time</li><li>Resistance to distractions (phone, etc.) during study time</li></ul>"
         }
       ],
       "chapters": [
         {
-          "name": "Tenica del pomodoro ",
+          "name": "Pomodoro Technique",
           "postIts": [
             {
               "color": "#e6b905",
-              "content": "<p>Il timer è stato pensato per seguire la famosa<strong> tecnica del pomodoro</strong>:</p><p><br></p><p>Una sessione di studio dura 2 ore divisa tra studio concentrato e piccoli break:</p><p><br></p><p><strong>25 min studio </strong></p><p><strong>5 min break </strong></p><p><br></p><p>ripetere questo per 4 volte</p><p><br></p><p>Alla fine pausa lunga: questa è la vera pausa in cui finalmente si può tornare a scrollare (se proprio necessario) o farsi una passeggiata e tornare più carichi di prima.</p><p><br></p><p>E' inoltre possibile modificare le impostazioni se si desidera seguire tempistiche differenti.</p><p><br></p><p>Se vuoi scoprire di più su questa tecnica clicca sul link.</p>"
+              "content": "<p>The timer is designed to follow the famous <strong>Pomodoro Technique</strong>:</p><p><br></p><p>A study session lasts 2 hours, divided between focused study and small breaks:</p><p><br></p><p><strong>25 min study</strong></p><p><strong>5 min break</strong></p><p><br></p><p>Repeat this 4 times</p><p><br></p><p>At the end, take a long break: this is the real break where you can finally scroll (if necessary) or take a walk and come back more energized.</p><p><br></p><p>You can also modify the settings if you want to follow different timings.</p><p><br></p><p>If you want to learn more about this technique, click the link.</p>"
             }
           ]
         },
         {
-          "name": "Pomodoro flessibile",
+          "name": "Flexible Pomodoro",
           "postIts": [
             {
               "color": "#e6b905",
-              "content": "<p>Abbiamo notato, intervistando diverse persone, che la tecnica del pomodoro ha  alcuni limiti, tra cui:</p><ul><li>25 minuti sono pochi per molte persone</li><li>confusionaria </li><li> c'è chi preferisce fare 1 ora di seguito (o più)</li><li>non si vuole interrompere l'esercizio/capitolo a metà per fare pausa</li></ul>"
+              "content": "<p>We noticed, after interviewing several people, that the Pomodoro Technique has some limitations, including:</p><ul><li>25 minutes is too short for many people</li><li>Confusing</li><li>Some prefer to study for 1 hour straight (or more)</li><li>Not wanting to interrupt an exercise/chapter halfway for a break</li></ul>"
             },
             {
               "color": "#6ed261",
-              "content": "<p>Per questa ragione abbiamo ideato il <strong>pomodoro flessibile</strong>, con l'obbiettivo di provare a risolvere queste criticità.</p><p>Adesso si ragiona a<u> sessioni si studio</u>: una sessione normalmente dura due ore e ha 3 pause da 5 minuti in mezzo (stessi intervalli del pomodoro classico). Quando sarebbe prevista la pausa verrà suggerito graficamente e con un suono, ma si può mettere in pausa quando si vuole secondo le proprie esigenze.</p>"
+              "content": "<p>For this reason, we created the <strong>Flexible Pomodoro</strong>, aiming to address these issues.</p><p>Now we think in terms of <u>study sessions</u>: a session normally lasts two hours and has 3 breaks of 5 minutes in between (same intervals as the classic Pomodoro). When a break is suggested, it will be indicated visually and with a sound, but you can take a break whenever you want according to your needs.</p>"
             }
           ]
         },
         {
-          "name": "Timer libero",
+          "name": "Free Timer",
           "postIts": [
             {
               "color": "#e6b905",
-              "content": "<p>Ancora da implementare, è un'opzione per tutti quelli che vogliono studiare senza le costrizioni temporali imposte dalle tecniche precedenti. </p><p><br></p><p>L'obiettivo è quindi quello di avere un resoconto di quanto tempo si è effettivamente impiegato a studiare rispetto alle pause, eventualmente confrontandolo con le proprie aspettative.</p>"
+              "content": "<p>Still to be implemented, this is an option for those who want to study without the time constraints imposed by the previous techniques.</p><p><br></p><p>The goal is to have a summary of how much time was actually spent studying compared to breaks, possibly comparing it with your expectations.</p>"
             }
           ]
         }
@@ -70,28 +70,28 @@
       "postIts": [],
       "chapters": [
         {
-          "name": "Spiegazione",
+          "name": "Explanation",
           "postIts": [
             {
               "color": "#e6b905",
-              "content": "<p>La ToDo list può essere mostrata tramite il tasto + in basso a destra nella schermata.</p><p><br></p><p>Esistono due tipi di Todo: </p><ul><li>Deadline: hanno una scadenza e stanno nella colonna di sinistra</li><li>Senza Data: nella colonna di destra, di default, in ogni momento di può aggiungere una data e spostarlo tra le deadlines</li></ul><p><br></p><p>Quelli con deadline compaiono nel calendario in home page.</p><p><br></p><p>Una volta marcato come 'fatto'  verrà spostato nella lista \"done\".</p>"
+              "content": "<p>The ToDo list can be displayed using the + button at the bottom right of the screen.</p><p><br></p><p>There are two types of ToDo:</p><ul><li>Deadline: have a due date and are in the left column</li><li>Without Date: in the right column by default; you can add a date at any time and move it to the deadlines</li></ul><p><br></p><p>Those with deadlines appear in the calendar on the home page.</p><p><br></p><p>Once marked as 'done,' they will be moved to the \"done\" list.</p>"
             }
           ]
         },
         {
-          "name": "Todo semplice ",
+          "name": "Simple Todo",
           "showTasks": true,
           "tasks": [
             {
-              "name": "ecco un todo ",
+              "name": "Here's a todo",
               "done": false
             },
             {
-              "name": "eccone un altro ",
+              "name": "Here's another one",
               "done": false
             },
             {
-              "name": "eccone un altro ancora completato",
+              "name": "Here's another one completed",
               "done": true
             }
           ]
@@ -101,14 +101,14 @@
           "showTasks": true,
           "tasks": [
             {
-              "name": "un task normale può diventare una deadline",
+              "name": "A normal task can become a deadline",
               "done": false,
-              "notes": "basta cliccarci sopra, aprire questo specchietto (che farei di un altro colore) e dopo aver aggiunto una data cliccare sul bottone move to deadline",
+              "notes": "Just click on it, open this panel (which I would make a different color), and after adding a date, click the move to deadline button",
               "deadline": "2023-05-30",
               "isDeadline": true
             },
             {
-              "name": "e finisce in una colonna diversa",
+              "name": "And it ends up in a different column",
               "done": false
             }
           ]
@@ -123,15 +123,15 @@
       "postIts": [
         {
           "color": "#e6b905",
-          "content": "<p>Anche il funzionamento dei post-it è molto semplice: basta aggiungerli dal + in basso a destra.</p>"
+          "content": "<p>The functionality of post-its is also very simple: just add them using the + button at the bottom right.</p>"
         },
         {
           "color": "#6ed261",
-          "content": "<p>cliccando sulla tavolozza si può cambiare colore.</p><p>Cliccando sulla X si elimina il post-it.</p>"
+          "content": "<p>Clicking on the palette allows you to change the color.</p><p>Clicking on the X deletes the post-it.</p>"
         },
         {
           "color": "#e6b905",
-          "content": "<p>usando le shortcut della tastiera si può anche formattare il testo:</p><p><br></p><ul><li>con - si crea un elenco puntato</li><li><strong>grassetto</strong> (ctrl o cmd + b)</li><li><em>corsivo</em> (ctrl o cmd + i)</li><li><u>sottolineato</u> (ctrl o cmd + u)</li></ul>"
+          "content": "<p>Using keyboard shortcuts, you can also format the text:</p><p><br></p><ul><li>With - you create a bullet list</li><li><strong>Bold</strong> (ctrl or cmd + b)</li><li><em>Italic</em> (ctrl or cmd + i)</li><li><u>Underline</u> (ctrl or cmd + u)</li></ul>"
         }
       ]
     },
@@ -142,7 +142,7 @@
       "postIts": [
         {
           "color": "#e6b905",
-          "content": "<p>C'è la possibilità di aggiungere tutti i link che possono essere utili. Anche in questo caso basta premere il + in basso a destra.</p>"
+          "content": "<p>You can add all the links that might be useful. Again, just press the + button at the bottom right.</p>"
         }
       ],
       "links": [
@@ -157,35 +157,35 @@
       ]
     },
     {
-      "name": "CALENDARIO",
+      "name": "CALENDAR",
       "icon": "mdi-wallet-outline",
       "color": "brown",
       "postIts": [
         {
           "color": "#e6b905",
-          "content": "<p>Nel calendario in home page puoi aggiungere un evento cliccando il punto in cui lo vorresti aggiungere.&nbsp;</p><p><br></p><p><br></p><p>Puoi quindi modificare il titolo, l'orario di inizio, la durata, il colore e aggiungere note relative all'evento.&nbsp;</p><p><br></p><p><br></p><p>Puoi anche trascinare verticalmente l'evento per spostarlo all'interno della stessa giornata e allungarlo per modificarne la durata.</p><p><br></p><p><strong>Prossimi passi</strong></p><ul><li>vista mensile</li><li>mettere i pomodori fatti</li></ul>"
+          "content": "<p>In the calendar on the home page, you can add an event by clicking the point where you want to add it.&nbsp;</p><p><br></p><p><br></p><p>You can then edit the title, start time, duration, color, and add notes related to the event.&nbsp;</p><p><br></p><p><br></p><p>You can also drag the event vertically to move it within the same day and extend it to change its duration.</p><p><br></p><p><strong>Next steps</strong></p><ul><li>Monthly view</li><li>Add completed Pomodoros</li></ul>"
         }
       ],
       "chapters": [
         {
-          "name": "v0.3 vista mensile ",
+          "name": "v0.3 Monthly View",
           "postIts": [
             {
               "color": "#e6b905",
-              "content": "<p>ad ogni aggiornamento del componente qua in cima compare un nuovo elemento</p>"
+              "content": "<p>With each update of the component, a new element appears here at the top</p>"
             }
           ]
         }
       ]
     },
     {
-      "name": "ESAMI",
+      "name": "EXAMS",
       "icon": "mdi-puzzle-outline",
       "color": "grey",
       "postIts": [
         {
           "color": "#e6b905",
-          "content": "<p>Questo è un esame vuoto in cui puoi provare tutti i componenti che vuoi</p>"
+          "content": "<p>This is an empty exam where you can try out all the components you want</p>"
         }
       ]
     }
@@ -200,7 +200,7 @@
   "events": {
     "2023-05-17": [
       {
-        "title": "Nuovo event",
+        "title": "New Event",
         "description": "",
         "start": {
           "hour": 14,
@@ -211,7 +211,7 @@
     ],
     "2023-05-27": [
       {
-        "title": "fare tutorial DtudySuddy",
+        "title": "Do StudyBuddy Tutorial",
         "description": "",
         "start": {
           "hour": 9,
@@ -221,7 +221,7 @@
         "color": "teal"
       },
       {
-        "title": "pranzo pollo del mercato",
+        "title": "Lunch Market Chicken",
         "description": "",
         "start": {
           "hour": 13,
@@ -231,7 +231,7 @@
         "color": "deep-orange"
       },
       {
-        "title": "Sessione di studio",
+        "title": "Study Session",
         "description": "",
         "start": {
           "hour": 10,
@@ -240,7 +240,7 @@
         "length": 120
       },
       {
-        "title": "Sessione di studio ",
+        "title": "Study Session",
         "description": "",
         "start": {
           "hour": 14,
@@ -251,7 +251,7 @@
     ],
     "2023-05-26": [
       {
-        "title": "Nuovo event",
+        "title": "New Event",
         "description": "",
         "start": {
           "hour": 8,
@@ -262,7 +262,7 @@
     ],
     "2023-05-31": [
       {
-        "title": "Fare Tutorial Buddy Study",
+        "title": "Do StudyBuddy Tutorial",
         "description": "",
         "start": {
           "hour": 10,
@@ -271,7 +271,7 @@
         "length": 60
       },
       {
-        "title": "sessione di studio ",
+        "title": "Study Session",
         "description": "",
         "start": {
           "hour": 12,

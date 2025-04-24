@@ -4,8 +4,8 @@
     <template v-slot:day-content="{ day, attributes}">
       <div :class="(day.date as Date).getDay() === 1 ? 'day-slot first-day' : 'day-slot'">
 
-        <div  v-if="(day.date as Date).getDate() === new Date().getDate()" >
-          <div class="now-ball bg-primary" :style="{ top: `${nowHeight}px` }"  />
+        <div v-if="(day.date as Date).getDate() === new Date().getDate()">
+          <div class="now-ball bg-primary" :style="{ top: `${nowHeight}px` }" />
           <div class="now-bar bg-primary" :style="{ top: `${nowHeight}px` }" />
         </div>
         
@@ -58,18 +58,18 @@
             <v-card width="450" elevation="10" class="pa-4">
               <form class="pa-4">
                 <v-row>
-                  <v-col cols="12" class="py-0 px-2"><v-text-field v-model="e.title" label="Nome" autofocus /></v-col>
+                  <v-col cols="12" class="py-0 px-2"><v-text-field v-model="e.title" label="Name" autofocus /></v-col>
                 </v-row>
                 <v-row>
-                  <v-col cols="3" class="py-0 px-2"><v-text-field v-model="e.start.hour" label="Ore" type="number" min="0" max="23" /></v-col>
-                  <v-col cols="3" class="py-0 px-2"><v-text-field v-model="e.start.minute" label="Minuti" type="number" step="15" min="0" max="59" /></v-col>
-                  <v-col cols="6" class="py-0 px-2"><v-text-field v-model="e.length" label="Durata [m]" type="number" step="15" min="0" max="1440" /></v-col>
+                  <v-col cols="3" class="py-0 px-2"><v-text-field v-model="e.start.hour" label="Hours" type="number" min="0" max="23" /></v-col>
+                  <v-col cols="3" class="py-0 px-2"><v-text-field v-model="e.start.minute" label="Minutes" type="number" step="15" min="0" max="59" /></v-col>
+                  <v-col cols="6" class="py-0 px-2"><v-text-field v-model="e.length" label="Duration [m]" type="number" step="15" min="0" max="1440" /></v-col>
                 </v-row>
                 <v-row>
                   <v-col cols="12" class="py-0 px-2"><ColorPicker v-model="e.color" /></v-col>
                 </v-row>
                 <v-row>
-                  <v-col cols="12" class="py-0 px-2"><v-textarea  v-model="e.description" label="Note" rows="2" /></v-col>
+                  <v-col cols="12" class="py-0 px-2"><v-textarea v-model="e.description" label="Notes" rows="2" /></v-col>
                 </v-row>
               </form>
                 
@@ -127,7 +127,7 @@ function clickOnTimeSlot(dayId: string, h: number, m: number) {
     events.value[dayId] = [];
   
   events.value[dayId].push({
-    title: "Nuovo event",
+    title: "New event",
     description: "",
     start: {
       hour: h,
@@ -155,7 +155,6 @@ function changePage(e: any) {
 watch(events, (e) => {
   state.saveEvents(events.value);
 }, { deep: true })
-
 
 // Drag events around
 enum MovementType { Move, Extend }
@@ -204,7 +203,6 @@ function mouseUpOnEvent() {
   draggingStatus.movementType = MovementType.Move;
 }
 
-
 window.addEventListener('mouseup', mouseUpOnEvent, false);
 window.addEventListener('mousemove', mouseMoveOnEvent, false);
 
@@ -212,7 +210,6 @@ onUnmounted(() => {
   window.removeEventListener('mouseup', mouseUpOnEvent, false);
   window.removeEventListener('mousemove', mouseMoveOnEvent, false);
 })
-
 
 </script>
 <style lang="scss" scoped>
