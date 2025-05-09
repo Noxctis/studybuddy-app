@@ -1,12 +1,13 @@
+// src/main.ts
 import '@mdi/font/css/materialdesignicons.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { createI18n } from 'vue-i18n'
+import messages from '@intlify/unplugin-vue-i18n/messages'
 
 import App from './App.vue'
 import router from './router'
-import messages from "@intlify/unplugin-vue-i18n/messages";
 
 // Vuetify
 import 'vuetify/styles'
@@ -16,35 +17,45 @@ import * as directives from 'vuetify/directives'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import { themes } from '@/assets/themes'
 
-import { setupCalendar } from 'v-calendar';
+// Calendar
+import { setupCalendar } from 'v-calendar'
 
-
-
+// --- 1) Create Vuetify instance ---
 const vuetify = createVuetify({
   components,
   directives,
   icons: {
     defaultSet: 'mdi',
     aliases,
-    sets: { mdi }
+    sets: { mdi },
   },
   theme: {
-    defaultTheme: JSON.parse(localStorage.getItem('state') ?? '{}')?.settings?.user?.theme ?? 'verdone',
-    themes: themes,
+    defaultTheme:
+      JSON.parse(localStorage.getItem('state') ?? '{}')?.settings?.user
+        ?.theme ?? 'verdone',
+    themes,
   },
 })
 
+// --- 2) Detect browser locale or fall back to 'en' ---
+const browserLocale = navigator.language.split('-')[0] || 'en'
+
+// --- 3) Create Vue-I18n instance ---
 const i18n = createI18n({
-  legacy: true,          // enable the Options-API ($t on `this`)
-  globalInjection: true,  // inject `$t` and `$i18n` into every component
-  locale: 'en',
-  messages,
+  legacy: true,          // enable `this.$t(...)`
+  globalInjection: true,  // inject `$t` & `$i18n` into ALL components
+  locale: browserLocale,  // e.g. 'en', 'fr', 'zh'
+  fallbackLocale: 'en',   // if a key is missing in `locale`, use 'en'
+  messages,               // loaded from your `locales/` via the Vite plugin
 })
 
+// --- 4) Bootstrap the app ---
 const app = createApp(App)
-app.use(router)
-app.use(createPinia())
-app.use(vuetify)
-app.use(i18n)
-app.use(setupCalendar, {})
-app.mount('#app')
+
+app
+  .use(router)
+  .use(createPinia())
+  .use(vuetify)
+  .use(i18n)
+  .use(setupCalendar, {})  // v-calendar
+  .mount('#app')

@@ -1,21 +1,27 @@
 {
   "extends": "@vue/tsconfig/tsconfig.web.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue","src/shims-vue-i18n.d.ts","src/**/*.d.ts"],
-  "target": "esnext",
-  "module": "esnext",
+  "include": [
+    "env.d.ts",
+    "types/**/*.d.ts",      // <-- your shims go here
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.vue"
+  ],
   "compilerOptions": {
-    "target": "es5",
-    "lib": [ "DOM", "ESNext" ],
-    "ignoreDeprecations": "5.0",
+    "target": "esnext",
+    "module": "esnext",
+    "lib": ["DOM", "ESNext"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
-    }
+      "@/*": ["src/*"]
+    },
+    "typeRoots": [
+      "types",               // <-- look here for custom .d.ts
+      "node_modules/@types"
+    ],
+    "skipLibCheck": true     // speed up by skipping type checks on libs
   },
-
   "references": [
-    {
-      "path": "./tsconfig.config.json"
-    }
+    { "path": "./tsconfig.config.json" }
   ]
 }
