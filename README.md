@@ -30,3 +30,6 @@ pnpm dev
 
 "Adapted from the open StudyBuddy project (https://github.com/studybuddydev/studybuddy-app). Used for educational demo purposes only."
 
+This project is an adapted version of the StudyBuddy App.
+It was refactored and modified for an educational prototype demonstration
+Original credits go to the StudyBuddy contributors. No commercial use is intended.
