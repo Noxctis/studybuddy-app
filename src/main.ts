@@ -2,7 +2,7 @@ import '@mdi/font/css/materialdesignicons.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import { createI18n } from "vue-i18n";
+import { createI18n } from 'vue-i18n'
 
 import App from './App.vue'
 import router from './router'
@@ -35,13 +35,11 @@ const vuetify = createVuetify({
 })
 
 const i18n = createI18n({
-  legacy: false,
-  globalInjection: true,
-  locale: localStorage.getItem('lang') ?? 'en',
-  fallbackLocale: "en",
-  availableLocales: ["en", "it", "fr", "es"],
-  messages: messages,
-});
+  legacy: true,          // enable the Options-API ($t on `this`)
+  globalInjection: true,  // inject `$t` and `$i18n` into every component
+  locale: 'en',
+  messages,
+})
 
 const app = createApp(App)
 app.use(router)
