@@ -8,3 +8,5 @@ declare module '@vue/runtime-core' {
     $i18n: Composer
   }
 }
+
+export {}
