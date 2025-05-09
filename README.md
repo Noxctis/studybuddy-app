@@ -28,3 +28,5 @@ run
 pnpm dev
 ```
 
+"Adapted from the open StudyBuddy project (https://github.com/studybuddydev/studybuddy-app). Used for educational demo purposes only."
+
